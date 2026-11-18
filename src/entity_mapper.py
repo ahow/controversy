@@ -1,11 +1,13 @@
 """Entity mapping: resolve universe companies to Event Registry concept URIs.
 
 Strategy (in order):
-1. suggestConceptsFast on each alias; keep candidates of type 'org' (or 'wiki'
-   matching the full name with a corporate qualifier).
-2. Auto-accept when exactly one org candidate and its label is a strong match
-   (normalised label == an alias, or ticker match in label).
-3. Otherwise route to the QA queue — human review, never guess.
+1. suggestConceptsFast on each alias; keep candidates of type 'org'.
+2. Exact-label match (normalised) beats prefix match — 'S&P Global' wins over
+   'S&P Global Platts' for issuer 'S&P GLOBAL INC.'.
+3. Auto-accept only an unambiguous exact/single-strong org match; everything
+   else routes to the QA queue — human review, never guess.
+4. Early stop on the first unambiguous exact match keeps the full-universe run
+   near 1 API call/company (the suggest endpoint is slow, ~10s/call).
 
 Ambiguous names (Delta, Vale, Apple-as-fruit class) are the norm, so the QA
 queue is a first-class output, not an error path.
@@ -29,6 +31,17 @@ def _norm(s: str) -> str:
     return re.sub(r"[^a-z0-9]", "", (s or "").lower())
 
 
+def _strong_matches(orgs: list[dict], aliases: list[str]) -> list[dict]:
+    norms = {_norm(a) for a in aliases}
+    return [c for c in orgs if _norm(c["label"]) in norms
+            or any(_norm(c["label"]).startswith(_norm(a)) and len(_norm(a)) >= 4 for a in aliases)]
+
+
+def _exact_matches(orgs: list[dict], aliases: list[str]) -> list[dict]:
+    norms = {_norm(a) for a in aliases}
+    return [c for c in orgs if _norm(c["label"]) in norms]
+
+
 def map_company(client, company: dict) -> MapResult:
     seen = {}
     for alias in company["aliases"]:
@@ -41,11 +54,25 @@ def map_company(client, company: dict) -> MapResult:
                     seen[uri] = {"uri": uri, "label": label, "type": ctype, "via": alias}
         except Exception as e:  # network hiccup: record and stop this company
             return MapResult(company["name"], company["row"], "unmapped", reason=f"api error: {e}")
+        # Early stop: an unambiguous exact org match on this alias ends the search.
+        orgs = [c for c in seen.values() if c["type"] == "org"]
+        exact = _exact_matches(orgs, company["aliases"])
+        if len(exact) == 1:
+            c = exact[0]
+            return MapResult(company["name"], company["row"], "auto_mapped",
+                             concept_uri=c["uri"], concept_label=c["label"], candidates=orgs)
 
     orgs = [c for c in seen.values() if c["type"] == "org"]
-    strong = [c for c in orgs if _norm(c["label"]) in {_norm(a) for a in company["aliases"]}
-              or any(_norm(c["label"]).startswith(_norm(a)) and len(_norm(a)) >= 4 for a in company["aliases"])]
+    exact = _exact_matches(orgs, company["aliases"])
+    strong = _strong_matches(orgs, company["aliases"])
 
+    if len(exact) == 1:
+        c = exact[0]
+        return MapResult(company["name"], company["row"], "auto_mapped",
+                         concept_uri=c["uri"], concept_label=c["label"], candidates=orgs)
+    if len(exact) > 1:
+        return MapResult(company["name"], company["row"], "needs_review",
+                         candidates=exact, reason="multiple exact org candidates")
     if len(strong) == 1:
         c = strong[0]
         return MapResult(company["name"], company["row"], "auto_mapped",
