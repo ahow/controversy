@@ -4,7 +4,9 @@ Design contract:
 - Sequential requests only (API limit: 5 concurrent; we stay at 1).
 - Token accounting on every call; raises BudgetExceeded if over the run budget.
 - Pagination handled explicitly; each page is a separate token.
-- Retries: one retry on transport errors with 5s backoff; no retry loops.
+- Retries: bounded retries with 5s backoff; no retry loops.
+- suggestConceptsFast is slow (~10s/call); ER_SUGGEST_TIMEOUT / ER_SUGGEST_RETRIES
+  env vars tune it (use 25/1 for bulk retry passes, 60/2 for first passes).
 """
 import time
 import requests
@@ -41,10 +43,10 @@ class ERClient:
                     raise
                 time.sleep(5)
 
-    def _get(self, path: str, params: dict, retries: int = 1) -> dict:
+    def _get(self, path: str, params: dict, retries: int = 1, timeout: int = 30) -> dict:
         for attempt in range(retries + 1):
             try:
-                r = self.s.get(f"{BASE}{path}", params={**params, "apiKey": self.api_key}, timeout=30)
+                r = self.s.get(f"{BASE}{path}", params={**params, "apiKey": self.api_key}, timeout=timeout)
                 r.raise_for_status()
                 return r.json()
             except requests.RequestException:
@@ -55,7 +57,10 @@ class ERClient:
     # --- free (non-token) endpoints -------------------------------------
     def suggest_concepts(self, prefix: str, lang: str = "eng") -> list[dict]:
         """Concept suggestion for entity mapping. Free; filter type=='org' downstream."""
-        js = self._get("/suggestConceptsFast", {"prefix": prefix, "lang": lang})
+        import os
+        js = self._get("/suggestConceptsFast", {"prefix": prefix, "lang": lang},
+                       retries=int(os.environ.get("ER_SUGGEST_RETRIES", "2")),
+                       timeout=int(os.environ.get("ER_SUGGEST_TIMEOUT", "60")))
         if isinstance(js, dict) and "error" in js:
             raise RuntimeError(js["error"])
         return js

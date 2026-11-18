@@ -2,8 +2,8 @@
 
 Strategy (in order):
 1. suggestConceptsFast on each alias; keep candidates of type 'org'.
-2. Exact-label match (normalised) beats prefix match — 'S&P Global' wins over
-   'S&P Global Platts' for issuer 'S&P GLOBAL INC.'.
+2. Exact-label match (normalised, diacritics stripped — 'ČEZ Group' matches 'CEZ')
+   beats prefix match — 'S&P Global' wins over 'S&P Global Platts'.
 3. Auto-accept only an unambiguous exact/single-strong org match; everything
    else routes to the QA queue — human review, never guess.
 4. Early stop on the first unambiguous exact match keeps the full-universe run
@@ -28,7 +28,9 @@ class MapResult:
 
 
 def _norm(s: str) -> str:
-    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+    import unicodedata
+    s = unicodedata.normalize("NFKD", (s or "")).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9]", "", s.lower())
 
 
 def _strong_matches(orgs: list[dict], aliases: list[str]) -> list[dict]:

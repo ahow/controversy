@@ -23,8 +23,11 @@ HEADER_ALIASES = {
 
 # Legal suffixes stripped when generating search aliases
 _LEGAL = re.compile(
-    r"\b(s\.?a\.?|s\.?e\.?|a\.?g\.?|inc\.?|ltd\.?|llc|llp|plc|corp\.?|corporation|"
-    r"company|co\.?|group|holdings?|n\.?v\.?|b\.?v\.?|ab|asa|spa|oyj|pte|pty)\b",
+    r"\b(s\.?a\.?|s\.?e\.?|a\.?g\.?|inc\.?|ltd\.?|limited|llc|llp|plc|corp\.?|corporation|"
+    r"company|co\.?|group|holdings?|n\.?v\.?|b\.?v\.?|ab|asa|spa|oyj|pte|pty|pcl|"
+    r"berhad|bhd|aktiengesellschaft|aktiebolag|aktieselskab|kaisha|kabushiki|jsc|pjsc|saog|qsc|public|"
+    r"a\.?s\.?|anonim|sirketi|b\.?m\.?|spolka|akcyjna|sanayi|ticaret|"
+    r"societa\s+per\s+azioni|società\s+per\s+azioni|de\s+c\.?v\.?)\b",
     re.IGNORECASE,
 )
 
