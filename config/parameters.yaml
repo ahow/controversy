@@ -1,0 +1,74 @@
+# Parameter Register v0 — machine-readable source of truth.
+# Every value here must have a rationale and provenance entry in docs/PARAMETER_REGISTER.md.
+# Changes require: version bump, backtest re-run, changelog entry.
+version: "0.1.0"
+as_of: "2026-11-18"
+
+universe:
+  path: data/universe.csv
+  size_expected: 2500
+  monitor_suppliers: false   # v2: top suppliers via ownership data
+
+signals:
+  salience_baseline_days: 90        # rolling window for per-company mention baseline
+  salience_min_history_days: 30     # below this, tag company THIN_DATA — never treat silence as clean
+  tone_half_life_days: 14           # decay applied to incident salience in scoring
+  breadth_min_outlets: 3            # independent sources required for confirmation of breadth
+  dedup: native_eventuri            # rely on Event Registry event clustering; verify weekly
+
+layers:
+  confirmed_triggers:               # hard triggers; never merged with indicative score
+    - regulator_action              # investigation opened, sanction, fine
+    - litigation_filed
+    - company_acknowledgment        # recall, admission, profit warning tied to issue
+    - credible_ngo_campaign         # named campaign by established NGO
+  indicative:                       # composite media signal: watch/flag only
+    z_watch: 2.0                    # salience z-score vs own baseline
+    z_flag: 3.0
+    z_exclude_extreme: 4.0          # ~99th percentile sustained; still needs sign-off
+    sustain_flag_days: 3
+    sustain_exclude_days: 5
+
+states:
+  watch:
+    action: none                    # no trade; monitoring upgrade only
+  flagged:
+    action: freeze_new_purchases
+    analyst_review_sla_hours: 48
+  excluded:
+    action: sell_and_exclude
+    requires_human_signoff: true
+  probation:
+    action: no_reentry
+
+reversal:                           # eligibility = exclusion_date + base(tier) × M_response × M_recurrence
+  base_months: {S1: 3, S2: 6, S3: 12, S4: 24}
+  response_assessment_day: 90       # single locked assessment; evidence citations mandatory
+  response_multiplier: {exemplary: 0.75, adequate: 1.0, poor: 1.5}
+  recurrence_multiplier: 1.5        # per recurrence; cumulative cap 2.0
+  recurrence_cap: 2.0
+  recurrence_escalates_tier: true   # same-issue recurrence escalates severity tier by one
+  exit_criteria:                    # ALL required; elapsed time is necessary, never sufficient
+    salience_z_below: 0.5           # sustained for final third of probation window
+    no_open_confirmed_triggers: true
+    resolution_evidence_required_for: [S2, S3, S4]   # settlement, verified remediation, closure
+    human_signoff: true
+  hysteresis:                       # re-entry strictly harder than exit
+    reentry_z_ceiling: 0.5
+    note: "Reversal paths tracked separately: DECAY (rule-based) vs FALSE_POSITIVE (fast override, documented rationale)."
+
+severity_tiers:                     # assigned at exclusion, locked, evidence stored
+  S1: {label: minor,    example: "Isolated incident, no regulator, contained geography"}
+  S2: {label: moderate, example: "Litigation filed or formal investigation; national coverage"}
+  S3: {label: severe,   example: "Regulator sanction, major harm, multi-country coverage"}
+  S4: {label: critical, example: "Fraud, systemic safety failure, fatalities, criminal proceedings"}
+
+budgets:
+  daily_sweep_token_target: 100     # newsapi.ai tokens/day; alert if 7-day avg exceeds 150
+  max_concurrent_requests: 5        # API hard limit; we run sequentially
+  watchlist_event_lookback_days: 7
+
+governance:
+  alert_review_sla_hours: 48
+  reversal_outcome_tracking: true   # re-offense within 12m of re-entry; tune windows annually
+  annual_recalibration: [taxonomy.weights, thresholds]
