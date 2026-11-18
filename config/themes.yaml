@@ -1,0 +1,41 @@
+# Channel B — Theme Registry v0.
+# Controversial themes monitored at aggregate level; when a theme's salience
+# spikes, holdings with exposure >= exposure_trigger enter WATCH even with no
+# company-specific coverage. Exposure scores are placeholders pending
+# FactSet-style segment/supply-chain data.
+version: "0.1.0"
+
+defaults:
+  exposure_trigger: 0.5        # exposure score at/above which a theme spike flags the holding
+  spike_z: 2.0                 # theme salience z-score constituting a spike
+  lookback_days: 7
+
+themes:
+  - id: PFAS
+    label: PFAS / forever chemicals
+    keywords_en: [PFAS, forever chemicals, perfluoroalkyl]
+    exposure_source: pending   # chemical/materials segment data
+  - id: GREENWASHING_REG
+    label: Regulatory greenwashing crackdowns
+    keywords_en: [greenwashing fine, ESG disclosure enforcement, CSRD penalty]
+    exposure_source: pending
+  - id: FORCED_LABOUR_SC
+    label: Forced labour in supply chains
+    keywords_en: [forced labour, UFLPA, modern slavery statement, supply chain audit]
+    exposure_source: pending
+  - id: DEFORESTATION
+    label: Deforestation-linked commodities
+    keywords_en: [deforestation, palm oil, soy moratorium, EUDR, cattle ranching Amazon]
+    exposure_source: pending
+  - id: AI_SAFETY
+    label: AI safety & accountability
+    keywords_en: [AI regulation, algorithmic harm, AI lawsuit, model safety]
+    exposure_source: pending
+  - id: OPIOIDS_LITIGATION
+    label: Public-health mass torts
+    keywords_en: [opioid settlement, mass tort, talc lawsuit, public health litigation]
+    exposure_source: pending
+  - id: WEIGHT_LOSS_DRUGS
+    label: GLP-1 disruption & pharma pricing
+    keywords_en: [GLP-1, Ozempic, drug pricing backlash, insulin price]
+    exposure_source: pending
