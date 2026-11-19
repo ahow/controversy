@@ -77,12 +77,17 @@ def run_sweep(client, conn, sweep_keywords, taxonomy_issues, batch_size: int = 3
     # 1. articles -> incidents (the unit the state machine decides on)
     # 2. per-company daily counts + z-scores (baseline accumulation)
     # 3. orphan events -> emergent themes (Channel B lifecycle + escalation)
+    # 4. company impact scores (severity / outrage / materiality — never summed)
     stats["incidents_built"] = rebuild_incidents(conn, taxonomy_issues)
     stats["daily"] = update_daily_counts(conn, day, min_history, baseline_window)
     from .config import params as _params
     from .themes import rebuild_themes
     stats["themes"] = rebuild_themes(conn, day, _params()["themes"])
+    from .impact import rebuild_company_scores
+    _p = _params()
+    stats["impact"] = rebuild_company_scores(
+        conn, day, _p["impact"], taxonomy_issues, _p["themes"])
     print(f"roll-up: {stats['incidents_built']} daily={stats['daily']} "
-          f"themes={stats['themes']}", flush=True)
+          f"themes={stats['themes']} impact={stats['impact']}", flush=True)
     stats["tokens_used"] = client.spent - stats["tokens_start"]
     return stats

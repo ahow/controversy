@@ -1,8 +1,8 @@
 # Parameter Register v0 — machine-readable source of truth.
 # Every value here must have a rationale and provenance entry in docs/PARAMETER_REGISTER.md.
 # Changes require: version bump, backtest re-run, changelog entry.
-version: "0.2.0"
-as_of: "2026-11-19"
+version: "0.3.0"
+as_of: "2026-11-20"
 
 universe:
   path: data/universe.csv
@@ -133,6 +133,58 @@ themes:                             # Channel B — emergent themes from the orp
     - amnesty
     - oxfam
     - human rights watch
+
+impact:                             # Company-level three-score model (src/impact.py) — scores are NEVER summed
+  active_window_days: 7             # incident counts as active if seen within this trailing window
+  z_cap: 4.0                        # severity z-excess cap (size-adjusted salience vs own baseline)
+  severity:                         # substance of the issue; size-adjusted; raw volume is never an input
+    intercept: -2.2                 # PRIOR
+    w_trigger: 1.6                  # strongest confirmed trigger (hierarchy below) — PRIOR
+    w_issue: 0.9                    # max issue prior_severity/4 among active confirmed incidents — PRIOR
+    w_recurrence: 0.8               # prior same-issue incidents, cap 3 — PRIOR
+    w_z: 0.7                        # excess z vs own baseline, cap z_cap; THIN -> excluded + flagged, never imputed — PRIOR
+    w_actors: 0.6                   # institutional-actor hits in day's coverage, cap 5 — PRIOR
+    trigger_strength:               # hard-evidence hierarchy (register carries rationale)
+      regulator_action: 1.0
+      litigation_filed: 0.75
+      credible_ngo_campaign: 0.7
+      company_acknowledgment: 0.6
+  outrage:                          # visibility x moral charge; RAW reach by design (no size adjustment)
+    intercept: -2.4                 # PRIOR
+    w_articles: 0.5                 # log1p raw articles today, cap 50 — PRIOR
+    w_sources: 0.7                  # raw distinct sources today, cap 50 — PRIOR
+    w_tier1: 0.8                    # tier-1 outlets today, cap 3 (themes.authority_tier1) — PRIOR
+    w_langs: 0.6                    # languages today, cap 5 — PRIOR
+    w_theme: 0.7                    # strongest attached emergent-theme escalation (0-1) — PRIOR
+    w_charge: 1.0                   # moral charge of worst active issue (0-1) — PRIOR
+    caps: {articles: 50, sources: 50, tier1: 3, langs: 5, actors: 5}
+    ngo_charge_floor: 0.8           # credible_ngo_campaign forces charge >= this
+    charge:                         # moral-charge priors by issue (0-1) — PRIORS pending evidence
+      SAFETY_FATALITIES: 1.0
+      HUMAN_RIGHTS: 0.95
+      ENV_DISASTER: 0.9
+      PUBLIC_HEALTH_HARM: 0.9
+      GREENWASHING: 0.85            # sustainable-fund audience: hypocrisy premium
+      FRAUD_CORRUPTION: 0.85
+      EXEC_CONDUCT: 0.8
+      PRODUCT_SAFETY: 0.75
+      DATA_PRIVACY: 0.7
+      AI_HARM: 0.6
+      SANCTIONS_GEOPOLITICAL: 0.6
+      ANIMAL_WELFARE: 0.6
+      LABOUR_DISPUTE: 0.55
+      COMMUNITY_CONFLICT: 0.55
+      TAX_CONDUCT: 0.5
+      ANTITRUST: 0.4
+      _default: 0.35                # orphan / unclassified incidents
+  materiality:                      # expected share-price response; EMPIRICAL ONLY
+    status: uncalibrated            # no expected-CAR table until event-study calibration (src/event_study.py)
+    benchmark: ^GSPC                # market-adjusted model benchmark for CAR
+    windows: [[0, 5], [0, 20]]      # CAR windows in trading days
+    min_cell_n: 5                   # cells below this are flagged low_evidence, never smoothed
+    cap_bps: 2000                   # display/rank cap for |expected CAR|
+    p_escalation_cap_sources: 25    # escalation-probability proxy anchor (matches theme outcome contract)
+    expected_car_bps: {}            # "ISSUE|TIER" -> median CAR bps (primary window); filled ONLY by human merge of data/materiality_proposal.json
 
 governance:
   alert_review_sla_hours: 48
