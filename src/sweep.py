@@ -24,9 +24,11 @@ def chunk(lst, n):
 
 def run_sweep(client, conn, sweep_keywords, taxonomy_issues, batch_size: int = 30,
               batch_start: int = 0, batch_end: int | None = None,
-              max_pages: int = 3, target_date: str | None = None) -> dict:
+              max_pages: int = 3, target_date: str | None = None,
+              min_history: int = 30, baseline_window: int = 90) -> dict:
     import json
     from .er_client import company_concept_query
+    from .incidents import rebuild_incidents, update_daily_counts
     from .scoring import assign_issue, detect_confirmed_triggers
 
     day = target_date or (date.today() - timedelta(days=1)).isoformat()
@@ -70,5 +72,12 @@ def run_sweep(client, conn, sweep_keywords, taxonomy_issues, batch_size: int = 3
                 break  # last page
         stats["batches_done"] += 1
         print(f"batch {bi}: articles={stats['articles']} tokens={client.spent}", flush=True)
+
+    # Post-sweep roll-ups (idempotent, local — zero API tokens):
+    # 1. articles -> incidents (the unit the state machine decides on)
+    # 2. per-company daily counts + z-scores (baseline accumulation)
+    stats["incidents_built"] = rebuild_incidents(conn, taxonomy_issues)
+    stats["daily"] = update_daily_counts(conn, day, min_history, baseline_window)
+    print(f"roll-up: {stats['incidents_built']} daily={stats['daily']}", flush=True)
     stats["tokens_used"] = client.spent - stats["tokens_start"]
     return stats
