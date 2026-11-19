@@ -222,7 +222,7 @@ row,issuer_name,ticker,isin,country,gics_sector,map_status,concept_uri
 220,ASHOK LEYLAND LIMITED,ASHOKLEY,INE208A01029,IN,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Ashok_Leyland
 221,ASELSAN ELEKTRONIK SANAYI VE TICARET ANONIM SIRKETI,ASELS.E,TRAASELS91H2,TR,Industrials,unmapped,
 222,BHARAT FORGE LTD,BHARATFORG,INE465A01025,IN,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Bharat_Forge
-223,APL APOLLO TUBES LIMITED,APLAPOLLO,INE702A01027,IN,Materials,unmapped,
+223,APL APOLLO TUBES LIMITED,APLAPOLLO,INE702C01027,IN,Materials,unmapped,
 224,BRITANNIA INDUSTRIES LTD,BRITANNIA,INE216A01030,IN,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Britannia_Industries
 225,ATI INC,ATI,US01741R1023,US,Industrials,needs_review,
 226,CREDICORP LTD.,B2AP34,BMG2519Y1084,PE,Financials,auto_mapped,http://en.wikipedia.org/wiki/Credicorp
@@ -631,7 +631,7 @@ row,issuer_name,ticker,isin,country,gics_sector,map_status,concept_uri
 629,MTR CORPORATION LIMITED,66,HK0066009694,HK,Industrials,needs_review,
 630,"CADENCE DESIGN SYSTEMS, INC.",CDNS,US1273871087,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Cadence_Design_Systems
 631,CINCINNATI FINANCIAL CORPORATION,CINF,US1720621010,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Cincinnati_Financial
-632,ARCHER-DANIELS-MIDLAND COMPANY.,ADM,US0394831020,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Archer_Daniels-Midland
+632,ARCHER-DANIELS-MIDLAND COMPANY.,ADM,US0394831020,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Archer_Daniels_Midland
 633,"HONDA MOTOR CO., LTD.",7267,JP3854600008,JP,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Honda_Motorcycle_and_Scooter_India
 634,Air China Limited,601111,CNE000001NN0,CN,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Air_China
 635,Sampo Oyj,SAMPO,FI4000552500,FI,Financials,needs_review,
