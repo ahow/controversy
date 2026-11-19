@@ -48,6 +48,34 @@ predict salience trajectory — that is the honest reframe this layer implements
   ≥7 days alive). Promotion is human-only (`--apply`) and appends to
   `taxonomy.yaml` with provenance (source theme, date, evidence).
 
+## Company impact scores (three scores — never summed)
+Every company with coverage on a day gets three separate scores
+(`src/impact.py`, table `company_scores`, full decomposition in
+`scores_json`). They answer different questions and feed different decisions;
+they are stored in separate columns and never combined into a composite.
+- **SEVERITY** — how bad is the underlying conduct, size-adjusted. Inputs:
+  confirmed-trigger hierarchy, issue prior severity, recurrence (cap 3),
+  institutional actors, and — the size adjustment — salience z vs the
+  company's OWN 90-day baseline. Raw volume is never an input, so Meta-scale
+  coverage of a minor story cannot read as severe; THIN companies have the z
+  term excluded (never imputed). Feeds exclusion/probation policy (human-signed).
+- **OUTRAGE** — how visible and morally charged the story is for a
+  sustainable-fund audience. Raw reach (articles, sources, tier-1 outlets,
+  languages), strongest attached emergent theme, × moral-charge priors per
+  issue (NGO campaign forces a 0.8 floor). The large-company skew is
+  legitimate here: outrage risk IS partly visibility. Feeds review priority
+  and client-comms risk only.
+- **MATERIALITY** — expected share-price response = expected CAR bps for the
+  issue × severity tier (event-study table) × escalation-probability proxy
+  (max of theme boost and sources/25). UNCALIBRATED by construction until
+  `src/event_study.py` + `scripts/fetch_prices.py` (FMP EOD prices) produce
+  labelled price responses and a human merges the proposal; while the table
+  is empty the score is NULL (dashboard: UNCAL), never zero-filled.
+  Event-study method: market-adjusted CAR vs ^GSPC over [0,5] and [0,20]
+  trading days; day 0 = first trading day ≥ incident first_seen; company
+  windows must exactly match benchmark trading days (gaps fail loudly);
+  cells with n<5 are flagged low_evidence and never smoothed.
+
 ## Two layers — never summed
 - **Confirmed layer**: hard triggers only (regulator action, litigation filed,
   company acknowledgment, credible NGO campaign). May drive EXCLUDED with human
@@ -80,7 +108,8 @@ is never treated as cleanliness (small-cap/EM coverage bias).
 ## Data layer
 - newsapi.ai (Event Registry): primary feed. Sequential requests; 1 token/article
   search, 5/event search; budget enforced in `src/er_client.py`.
-- FMP: share-price history for taxonomy calibration event studies.
+- FMP: EOD share prices (universe tickers + ^GSPC benchmark) for the
+  materiality event study (`scripts/fetch_prices.py` → table `prices`).
 - Free GDELT 2.0: planned redundancy/cross-validation layer (v2).
 - SQLite: `data/controversy.db` (git-ignored). Schema in `src/store.py`.
 

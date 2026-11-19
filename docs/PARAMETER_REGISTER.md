@@ -1,4 +1,4 @@
-# Parameter Register v0.2.0 (2026-11-19)
+# Parameter Register v0.3.0 (2026-11-20)
 
 Machine-readable source: `config/parameters.yaml`. This document carries the
 rationale; the YAML carries the values. They must never diverge.
@@ -89,7 +89,61 @@ contract above, rank-based AUC; insufficient_data guard (<10 themes or single
 class ⇒ priors stand). Promotion gate: status escalated OR score ≥60, ≥1 company
 attached, ≥7 days alive; human-only apply with taxonomy provenance.
 
+## Company impact scores (`impact:` block) — three scores, NEVER summed
+Each score answers a different question for a different decision. All weights
+are PRIORS until calibrated by evidence; full per-term decomposition is
+persisted in `company_scores.scores_json`.
+
+### Shared
+| Param | Value | Rationale |
+|---|---|---|
+| active_window_days | 7 | An incident is "active" for scoring while seen within the trailing 7 days. |
+| z_cap | 4.0 | Caps the size-adjusted salience input so one extreme day cannot dominate severity. |
+
+### SEVERITY — issue substance, size-adjusted (raw volume is never an input)
+| Feature | Weight | Rationale |
+|---|---|---|
+| trigger_strength | 1.6 | Hardest evidence wins: regulator_action 1.0 > litigation_filed 0.75 > credible_ngo_campaign 0.7 > company_acknowledgment 0.6. Confirmed layer only — indicative coverage is not substance. |
+| issue_severity | 0.9 | Taxonomy prior_severity / 4, worst active confirmed issue. |
+| recurrence | 0.8 | Prior same-issue incidents before the active window, capped at 3. |
+| z_excess | 0.7 | Salience z vs the company's OWN 90-day baseline, capped at z_cap — the size adjustment: a Meta-scale pile-on of a minor story must not read as severe. THIN ⇒ excluded (contribution 0), NEVER imputed. |
+| actors | 0.6 | Institutional-actor pattern hits in the day's titles, cap 5. |
+| intercept | −2.2 | Baseline ≈ 10/100 for a company with coverage but no confirmed incident. |
+
+### OUTRAGE — raw visibility × moral charge (large-company skew is legitimate here)
+| Feature | Cap | Weight | Rationale |
+|---|---|---|---|
+| articles | 50 (log1p) | 0.5 | Raw reach, log-scaled. |
+| sources | 50 | 0.7 | Independent-outlet breadth, raw. |
+| tier1 | 3 | 0.8 | Tier-1 outlets (themes.authority_tier1 list). |
+| langs | 5 | 0.6 | Cross-language spread. |
+| theme_boost | — | 0.7 | Strongest live (non-dead) emergent theme attached to the company, escalation_score/100. |
+| charge | — | 1.0 | Moral-charge prior per worst active issue (SAFETY_FATALITIES 1.0 … ANTITRUST 0.4, _default 0.35); a credible_ngo_campaign trigger forces the 0.8 floor. |
+| intercept | — | −2.4 | Low base rate of sustainable-fund headline risk. |
+
+### MATERIALITY — expected share-price response (empirical only)
+| Param | Value | Rationale |
+|---|---|---|
+| status | uncalibrated | Flips to calibrated only when a human merges the event-study proposal. |
+| benchmark | ^GSPC | Market-adjusted model (company return − benchmark return); no estimation window — with thin per-issue samples, extra model complexity is false precision. |
+| windows | [0,5], [0,20] | Trading days from day 0 = first trading day ≥ incident first_seen. |
+| min_cell_n | 5 | Cells below n=5 are FLAGGED low_evidence, never smoothed. |
+| cap_bps | 2000 | Caps the 0–100 magnitude rank (|bps| / cap × 100). |
+| p_escalation_cap_sources | 25 | Escalation-probability proxy = max(theme_boost, min(n_sources/25, 1)); 25 anchors to the theme outcome contract. |
+| expected_car_bps | {} | EMPTY ⇒ materiality is NULL (shown UNCAL, never zero-filled). Keys are ISSUE\|TIER from the PRIMARY window (windows[0]); per-window cells stay in the proposal JSON for audit. |
+
+Calibration path: `scripts/fetch_prices.py` (FMP EOD, company + benchmark) →
+`src/event_study.py::build_materiality_table` (confirmed incidents only;
+tier falls back to S2 for ungraded shadow-mode incidents) →
+`data/materiality_proposal.json` → human merge with version bump.
+
 ## Changelog
+- v0.3.0 (2026-11-20): company impact scores — SEVERITY (size-adjusted
+  substance), OUTRAGE (raw visibility × moral charge), MATERIALITY (expected
+  CAR × escalation proxy; UNCAL until event-study calibration). Event-study
+  machinery (prices table, market-adjusted CAR, per-window cells with
+  low-evidence flags, primary-window lookup contract) and FMP price ingestion.
+  All weights are priors.
 - v0.2.0 (2026-11-19): Channel B emergent-theme layer — theme signatures,
   df-cut + fixed-point clustering, escalation features/scorecard (priors),
   outcome contract, replay/calibration/promotion harness. All weights are
