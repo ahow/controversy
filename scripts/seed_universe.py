@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Seed/repair the companies table from universe/entity_map.csv.
+"""Seed/repair the companies table from universe/entity_map_part*.csv.
 
 Idempotent (INSERT OR IGNORE on row id): safe to run before every sweep.
 Exists so CI (GitHub Actions) can bootstrap an empty database on cache miss
@@ -16,25 +16,28 @@ from src.store import connect
 
 
 def main():
-    src = ROOT / "universe" / "entity_map.csv"
-    if not src.exists():
-        sys.exit(f"universe file not found: {src}")
+    parts = sorted((ROOT / "universe").glob("entity_map_part*.csv"))
+    if not parts:
+        sys.exit("no universe files found: universe/entity_map_part*.csv")
     conn = connect(ROOT / "data" / "controversy.db")
     n = 0
-    with open(src, newline="", encoding="utf-8-sig") as f:
-        for r in csv.DictReader(f):
-            conn.execute(
-                "INSERT OR IGNORE INTO companies"
-                " (id,name,ticker,isin,country,sector,concept_uri,map_status)"
-                " VALUES (?,?,?,?,?,?,?,?)",
-                (int(r["row"]), r["issuer_name"], r["ticker"], r["isin"],
-                 r["country"], r["gics_sector"],
-                 r["concept_uri"] or None, r["map_status"]))
-            n += 1
+    for part in parts:
+        with open(part, newline="", encoding="utf-8-sig") as f:
+            for r in csv.DictReader(f):
+                conn.execute(
+                    "INSERT OR IGNORE INTO companies"
+                    " (id,name,ticker,isin,country,sector,concept_uri,map_status)"
+                    " VALUES (?,?,?,?,?,?,?,?)",
+                    (int(r["row"]), r["issuer_name"], r["ticker"], r["isin"],
+                     r["country"], r["gics_sector"],
+                     r["concept_uri"] or None, r["map_status"]))
+                n += 1
     conn.commit()
+    total = conn.execute("SELECT COUNT(*) FROM companies").fetchone()[0]
     mapped = conn.execute(
         "SELECT COUNT(*) FROM companies WHERE map_status='auto_mapped'").fetchone()[0]
-    print(f"seeded {n} companies ({mapped} auto_mapped)")
+    print(f"seeded {n} rows across {len(parts)} parts "
+          f"({total} companies, {mapped} auto_mapped)")
 
 
 if __name__ == "__main__":
