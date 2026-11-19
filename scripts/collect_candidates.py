@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deep candidate pass over unmapped companies.
+"""Deep candidate pass over unmapped / needs_review companies.
 
 Unlike the first-pass mapper, this NEVER early-stops: it queries every alias and
 collects ALL org and wiki candidates so a human can select the right one.
@@ -8,7 +8,13 @@ URI collisions become needs_review; candidates are stored on the company row
 (candidates_json) for QA review. Rows are only marked processed ('[]') when at
 least one API call succeeded — transient failures stay eligible for future passes.
 
-Usage: python scripts/collect_candidates.py [--workers 4] [--limit N]
+--status picks the queue: 'unmapped' (default) processes rows with no stored
+candidates; 'needs_review' processes the 261-company ambiguity bucket, whose
+first-pass candidates were never persisted (2026-11-20 gap: 257/261 empty,
+$38tn / 28.6% of universe market cap incl. Nvidia/Apple/Microsoft/Amazon);
+'all' does both.
+
+Usage: python scripts/collect_candidates.py [--status unmapped] [--workers 4] [--limit N]
 Env: ER_SUGGEST_TIMEOUT (default 60), ER_SUGGEST_RETRIES (default 2)
 """
 import argparse, json, os, sys, threading
@@ -47,6 +53,9 @@ def main():
     ap.add_argument("--universe", default="/mnt/agents/upload/MSCI_ACWI.csv")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--db", default=str(ROOT / "data" / "controversy.db"))
+    ap.add_argument("--status", choices=["unmapped", "needs_review", "all"],
+                    default="unmapped",
+                    help="which queue to process (default: unmapped)")
     ap.add_argument("--limit", type=int, default=0)
     args = ap.parse_args()
 
@@ -61,12 +70,22 @@ def main():
         pass
 
     comps = {c["row"]: c for c in load_universe(args.universe)}
+    status_sql = {
+        # unmapped: untouched rows only ('[]' = processed, genuinely no candidates)
+        "unmapped": "map_status='unmapped' AND candidates_json IS NULL",
+        # needs_review: first pass never persisted candidates — redo all empty ones
+        "needs_review": "map_status='needs_review' AND (candidates_json IS NULL"
+                        " OR candidates_json IN ('', '[]'))",
+        "all": "((map_status='unmapped' AND candidates_json IS NULL) OR"
+               " (map_status='needs_review' AND (candidates_json IS NULL"
+               " OR candidates_json IN ('', '[]'))))",
+    }[args.status]
     todo_rows = [r[0] for r in conn.execute(
-        "SELECT id FROM companies WHERE map_status='unmapped' AND candidates_json IS NULL")]
+        f"SELECT id FROM companies WHERE {status_sql}")]
     todo = [comps[i] for i in sorted(todo_rows) if i in comps]
     if args.limit:
         todo = todo[:args.limit]
-    print(f"deep pass: {len(todo)} unmapped companies to process", flush=True)
+    print(f"deep pass [{args.status}]: {len(todo)} companies to process", flush=True)
 
     counters = {"done": 0, "promoted": 0, "with_cands": 0}
 
