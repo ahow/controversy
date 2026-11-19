@@ -43,16 +43,17 @@ def _mk():
 
 
 def _hit(conn, cid, uri, day, source="wire.com", lang="eng",
-         title="company story"):
-    """One article on `day` attributed to company `cid`."""
+         title="company story", score=5, title_match=1):
+    """One article on `day` attributed to company `cid` (subject link)."""
     conn.execute(
         "INSERT OR REPLACE INTO articles (uri, date, lang, title, url, "
         " source, raw_json) VALUES (?,?,?,?,?,?,?)",
         (uri, day, lang, title, f"http://x/{uri}", source,
          json.dumps({"source": {"uri": source}})))
     conn.execute(
-        "INSERT OR IGNORE INTO article_companies (article_uri, company_id) "
-        "VALUES (?,?)", (uri, cid))
+        "INSERT OR IGNORE INTO article_companies"
+        " (article_uri, company_id, score, title_match) VALUES (?,?,?,?)",
+        (uri, cid, score, title_match))
     conn.commit()
 
 
