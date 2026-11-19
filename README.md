@@ -32,3 +32,30 @@ pip install requests pyyaml pandas pytest
 python scripts/map_entities.py --universe data/universe.csv   # one-time entity mapping
 python scripts/daily_sweep.py                                  # daily shadow-mode sweep
 ```
+
+## Dashboard (GitHub Pages)
+
+`docs/index.html` is a self-contained static dashboard (review queue, issue mix,
+coverage trend, emerging-themes orphan feed, per-company daily table) generated
+from the database:
+
+```bash
+python scripts/build_dashboard.py
+```
+
+The `.github/workflows/daily.yml` workflow runs the sweep daily at 06:00 UTC,
+rebuilds the dashboard and commits it. Two one-time setup steps:
+
+1. Add repository secret `NEWSAPI_AI_KEY` (Settings → Secrets and variables → Actions).
+2. Enable Pages: Settings → Pages → Source: *Deploy from a branch* → `main` / `/docs`.
+   The dashboard is then served at `https://<owner>.github.io/controversy/`.
+
+The database itself is git-ignored (too large for git); the workflow persists it
+via the Actions cache and re-seeds the universe from `universe/entity_map.csv`
+on cache miss. Note: GitHub Pages is public — incident details and company
+names on the dashboard are visible to anyone with the URL.
+
+## Status
+
+Shadow mode (v1): sweeps capture and score, but state transitions to
+EXCLUDED are human decisions recorded with evidence — never automated.
