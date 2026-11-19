@@ -17,6 +17,7 @@ TAX = [
 
 def _mk(tmp_path):
     conn = connect(tmp_path / "t.db")
+    ensure_schema(conn)  # adds score/title_match link columns
     conn.execute("INSERT INTO companies (id, name, concept_uri, map_status)"
                  " VALUES (1, 'Acme', 'uri:acme', 'auto_mapped')")
     conn.execute("INSERT INTO companies (id, name, concept_uri, map_status)"
@@ -25,13 +26,17 @@ def _mk(tmp_path):
     return conn
 
 
-def _add_article(conn, uri, event, day, title, body="", source="Reuters", cid=1):
+def _add_article(conn, uri, event, day, title, body="", source="Reuters", cid=1,
+                 score=5, title_match=1):
     conn.execute(
         "INSERT OR IGNORE INTO articles (uri,date,lang,title,url,source,sentiment,event_uri,raw_json)"
         " VALUES (?,?,?,?,?,?,?,?,?)",
         (uri, day, "eng", title, f"http://x/{uri}", source, -0.5, event,
          json.dumps({"title": title, "body": body})))
-    conn.execute("INSERT OR IGNORE INTO article_companies VALUES (?,?)", (uri, cid))
+    conn.execute(
+        "INSERT OR IGNORE INTO article_companies"
+        " (article_uri, company_id, score, title_match) VALUES (?,?,?,?)",
+        (uri, cid, score, title_match))
     conn.commit()
 
 
