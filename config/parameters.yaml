@@ -1,8 +1,8 @@
 # Parameter Register v0 — machine-readable source of truth.
 # Every value here must have a rationale and provenance entry in docs/PARAMETER_REGISTER.md.
 # Changes require: version bump, backtest re-run, changelog entry.
-version: "0.1.0"
-as_of: "2026-11-18"
+version: "0.2.0"
+as_of: "2026-11-19"
 
 universe:
   path: data/universe.csv
@@ -67,6 +67,72 @@ budgets:
   daily_sweep_token_target: 100     # newsapi.ai tokens/day; alert if 7-day avg exceeds 150
   max_concurrent_requests: 5        # API hard limit; we run sequentially
   watchlist_event_lookback_days: 7
+
+themes:                             # Channel B — emergent themes from the orphan feed (src/themes.py)
+  top_k_concepts: 8                 # signature size per event cluster (max-score weighted ER concepts)
+  min_concept_score: 3              # ER concept relevance floor for signatures
+  max_doc_freq: 0.08                # drop concepts appearing in >8% of orphan events (non-discriminative generics like "USD", "CEO")
+  merge_shared: 3                   # union-find: orphan events sharing >= this many signature concepts chain into one theme (grid-tested 2026-11-19: breaks generic-finance blobs, keeps specific chains)
+  assign_overlap: 2                 # new orphan event joins a live theme at >= this many shared signature concepts
+  snapshot_days: 3                  # calibration: features snapshotted at first_seen + this many days (72h decision point)
+  status:
+    emerging_score: 40              # candidate -> emerging at/above this escalation score (requires non-thin history)
+    dead_after_days: 7              # no articles for this many days -> dead (stops scoring; retained for audit)
+  outcome:                          # 'high profile' = coverage-velocity rule; the calibration outcome contract
+    window_days: 7                  # rolling window length
+    within_days: 90                 # window must start within this many days of first sighting
+    min_articles: 100               # window article count for escalation label
+    min_sources: 25                 # distinct window sources for escalation label
+  promotion:                        # gate for proposing a theme as a new taxonomy issue (scripts/promote_themes.py)
+    min_companies: 1                # theme must attach to >= this many universe companies
+    min_days_alive: 7               # persistence gate
+    min_score: 60                   # escalation-score gate (status=escalated also qualifies)
+  features:                         # normalisation caps (documented in PARAMETER_REGISTER.md)
+    cap_articles_day: 50
+    cap_sources: 50
+    cap_langs: 5
+    cap_companies: 10
+    cap_actor_hits: 5
+    cap_days_alive: 30
+  weights:                          # PRIOR weights v0 — uncalibrated; replace only via calibration proposal + human merge
+    intercept: -2.0
+    accel: 0.8
+    spread_sources: 0.6
+    spread_langs: 0.7
+    authority: 0.7
+    actors: 0.9
+    attach: 0.8
+    persist: 0.4
+  authority_tier1:                  # authority-migration feature: tier-1 outlets (wires / global business press)
+    - reuters.com
+    - apnews.com
+    - afp.com
+    - bloomberg.com
+    - ft.com
+    - wsj.com
+    - nytimes.com
+    - bbc.com
+    - bbc.co.uk
+    - theguardian.com
+    - cnbc.com
+  actor_patterns:                   # actor-engagement feature: institutional actors in concept labels / titles
+    - court
+    - regulator
+    - commission
+    - prosecutor
+    - lawsuit
+    - investigation
+    - parliament
+    - senate
+    - congress
+    - ministry
+    - watchdog
+    - ombudsman
+    - attorney general
+    - greenpeace
+    - amnesty
+    - oxfam
+    - human rights watch
 
 governance:
   alert_review_sla_hours: 48
