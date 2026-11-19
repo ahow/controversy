@@ -1,13 +1,28 @@
 # Parameter Register v0 — machine-readable source of truth.
 # Every value here must have a rationale and provenance entry in docs/PARAMETER_REGISTER.md.
 # Changes require: version bump, backtest re-run, changelog entry.
-version: "0.3.0"
+version: "0.4.0"
 as_of: "2026-11-20"
 
 universe:
   path: data/universe.csv
   size_expected: 2500
   monitor_suppliers: false   # v2: top suppliers via ownership data
+
+attach:
+  # PRIOR — subject-salience filter between the recall layer (article_companies,
+  # which keeps EVERY company-article link) and the precision layer (incidents,
+  # daily counts, impact scores). A link enters the precision layer only when
+  # the company's Event Registry concept salience score >= min_concept_score
+  # OR the company's name appears in the article title (strong subject signal).
+  # Evidence (2026-11-18 corpus, 6,004 links): score<=2 without title mention
+  # is ~100% bystander noise; confirmed incidents whose best link scores 3 are
+  # ~98% noise; every verified true-subject incident scores 5 (e.g. Deutsche
+  # Bank submarine leak, 42/42 articles). Known recall risk: a real story whose
+  # best link scores 3 with no title mention is dropped (one observed case —
+  # CN derailment, ER score 3, no title mention) — accepted at the confirmed
+  # layer; the raw links remain for the planned LLM subject/bystander pass.
+  min_concept_score: 4
 
 signals:
   salience_baseline_days: 90        # rolling window for per-company mention baseline

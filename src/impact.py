@@ -35,6 +35,8 @@ import math
 import sqlite3
 from datetime import date, timedelta
 
+from .incidents import DEFAULT_MIN_CONCEPT_SCORE
+
 _DDL = """
 CREATE TABLE IF NOT EXISTS company_scores (
     company_id INTEGER NOT NULL,
@@ -81,11 +83,16 @@ def _active_incidents(conn, cid: int, day: str, window_days: int) -> list:
         "AND last_seen>=?", (cid, day, start)).fetchall()
 
 
-def _day_articles(conn, cid: int, day: str) -> list:
+def _day_articles(conn, cid: int, day: str,
+                  min_score: float = DEFAULT_MIN_CONCEPT_SCORE) -> list:
+    """Subject articles only: a passing mention in someone else's story is
+    not media attention to THIS company (same filter as incident build)."""
     return conn.execute(
         "SELECT a.title, a.lang, a.source, a.raw_json FROM articles a "
         "JOIN article_companies ac ON ac.article_uri = a.uri "
-        "WHERE ac.company_id=? AND a.date=?", (cid, day)).fetchall()
+        "WHERE ac.company_id=? AND a.date=? AND "
+        "(COALESCE(ac.score,0) >= ? OR COALESCE(ac.title_match,0) = 1)",
+        (cid, day, min_score)).fetchall()
 
 
 def _is_tier1(domain: str, tier1: list[str]) -> bool:
@@ -108,11 +115,12 @@ def _domains(arts: list) -> list[str]:
 
 
 def company_features(conn, cid: int, day: str, ip: dict,
-                     sev_prior: dict, themes_tp: dict) -> dict:
+                     sev_prior: dict, themes_tp: dict,
+                     min_score: float = DEFAULT_MIN_CONCEPT_SCORE) -> dict:
     """All raw inputs for the three scores, computed as of `day`."""
     win = ip["active_window_days"]
     inc = _active_incidents(conn, cid, day, win)
-    arts = _day_articles(conn, cid, day)
+    arts = _day_articles(conn, cid, day, min_score)
 
     # confirmed-trigger strength (hierarchy from parameters) + issue priors
     trig_map = ip["severity"]["trigger_strength"]
@@ -261,17 +269,23 @@ def score_company(feats: dict, ip: dict) -> dict:
 # ------------------------------------------------------------------- roll-up
 
 def rebuild_company_scores(conn: sqlite3.Connection, day: str, ip: dict,
-                           taxonomy: list[dict], themes_tp: dict) -> dict:
+                           taxonomy: list[dict], themes_tp: dict,
+                           min_score: float = DEFAULT_MIN_CONCEPT_SCORE
+                           ) -> dict:
     """Compute and upsert the three scores for every company seen on `day`.
     Idempotent; zero API tokens (reads articles/incidents/company_daily/themes).
     """
     ensure_schema(conn)
     sev_prior = {i["id"]: i.get("prior_severity", 2) for i in taxonomy}
+    # Full rebuild for the day: scores for companies no longer seen must not
+    # linger from an earlier, looser-filter run.
+    conn.execute("DELETE FROM company_scores WHERE date=?", (day,))
     cids = [r[0] for r in conn.execute(
         "SELECT company_id FROM company_daily WHERE date=?", (day,)).fetchall()]
     n_scored = n_mat = 0
     for cid in cids:
-        feats = company_features(conn, cid, day, ip, sev_prior, themes_tp)
+        feats = company_features(conn, cid, day, ip, sev_prior, themes_tp,
+                                 min_score)
         sc = score_company(feats, ip)
         conn.execute(
             """INSERT INTO company_scores (company_id, date, severity, outrage,
