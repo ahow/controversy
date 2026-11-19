@@ -23,6 +23,7 @@ from src.config import ROOT, params  # noqa: E402
 OUT = ROOT / "docs"
 MAX_QUEUE = 200
 MAX_ORPHANS = 40
+MAX_THEMES = 30
 
 
 def collect(db_path: Path) -> dict:
@@ -81,6 +82,45 @@ def collect(db_path: Path) -> dict:
     incidents = incident_rows()
     orphans = incident_rows("WHERE i.issue_id IS NULL", MAX_ORPHANS)
 
+    # Channel B: emergent themes rolled up from the orphan feed (indicative-only)
+    themes = []
+    if conn.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='themes'"
+            ).fetchone():
+        for r in conn.execute(
+                """
+                SELECT t.id, t.label, t.status, t.first_seen, t.last_seen,
+                       t.n_events, t.n_companies, t.escalation_score, t.thin,
+                       t.score_json, t.promoted_issue_id
+                FROM themes t
+                WHERE t.status != 'dead'
+                ORDER BY t.escalation_score DESC
+                LIMIT ?
+                """, (MAX_THEMES,)).fetchall():
+            sj = json.loads(r["score_json"] or "{}")
+            terms = sorted(sj.get("score_terms") or [],
+                           key=lambda x: -x["contribution"])[:3]
+            co = [row[0] for row in conn.execute(
+                """
+                SELECT c.name FROM theme_events te
+                JOIN incidents i ON i.event_uri = te.event_uri
+                JOIN companies c ON c.id = i.company_id
+                WHERE te.theme_id = ?
+                GROUP BY c.name ORDER BY COUNT(*) DESC LIMIT 4
+                """, (r["id"],)).fetchall()]
+            themes.append({
+                "id": r["id"], "label": r["label"], "status": r["status"],
+                "score": r["escalation_score"] or 0.0,
+                "thin": bool(r["thin"]),
+                "n_events": r["n_events"], "n_companies": r["n_companies"],
+                "days_alive": sj.get("days_alive") or 0,
+                "promoted": r["promoted_issue_id"],
+                "companies": co,
+                "top_terms": [{"feature": t["feature"],
+                               "contribution": t["contribution"]}
+                              for t in terms],
+            })
+
     companies = []
     latest = meta["data_date"]
     if latest and latest != "—":
@@ -118,6 +158,7 @@ def collect(db_path: Path) -> dict:
               for t in i["titles"][:1]][:12]
     conn.close()
     return {"meta": meta, "incidents": incidents, "orphans": orphans,
+            "themes": themes,
             "companies": companies, "trend": trend, "issues": issues,
             "ticker": ticker}
 
@@ -228,6 +269,20 @@ aside{display:flex;flex-direction:column;gap:20px}
 .orphan-item{padding:10px 16px;border-bottom:1px solid var(--line);font-family:var(--sans);font-size:12px}
 .orphan-item .oc{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.08em;margin-bottom:3px}
 .orphan-item .ot{color:var(--txt);line-height:1.45}
+.theme-item{padding:10px 16px;border-bottom:1px solid var(--line)}
+.theme-item .th-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.theme-item .th-label{font-family:var(--sans);font-size:12px;color:var(--txt);line-height:1.4}
+.theme-item .th-score{font-size:15px;font-weight:700;color:var(--cyan);font-variant-numeric:tabular-nums}
+.theme-item .th-score.thin{color:var(--dim);font-size:10px;letter-spacing:.12em}
+.theme-item .th-bar{height:3px;background:var(--panel2);border-radius:2px;margin:6px 0;overflow:hidden}
+.theme-item .th-bar i{display:block;height:100%;background:linear-gradient(90deg,#155e75,var(--cyan))}
+.theme-item .th-meta{display:flex;align-items:center;gap:8px;font-size:9px;color:var(--dim);letter-spacing:.06em}
+.theme-item .th-co{font-family:var(--sans);font-size:11px;color:var(--dim);margin-top:5px;line-height:1.4}
+.theme-item .th-terms{font-size:9px;color:var(--dim);margin-top:4px;letter-spacing:.04em}
+.pill.candidate{color:var(--dim)}
+.pill.emerging{color:var(--amber);border-color:var(--amber)}
+.pill.escalated{color:var(--red);border-color:var(--red)}
+.pill.promoted{color:var(--mint);border-color:var(--mint)}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 .table-wrap{overflow-x:auto}
 th{font-size:9px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;text-align:left;
@@ -308,8 +363,15 @@ __TICKER__
         <div class="chart" id="trend"></div>
       </section>
       <section class="panel" aria-label="Emerging themes">
-        <h2><span>EMERGING THEMES — UNCLASSIFIED</span></h2>
-        <div class="count-note">Orphan clusters: candidate new taxonomy categories. Threshold: 20/quarter.</div>
+        <h2><span>EMERGING THEMES — CHANNEL B</span><span id="theme-count"></span></h2>
+        <div class="count-note">Clusters formed from the orphan feed. Escalation scores are
+          INDICATIVE-only priors (uncalibrated until the replay produces labelled outcomes) —
+          they rank attention, never drive exclusion.</div>
+        <div id="themes"></div>
+      </section>
+      <section class="panel" aria-label="Orphan feed">
+        <h2><span>ORPHAN FEED — RAW</span></h2>
+        <div class="count-note">Ungrouped orphan incidents: candidate new taxonomy categories. Threshold: 20/quarter.</div>
         <div id="orphans"></div>
       </section>
     </aside>
@@ -335,7 +397,10 @@ __TICKER__
     median/MAD baseline of controversy-relevant coverage and stay inactive
     (<span class="thin">THIN</span>) until 30 days of history accumulate — silence before that is
     never treated as clean. State changes (WATCH → FLAGGED → EXCLUDED) are human decisions recorded
-    with full evidence chains; this dashboard is read-only. Parameter register v__PARAM_VERSION__
+    with full evidence chains; this dashboard is read-only. Channel B clusters orphan incidents
+    into emergent themes by shared concept signatures (top-8 concepts, generic concepts above 8%
+    document frequency excluded, ≥3 shared to merge); escalation scores are uncalibrated priors
+    until the replay harness yields labelled outcomes. Parameter register v__PARAM_VERSION__
     (config/parameters.yaml); thresholds: z_watch 2.0 / z_flag 3.0 / z_exclude 4.0.
     Sweep: newsapi.ai batched concept queries, 40-keyword server-side recall filter.
   </footer>
@@ -435,6 +500,25 @@ document.getElementById('issue-bars').innerHTML = D.issues.map(i => `
     <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Daily controversy-tagged articles">${inner}</svg>
     <div class="cap">${esc(t[0].date)} → ${esc(t[t.length-1].date)} · ARTICLES/DAY · BASELINE ACCUMULATING (30d)</div>`;
 })();
+
+/* --- themes board (Channel B) --- */
+document.getElementById('theme-count').textContent =
+  D.themes.length ? D.themes.length + ' LIVE' : '';
+document.getElementById('themes').innerHTML = D.themes.length ? D.themes.map(t => `
+  <div class="theme-item">
+    <div class="th-top">
+      <span class="th-label">${esc(t.label)}</span>
+      <span class="th-score ${t.thin ? 'thin' : ''}">${t.thin ? 'THIN' : t.score.toFixed(0)}</span>
+    </div>
+    <div class="th-bar"><i style="width:${Math.min(t.score, 100).toFixed(0)}%"></i></div>
+    <div class="th-meta">
+      <span class="pill ${esc(t.status)}">${esc(t.status.toUpperCase())}</span>
+      ${t.promoted ? `<span class="pill promoted">→ ${esc(t.promoted)}</span>` : ''}
+      <span>${t.n_events} EVT · ${t.n_companies} CO · ${t.days_alive}D</span>
+    </div>
+    ${t.companies.length ? `<div class="th-co">${esc(t.companies.join(' · '))}</div>` : ''}
+    ${t.top_terms.length ? `<div class="th-terms">DRIVERS: ${t.top_terms.map(x => esc(x.feature) + ' +' + x.contribution.toFixed(2)).join(' · ')}</div>` : ''}
+  </div>`).join('') : '<div class="empty">NO THEMES YET — ORPHAN FEED ACCUMULATING</div>';
 
 /* --- orphan feed --- */
 document.getElementById('orphans').innerHTML = D.orphans.length ? D.orphans.map(o => `

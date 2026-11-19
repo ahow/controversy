@@ -1,4 +1,4 @@
-# Parameter Register v0.1.0 (2026-11-18)
+# Parameter Register v0.2.0 (2026-11-19)
 
 Machine-readable source: `config/parameters.yaml`. This document carries the
 rationale; the YAML carries the values. They must never diverge.
@@ -49,6 +49,50 @@ is precisely what the system exists to see through.
 | daily sweep target | 100 tokens/day | ~50 batched queries + margin |
 | alert | 7-day avg > 150 | Investigate pagination blowups (mega-caps) |
 
+## Channel B: emergent themes (`themes:` block)
+| Param | Value | Rationale |
+|---|---|---|
+| top_k_concepts | 8 | Signature size; enough to characterise an event, small enough to discriminate. |
+| min_concept_score | 3 | Drops ER's low-confidence tail concepts. |
+| max_doc_freq | 0.08 | Concepts in >8% of orphan events are non-discriminative (day-1 evidence: "Artificial intelligence" 16.8%, "USD" 9.0% chained a 151-event mega-cluster). Grid-tested 2026-11-19 on real signatures: (0.15,2)→123-event blob; (0.05,3)→fragments coherent chains; (0.08,3)→19 coherent themes. |
+| merge_shared | 3 | Union-find merge threshold; 2 over-merges via one generic + one specific concept. |
+| assign_overlap | 2 | Looser threshold for attaching leftovers to an established theme — deliberate asymmetry: creation strict, attachment lenient. |
+| fixed-point loop | ≤10 iterations | Attach+merge repeated until no change; guarantees run-count independence (verified: run 2 is a no-op). |
+| snapshot_days | 3 | Features snapshotted at first_seen+2d for calibration — only information available at decision time. |
+| emerging_score | 40 | candidate → emerging status threshold (prior). |
+| dead_after_days | 7 | Theme with no new events for 7d → dead (kept for outcome labelling). |
+
+## Escalation outcome contract ("high profile")
+| Param | Value | Rationale |
+|---|---|---|
+| window_days | 7 | Rolling window — high-profile means sustained, not one-day spike. |
+| within_days | 90 | Escalation must begin within 90d of first_seen to count as predicted. |
+| min_articles | 100 | ~14/day sustained — clears routine coverage. |
+| min_sources | 25 | Independent outlets; kills single-source amplification. |
+
+## Escalation scorecard (weights are PRIORS until replay calibration)
+| Feature | Cap | Prior weight | Rationale |
+|---|---|---|---|
+| accel | 3× | 0.8 | Rising volume vs own recent average — the core "emerging" signal. |
+| spread_sources | 50 | 0.6 | Breadth of independent coverage. |
+| spread_langs | 5 | 0.7 | Cross-language spread ⇒ escaped local containment. |
+| authority | 3 | 0.7 | Tier-1 outlets (Reuters/AP/AFP/FT/WSJ/NYT/BBC/Guardian/Bloomberg/CNBC) confer agenda-setting. |
+| actors | 5 | 0.9 | Institutional actors (courts, regulators, prosecutors, NGOs) are the strongest escalation driver — highest prior. |
+| attach | 10 | 0.8 | Universe-company attachment — relevance to the portfolio. |
+| persist | 30 | 0.4 | Survival past the news cycle. |
+| intercept | — | −2.0 | Encodes low prior base rate of escalation. |
+
+Feature caps normalise to [0,1]; full decomposition persisted per theme in
+`themes.score_json`. Scores are INDICATIVE-only (rank attention; never drive
+exclusion). Calibration: L2 logistic regression on 72h snapshots vs the outcome
+contract above, rank-based AUC; insufficient_data guard (<10 themes or single
+class ⇒ priors stand). Promotion gate: status escalated OR score ≥60, ≥1 company
+attached, ≥7 days alive; human-only apply with taxonomy provenance.
+
 ## Changelog
+- v0.2.0 (2026-11-19): Channel B emergent-theme layer — theme signatures,
+  df-cut + fixed-point clustering, escalation features/scorecard (priors),
+  outcome contract, replay/calibration/promotion harness. All weights are
+  priors pending replay-produced labelled outcomes.
 - v0.1.0 (2026-11-18): initial register. All values are priors pending shadow-mode
   measurement and historical replay (Wirecard, Vale, Boohoo, Adani).

@@ -10,10 +10,43 @@ and on false-positive cost (foregone return on wrongly excluded names).
 - **Channel A — company incidents.** Articles on universe companies matched to the
   issue taxonomy (`config/taxonomy.yaml`); clustered into incidents via the API's
   native `eventUri` (one story amplified across 200 outlets is ONE incident).
-- **Channel B — theme exposure.** Theme registry (`config/themes.yaml`) monitored
-  in aggregate; a theme salience spike flags holdings with exposure ≥ trigger even
-  with zero company-specific coverage. Exposure scores are placeholders until
-  segment/supply-chain data is wired in.
+- **Channel B — emergent themes.** Orphan incidents (no taxonomy issue match) are
+  clustered into themes by shared concept signatures: top-8 ER concepts per event
+  (weight = max article score; universe-company concepts excluded — attachment is
+  tracked separately, not treated as theme content); concepts appearing in >8% of
+  orphan events are dropped at comparison time as non-discriminative (cached
+  signatures stay unfiltered for audit). Events sharing ≥3 concepts merge via
+  union-find; leftover events attach to live themes at ≥2 overlap inside a bounded
+  (10-iteration) fixed-point loop, so the result is deterministic and independent
+  of run count. Lone events stay in the raw orphan feed.
+
+## Escalation scoring (Channel B, INDICATIVE-only)
+Objective: flag which already-surfaced emergent issues are on a trajectory to
+become high-profile, early enough to act. News cannot predict incidents; it can
+predict salience trajectory — that is the honest reframe this layer implements.
+- Seven features, each normalised to [0,1] by documented caps: acceleration
+  (articles/day vs prior-day average, capped 3×), source spread (cumulative, 50),
+  language spread (5), authority (tier-1 outlets, 3), institutional actors
+  (court/regulator/NGO pattern hits on concept labels, 5), company attachment
+  (10), persistence (days alive, 30). THIN flag until a theme has prior-day
+  history — acceleration is then undefined and never imputed.
+- Score = sigmoid(intercept + Σ wᵢfᵢ) × 100; the full decomposition (feature
+  values, weights, contributions) is persisted in `themes.score_json` for audit.
+- Weights are PRIORS until calibrated: `scripts/replay_themes.py` replays the
+  archive day-by-day through the same production roll-up (checkpointed, budget
+  capped), then `scripts/calibrate_scorecard.py` labels outcomes and fits an
+  L2 logistic regression (standardised features, deterministic zero-init) with
+  rank-based AUC. The fitted proposal is written to `data/scorecard_proposal.json`
+  — merging into `parameters.yaml` is a human decision with a version bump.
+  <10 labelled themes or a single class ⇒ insufficient_data, priors stand.
+- Outcome contract ("high profile"): a rolling 7-day window starting within
+  90 days of first_seen containing ≥100 articles AND ≥25 distinct sources,
+  computed from exact per-article rows — never from aggregates.
+- Scores rank attention only; they never drive exclusion. Themes that repeatedly
+  escalate AND attach to universe companies become taxonomy-promotion candidates
+  (`scripts/promote_themes.py`; gate: status escalated OR score ≥60, ≥1 company,
+  ≥7 days alive). Promotion is human-only (`--apply`) and appends to
+  `taxonomy.yaml` with provenance (source theme, date, evidence).
 
 ## Two layers — never summed
 - **Confirmed layer**: hard triggers only (regulator action, litigation filed,
