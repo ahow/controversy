@@ -137,7 +137,18 @@ Calibration path: `scripts/fetch_prices.py` (FMP EOD, company + benchmark) →
 tier falls back to S2 for ungraded shadow-mode incidents) →
 `data/materiality_proposal.json` → human merge with version bump.
 
+## Subject-salience gate (`attach:` block) — v0.4.0
+| Param | Value | Rationale |
+|---|---|---|
+| min_concept_score | 4 | Minimum Event Registry concept salience for a company-article link to enter the precision layer (incidents, daily counts, impact scores). Title mention overrides. Evidence (2026-11-18 corpus, 6,004 links): score<=2 without title mention is ~100% bystander noise; confirmed incidents whose best link scores 3 are ~98% noise; every verified true-subject incident scores 5 (Deutsche Bank submarine leak: 42/42 articles). Raw links are never deleted — the recall layer stays complete and the threshold can be flexed without re-fetching. Known recall risk: real stories whose best link scores 3 with no title mention are dropped (one observed: CN derailment); the LLM subject/bystander pass is the proper fix for the residual (person-name collisions like 'Pat Cummins' cricket vs Cummins Inc.). |
+
 ## Changelog
+- v0.4.0 (2026-11-20): subject-salience gate (`attach:` block) between the
+  recall layer (all company-article links, kept raw with score/title_match
+  evidence) and the precision layer (incidents, daily counts, impact scores).
+  Fixes cross-company pollution (e.g. Nvidia Jensen Huang stories attaching
+  to Tesla at concept score 1-2). Incidents/daily/scores rebuild is now full
+  per-day rebuild so tightening the filter never leaves stale rows.
 - v0.3.0 (2026-11-20): company impact scores — SEVERITY (size-adjusted
   substance), OUTRAGE (raw visibility × moral charge), MATERIALITY (expected
   CAR × escalation proxy; UNCAL until event-study calibration). Event-study

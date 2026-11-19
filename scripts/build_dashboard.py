@@ -39,7 +39,15 @@ def collect(db_path: Path) -> dict:
         "param_version": params()["version"],
         "n_universe": q1("SELECT COUNT(*) FROM companies"),
         "n_mapped": q1("SELECT COUNT(*) FROM companies WHERE map_status='auto_mapped'"),
-        "n_companies_seen": q1("SELECT COUNT(DISTINCT company_id) FROM article_companies"),
+        "n_companies_seen": q1(
+            "SELECT COUNT(*) FROM company_daily "
+            "WHERE date=(SELECT MAX(date) FROM articles)"),
+        "n_links_dropped": q1(
+            "SELECT COUNT(*) FROM article_companies ac WHERE NOT "
+            "(COALESCE(ac.score,0) >= ? OR COALESCE(ac.title_match,0) = 1)",
+            (params().get("attach", {}).get("min_concept_score", 4),))
+        if any(c[1] == "score" for c in conn.execute(
+            "PRAGMA table_info(article_companies)")) else 0,
         "n_articles": q1("SELECT COUNT(*) FROM articles"),
         "n_incidents": q1("SELECT COUNT(*) FROM incidents"),
         "n_confirmed": q1("SELECT COUNT(*) FROM incidents WHERE layer='confirmed'"),
@@ -153,6 +161,61 @@ def collect(db_path: Path) -> dict:
                 "mat": r["materiality_bps"] if has_scores else None,
                 "score_thin": bool(r["score_thin"]) if has_scores else False,
             })
+
+        # --- per-company drill-down: incidents + evidence + decomposition ---
+        # Incidents are already subject-filtered at build (v0.4.0 salience
+        # gate); each carries up to 5 clickable evidence links.
+        inc_by_co: dict[int, list] = {}
+        for r in conn.execute(
+                """
+                SELECT i.company_id, i.issue_id, i.layer, i.n_articles,
+                       i.n_sources, i.first_seen, i.last_seen, i.raw_json
+                FROM incidents i
+                ORDER BY i.company_id,
+                         CASE i.layer WHEN 'confirmed' THEN 0 ELSE 1 END,
+                         i.n_sources DESC, i.n_articles DESC
+                """).fetchall():
+            cid = r["company_id"]
+            if len(inc_by_co.setdefault(cid, [])) >= 15:
+                continue
+            raw = json.loads(r["raw_json"] or "{}")
+            links = []
+            for au in (raw.get("article_uris") or [])[:5]:
+                u = conn.execute(
+                    "SELECT url, title, source FROM articles WHERE uri=?",
+                    (au,)).fetchone()
+                if u:
+                    links.append({"url": u["url"], "title": u["title"],
+                                  "source": u["source"]})
+            inc_by_co[cid].append({
+                "issue": r["issue_id"], "layer": r["layer"],
+                "n_articles": r["n_articles"], "n_sources": r["n_sources"],
+                "first_seen": r["first_seen"], "last_seen": r["last_seen"],
+                "triggers": raw.get("confirmed_triggers") or [],
+                "links": links,
+            })
+        decomp = {}
+        if has_scores:
+            for r in conn.execute(
+                    "SELECT company_id, scores_json FROM company_scores "
+                    "WHERE date=?", (latest,)).fetchall():
+                sj = json.loads(r["scores_json"] or "{}")
+                dec = {}
+                for k in ("severity", "outrage", "materiality"):
+                    blk = sj.get(k) or {}
+                    if k == "materiality":
+                        dec[k] = {"status": blk.get("status")}
+                    else:
+                        dec[k] = {"intercept": blk.get("intercept"),
+                                  "terms": blk.get("terms") or []}
+                decomp[r["company_id"]] = {
+                    "scores": dec,
+                    "triggers": sj.get("triggers") or [],
+                    "issues": sj.get("issues") or [],
+                }
+        for co in companies:
+            co["inc"] = inc_by_co.get(co["id"], [])
+            co["dec"] = decomp.get(co["id"])
 
     trend = [{"date": r["date"], "articles": r["n"], "incidents": r["i"]}
              for r in conn.execute(
@@ -313,6 +376,22 @@ td.num,th.num{text-align:right}
 .thin{color:var(--dim);font-size:9px;letter-spacing:.1em}
 .score-high{color:var(--red);font-weight:700}
 .score-mid{color:var(--amber);font-weight:600}
+tbody tr.co-row{cursor:pointer}
+tbody tr.co-row:hover td{border-bottom-color:var(--cyan)}
+tr.co-detail>td{background:var(--panel2);padding:14px 18px;border-bottom:1px solid var(--line)}
+.dec{display:flex;gap:22px;flex-wrap:wrap;font-size:10px;color:var(--dim);
+  letter-spacing:.06em;margin-bottom:10px}
+.dec b{color:var(--txt);letter-spacing:.12em}
+.dec .dz{color:var(--cyan)}
+.co-inc{border-left:2px solid var(--line);padding:8px 12px;margin:8px 0}
+.co-inc.confirmed{border-left-color:var(--red)}
+.co-inc.indicative{border-left-color:var(--amber)}
+.co-inc.orphan{border-left-color:#3a4a6b}
+.co-inc ul{list-style:none;margin-top:6px}
+.co-inc li{margin-bottom:4px;font-family:var(--sans);font-size:12px;line-height:1.5}
+.co-inc a{color:var(--cyan);text-decoration:none}
+.co-inc a:hover{text-decoration:underline}
+.co-inc .src{color:var(--dim);font-size:10px;font-family:var(--mono)}
 footer{margin-top:20px;padding:16px;border:1px solid var(--line);background:var(--panel);
   color:var(--dim);font-size:10px;line-height:1.8;letter-spacing:.04em}
 footer b{color:var(--txt);letter-spacing:.14em}
@@ -352,6 +431,23 @@ __TICKER__
     <div class="kpi crit"><div class="v">__N_CONFIRMED__</div><div class="l">Confirmed layer</div></div>
     <div class="kpi warn"><div class="v">__N_ORPHANS__</div><div class="l">Orphans (taxonomy feed)</div></div>
   </section>
+  <section class="panel" style="margin-bottom:20px" aria-label="Company coverage">
+    <h2><span>COMPANY COVERAGE — LATEST DAY</span><span id="co-count"></span></h2>
+    <div class="count-note">Click a company row for its incidents (with evidence links)
+      and score decomposition. Scores are three separate axes — never summed.</div>
+    <div class="table-wrap">
+    <table id="co-table">
+      <thead><tr>
+        <th data-k="name">COMPANY</th><th data-k="sector">SECTOR</th>
+        <th data-k="country">CTRY</th><th data-k="n_articles" class="num sorted">ARTICLES</th>
+        <th data-k="n_sources" class="num">SOURCES</th><th data-k="n_incidents" class="num">INCIDENTS</th>
+        <th data-k="z" class="num">Z</th><th data-k="sev" class="num">SEV</th>
+        <th data-k="out" class="num">OUTRAGE</th><th data-k="mat" class="num">MAT bps</th><th data-k="state">STATE</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+    </div>
+  </section>
   <div class="grid">
     <section class="panel" aria-label="Review queue">
       <h2><span>REVIEW QUEUE</span><span id="queue-count"></span></h2>
@@ -390,25 +486,14 @@ __TICKER__
       </section>
     </aside>
   </div>
-  <section class="panel" style="margin-top:20px" aria-label="Company coverage">
-    <h2><span>COMPANY COVERAGE — LATEST DAY</span><span id="co-count"></span></h2>
-    <div class="table-wrap">
-    <table id="co-table">
-      <thead><tr>
-        <th data-k="name">COMPANY</th><th data-k="sector">SECTOR</th>
-        <th data-k="country">CTRY</th><th data-k="n_articles" class="num sorted">ARTICLES</th>
-        <th data-k="n_sources" class="num">SOURCES</th><th data-k="n_incidents" class="num">INCIDENTS</th>
-        <th data-k="z" class="num">Z</th><th data-k="sev" class="num">SEV</th>
-        <th data-k="out" class="num">OUTRAGE</th><th data-k="mat" class="num">MAT bps</th><th data-k="state">STATE</th>
-      </tr></thead>
-      <tbody></tbody>
-    </table>
-    </div>
-  </section>
   <footer>
     <b>METHODOLOGY.</b> Two signal layers, never summed: <b>confirmed</b> (hard triggers — regulator
     action, litigation filed, company acknowledgment, credible NGO campaign) and <b>indicative</b>
-    (media salience composite). Salience z-scores are computed per company against its own 90-day
+    (media salience composite). Company–article links enter the incident layer only when the
+    company's Event Registry concept salience score is ≥ 4 or the company is named in the
+    article title — passing mentions (bystanders) stay in the raw recall layer
+    (__N_DROPPED__ low-salience links currently held back) and form no incidents. Salience
+    z-scores are computed per company against its own 90-day
     median/MAD baseline of controversy-relevant coverage and stay inactive
     (<span class="thin">THIN</span>) until 30 days of history accumulate — silence before that is
     never treated as clean. State changes (WATCH → FLAGGED → EXCLUDED) are human decisions recorded
@@ -549,6 +634,45 @@ document.getElementById('orphans').innerHTML = D.orphans.length ? D.orphans.map(
 
 /* --- company table --- */
 let sortK = 'n_articles', sortDir = -1;
+
+function termLine(label, blk){
+  if (!blk || !blk.terms) return '';
+  const terms = blk.terms.filter(t => t.contribution).sort((a, b) => b.contribution - a.contribution)
+    .map(t => `${esc(t.feature)} ${t.contribution >= 0 ? '+' : ''}${t.contribution.toFixed(2)}`);
+  return `<span><b>${label}</b> intercept ${blk.intercept} · ${terms_join(terms)}</span>`;
+}
+function terms_join(t){ return t.length ? t.join(' · ') : 'no active terms'; }
+
+function coDetail(c){
+  const d = c.dec;
+  let decHtml = '';
+  if (d && d.scores){
+    const mat = d.scores.materiality;
+    decHtml = `<div class="dec">
+      ${termLine('SEV', d.scores.severity)}
+      ${termLine('OUTRAGE', d.scores.outrage)}
+      <span><b>MAT</b> ${mat && mat.status === 'uncalibrated'
+        ? 'UNCAL — no event-study CAR table yet'
+        : esc((mat && mat.status) || '—')}</span>
+    </div>`;
+  }
+  if (!c.inc || !c.inc.length)
+    return decHtml + '<div class="thin">NO SUBJECT INCIDENTS ON RECORD</div>';
+  const incHtml = c.inc.map(i => {
+    const layer = i.issue ? i.layer : 'orphan';
+    return `<div class="co-inc ${layer}">
+      <div class="i-tags">
+        <span class="pill ${layer}">${layer.toUpperCase()}</span>
+        ${i.issue ? `<span class="pill issue">${esc(i.issue)}</span>` : '<span class="pill">UNCLASSIFIED</span>'}
+        ${i.triggers.map(t => `<span class="pill">${esc(t.replace(/_/g,' '))}</span>`).join('')}
+        <span class="i-meta">${i.n_articles} ART · ${i.n_sources} SRC · ${esc(i.first_seen)}${i.last_seen !== i.first_seen ? ' → ' + esc(i.last_seen) : ''}</span>
+      </div>
+      <ul>${i.links.map(l => `<li><a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.title)}</a> <span class="src">${esc(l.source || '')}</span></li>`).join('')}</ul>
+    </div>`;
+  }).join('');
+  return decHtml + incHtml;
+}
+
 function renderTable(){
   const rows = [...D.companies].sort((a, b) => {
     const x = a[sortK], y = b[sortK];
@@ -556,7 +680,7 @@ function renderTable(){
   });
   document.getElementById('co-count').textContent = rows.length + ' COMPANIES';
   document.querySelector('#co-table tbody').innerHTML = rows.map(c => `
-    <tr>
+    <tr class="co-row" tabindex="0" aria-expanded="false">
       <td>${esc(c.name)}</td><td>${esc(c.sector || '')}</td><td>${esc(c.country || '')}</td>
       <td class="num">${c.n_articles}</td><td class="num">${c.n_sources}</td>
       <td class="num">${c.n_incidents}</td>
@@ -565,10 +689,27 @@ function renderTable(){
       <td class="num">${c.out == null ? '—' : `<span class="${c.out >= 60 ? 'score-high' : c.out >= 40 ? 'score-mid' : ''}">${c.out.toFixed(0)}</span>`}</td>
       <td class="num" title="${c.mat == null ? 'uncalibrated — no event-study CAR table yet' : 'expected CAR bps'}">${c.mat == null ? '<span class="thin">UNCAL</span>' : c.mat.toFixed(0)}</td>
       <td><span class="state state-${esc(c.state)}">${esc(c.state)}</span></td>
-    </tr>`).join('');
+    </tr>
+    <tr class="co-detail" style="display:none"><td colspan="11">${coDetail(c)}</td></tr>`).join('');
   document.querySelectorAll('#co-table th').forEach(th =>
     th.classList.toggle('sorted', th.dataset.k === sortK));
 }
+function toggleCoRow(tr){
+  const d = tr.nextElementSibling;
+  if (!d || !d.classList.contains('co-detail')) return;
+  const open = d.style.display === 'none';
+  d.style.display = open ? '' : 'none';
+  tr.setAttribute('aria-expanded', open);
+}
+document.querySelector('#co-table tbody').addEventListener('click', e => {
+  const tr = e.target.closest('tr.co-row');
+  if (tr && !e.target.closest('a')) toggleCoRow(tr);
+});
+document.querySelector('#co-table tbody').addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('co-row')){
+    e.preventDefault(); toggleCoRow(e.target);
+  }
+});
 document.querySelectorAll('#co-table th').forEach(th => th.addEventListener('click', () => {
   const k = th.dataset.k;
   if (sortK === k) sortDir *= -1; else { sortK = k; sortDir = -1; }
@@ -593,6 +734,7 @@ def render(data: dict) -> str:
     html = html.replace("__N_INCIDENTS__", str(m["n_incidents"]))
     html = html.replace("__N_CONFIRMED__", str(m["n_confirmed"]))
     html = html.replace("__N_ORPHANS__", str(m["n_orphans"]))
+    html = html.replace("__N_DROPPED__", str(m.get("n_links_dropped", 0)))
     html = html.replace("__PARAM_VERSION__", m["param_version"])
     if data["ticker"]:
         import html as _h

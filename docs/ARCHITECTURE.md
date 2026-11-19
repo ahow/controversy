@@ -7,6 +7,17 @@ This is NOT an alpha signal; it is judged on lead time vs. commercial providers
 and on false-positive cost (foregone return on wrongly excluded names).
 
 ## Signal channels
+- **Subject-salience gate (v0.4.0).** Every company-article link is stored raw
+  in `article_companies` with its ER concept salience score and a title-match
+  flag (the recall layer). Only links scoring >= `attach.min_concept_score` (4)
+  or naming the company in the title form incidents, daily counts and impact
+  scores (the precision layer). Rationale: ER's low scores (1-2) are passing
+  mentions — in the day-1 corpus they were ~100% bystander noise (e.g. Nvidia
+  scandal stories attaching to Tesla) — while verified true-subject incidents
+  score 5 throughout. Residual known gap: person-name collisions (a cricketer
+  named Cummins) pass the title match; the LLM subject/bystander pass handles
+  those. Incidents/daily/scores are full per-day rebuilds, so tightening the
+  threshold never leaves stale rows.
 - **Channel A — company incidents.** Articles on universe companies matched to the
   issue taxonomy (`config/taxonomy.yaml`); clustered into incidents via the API's
   native `eventUri` (one story amplified across 200 outlets is ONE incident).
