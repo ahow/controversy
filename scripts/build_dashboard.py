@@ -123,15 +123,23 @@ def collect(db_path: Path) -> dict:
 
     companies = []
     latest = meta["data_date"]
+    has_scores = conn.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' "
+        "AND name='company_scores'").fetchone()
     if latest and latest != "—":
+        score_join = ("LEFT JOIN company_scores sc ON sc.company_id = c.id "
+                      "AND sc.date = d.date") if has_scores else ""
+        score_cols = ("sc.severity, sc.outrage, sc.materiality_bps,"
+                      " sc.thin AS score_thin") if has_scores else "NULL, NULL, NULL, NULL"
         for r in conn.execute(
-                """
+                f"""
                 SELECT c.id, c.name, c.sector, c.country, d.n_articles, d.n_sources,
                        d.n_incidents, d.z, d.thin_data,
-                       COALESCE(s.state, 'NORMAL') AS state
+                       COALESCE(s.state, 'NORMAL') AS state, {score_cols}
                 FROM company_daily d
                 JOIN companies c ON c.id = d.company_id
                 LEFT JOIN states s ON s.company_id = c.id
+                {score_join}
                 WHERE d.date = ?
                 ORDER BY d.n_articles DESC
                 """, (latest,)).fetchall():
@@ -140,6 +148,10 @@ def collect(db_path: Path) -> dict:
                 "country": r["country"], "n_articles": r["n_articles"],
                 "n_sources": r["n_sources"], "n_incidents": r["n_incidents"],
                 "z": r["z"], "thin": bool(r["thin_data"]), "state": r["state"],
+                "sev": r["severity"] if has_scores else None,
+                "out": r["outrage"] if has_scores else None,
+                "mat": r["materiality_bps"] if has_scores else None,
+                "score_thin": bool(r["score_thin"]) if has_scores else False,
             })
 
     trend = [{"date": r["date"], "articles": r["n"], "incidents": r["i"]}
@@ -299,6 +311,8 @@ td.num,th.num{text-align:right}
 .state-FLAGGED,.state-WATCH{border-color:var(--amber);color:var(--amber)}
 .state-EXCLUDED{border-color:var(--red);color:var(--red)}
 .thin{color:var(--dim);font-size:9px;letter-spacing:.1em}
+.score-high{color:var(--red);font-weight:700}
+.score-mid{color:var(--amber);font-weight:600}
 footer{margin-top:20px;padding:16px;border:1px solid var(--line);background:var(--panel);
   color:var(--dim);font-size:10px;line-height:1.8;letter-spacing:.04em}
 footer b{color:var(--txt);letter-spacing:.14em}
@@ -384,7 +398,8 @@ __TICKER__
         <th data-k="name">COMPANY</th><th data-k="sector">SECTOR</th>
         <th data-k="country">CTRY</th><th data-k="n_articles" class="num sorted">ARTICLES</th>
         <th data-k="n_sources" class="num">SOURCES</th><th data-k="n_incidents" class="num">INCIDENTS</th>
-        <th data-k="z" class="num">Z</th><th data-k="state">STATE</th>
+        <th data-k="z" class="num">Z</th><th data-k="sev" class="num">SEV</th>
+        <th data-k="out" class="num">OUTRAGE</th><th data-k="mat" class="num">MAT bps</th><th data-k="state">STATE</th>
       </tr></thead>
       <tbody></tbody>
     </table>
@@ -400,7 +415,12 @@ __TICKER__
     with full evidence chains; this dashboard is read-only. Channel B clusters orphan incidents
     into emergent themes by shared concept signatures (top-8 concepts, generic concepts above 8%
     document frequency excluded, ≥3 shared to merge); escalation scores are uncalibrated priors
-    until the replay harness yields labelled outcomes. Parameter register v__PARAM_VERSION__
+    until the replay harness yields labelled outcomes. Company impact is scored on three
+    separate axes that are NEVER summed: <b>SEV</b> (issue substance, size-adjusted via the
+    company's own baseline — raw volume is never an input), <b>OUTRAGE</b> (raw visibility ×
+    moral charge of the issue — the sustainable-fund headline risk), and <b>MAT</b> (expected
+    share-price response in CAR bps; shown as UNCAL until the FMP event-study calibration
+    produces an evidence table — never zero-filled). Parameter register v__PARAM_VERSION__
     (config/parameters.yaml); thresholds: z_watch 2.0 / z_flag 3.0 / z_exclude 4.0.
     Sweep: newsapi.ai batched concept queries, 40-keyword server-side recall filter.
   </footer>
@@ -541,6 +561,9 @@ function renderTable(){
       <td class="num">${c.n_articles}</td><td class="num">${c.n_sources}</td>
       <td class="num">${c.n_incidents}</td>
       <td class="num">${c.thin ? '<span class="thin">THIN</span>' : (c.z == null ? '—' : c.z.toFixed(2))}</td>
+      <td class="num">${c.sev == null ? '—' : `<span class="${c.sev >= 60 ? 'score-high' : c.sev >= 40 ? 'score-mid' : ''}">${c.sev.toFixed(0)}</span>${c.score_thin ? '<span class="thin">*</span>' : ''}`}</td>
+      <td class="num">${c.out == null ? '—' : `<span class="${c.out >= 60 ? 'score-high' : c.out >= 40 ? 'score-mid' : ''}">${c.out.toFixed(0)}</span>`}</td>
+      <td class="num" title="${c.mat == null ? 'uncalibrated — no event-study CAR table yet' : 'expected CAR bps'}">${c.mat == null ? '<span class="thin">UNCAL</span>' : c.mat.toFixed(0)}</td>
       <td><span class="state state-${esc(c.state)}">${esc(c.state)}</span></td>
     </tr>`).join('');
   document.querySelectorAll('#co-table th').forEach(th =>
