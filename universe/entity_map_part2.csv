@@ -1,0 +1,782 @@
+row,issuer_name,ticker,isin,country,gics_sector,map_status,concept_uri
+781,AT&T INC.,T,US00206R1023,US,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/AT&T
+782,ABBOTT LABORATORIES,ABT,US0028241000,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Abbott_Laboratories
+783,Abu Dhabi Commercial Bank PJSC,ADCB,AEA000201011,AE,Financials,auto_mapped,http://en.wikipedia.org/wiki/Abu_Dhabi_Commercial_Bank
+784,Abu Dhabi Islamic Bank PJSC,ADIB,AEA000801018,AE,Financials,auto_mapped,http://en.wikipedia.org/wiki/Abu_Dhabi_Islamic_Bank
+785,Addtech AB,ADDT B,SE0014781795,SE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Addtech
+786,ADMIRAL GROUP PLC,ADM,GB00B02J6398,GB,Financials,needs_review,
+787,ADVANCED INFO SERVICE PUBLIC COMPANY LIMITED,ADVANC,TH0268010Z03,TH,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Advanced_Info_Service
+788,"ADVANTECH Co., Ltd.",2395,TW0002395001,TW,Information Technology,auto_mapped,http://ja.wikipedia.org/wiki/Advantech
+789,"AEON CO.,LTD.",8267,JP3388200002,JP,Consumer Staples,auto_mapped,http://ru.wikipedia.org/wiki/Корпорация_AEON
+790,AerCap Holdings N.V.,AER,NL0000687663,IE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/AerCap
+791,AEROPORTS DE PARIS SA,ADP,FR0010340141,FR,Industrials,needs_review,
+792,AIR ARABIA PJSC,AIRARABIA,AEA003001012,AE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Air_Arabia
+793,"AIR PRODUCTS AND CHEMICALS, INC.",APD,US0091581068,US,Materials,unmapped,
+794,"Ajinomoto Co., Inc.",2802,JP3119600009,JP,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Ajinomoto
+795,Akzo Nobel N.V.,AKZA,NL0013267909,NL,Materials,auto_mapped,http://en.wikipedia.org/wiki/AkzoNobel
+796,Alfa Laval AB,ALFA,SE0000695876,SE,Industrials,needs_review,
+797,"Sigma Foods, S.A.B. de C.V.",SIGMAFA,MXP000511016,MX,Consumer Staples,unmapped,
+798,ALIMENTATION COUCHE-TARD INC.,ATD,CA01626P1484,CA,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Alimentation_Couche-Tard
+799,Allianz SE,ALV,DE0008404005,DE,Financials,auto_mapped,http://en.wikipedia.org/wiki/Allianz
+800,THE ALLSTATE CORPORATION,ALL,US0200021014,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Allstate
+801,Almarai Company SJSC,2280,SA000A0ETHT1,SA,Consumer Staples,unmapped,
+802,"ALNYLAM PHARMACEUTICALS, INC.",ALNY,US02043Q1076,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Alnylam_Pharmaceuticals
+803,"Altria Group, Inc.",MO,US02209S1033,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Altria
+804,"AMAZON.COM, INC.",AMZN,US0231351067,US,Consumer Discretionary,needs_review,
+805,AMBUJA CEMENTS LIMITED,AMBUJACEM,INE079A01024,IN,Materials,auto_mapped,http://en.wikipedia.org/wiki/Ambuja_Cements
+806,AMEREN CORPORATION,AEE,US0236081024,US,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Ameren
+807,"America Movil, S.A.B. de C.V.",AMXB,MX01AM050019,MX,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/América_Móvil
+808,AMERICAN EXPRESS COMPANY,AXP,US0258161092,US,Financials,needs_review,
+809,"AMERICAN INTERNATIONAL GROUP, INC.",AIG,US0268747849,US,Financials,needs_review,
+810,AMERICAN TOWER CORPORATION,AMT,US03027X1000,US,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/American_Tower_Corporation
+811,"AMERIPRISE FINANCIAL, INC.",AMP,US03076C1062,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Ameriprise_Financial
+812,AMOREPACIFIC CORPORATION,90430,KR7090430000,KR,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Amorepacific_Corporation
+813,"ANALOG DEVICES, INC.",ADI,US0326541051,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Analog_Devices
+814,ANHUI GUJING DISTILLERY COMPANY LIMITED,596,CNE000000MD5,CN,Consumer Staples,unmapped,
+815,ANTOFAGASTA PLC,ANTO,GB0000456144,GB,Materials,auto_mapped,http://en.wikipedia.org/wiki/Antofagasta_PLC
+816,APOLLO HOSPITALS ENTERPRISE LIMITED,APOLLOHOSP,INE437A01024,IN,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Apollo_Hospitals
+817,APPLE INC.,AAPL,US0378331005,US,Information Technology,needs_review,
+818,Arab National Bank SJSC,1080,SA0007879105,SA,Financials,unmapped,
+819,ArcelorMittal SA,ARMT34,LU1598757687,LU,Materials,auto_mapped,http://en.wikipedia.org/wiki/ArcelorMittal
+820,GE VERNOVA T&D INDIA LIMITED,GVT&D,INE200A01026,IN,Industrials,needs_review,
+821,AGC Inc.,5201,JP3112000009,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/AGC_Inc.
+822,CapitaLand Ascendas REIT,A17U,SG1M77906915,SG,Real Estate,unmapped,
+823,ASIAN PAINTS LIMITED,ASIANPAINT,INE021A01026,IN,Materials,auto_mapped,http://en.wikipedia.org/wiki/Asian_Paints
+824,ASSECO POLAND SPOLKA AKCYJNA,ACP,PLSOFTB00016,PL,Information Technology,unmapped,
+825,Astellas Pharma Inc.,4503,JP3942400007,JP,Health Care,auto_mapped,http://de.wikipedia.org/wiki/Astellas_Pharma
+826,PT Astra International Tbk,ASII,ID1000122807,ID,Industrials,unmapped,
+827,ASTRAZENECA PLC,AZN,GB0009895292,GB,Health Care,auto_mapped,http://en.wikipedia.org/wiki/AstraZeneca
+828,Atlas Copco Aktiebolag,ATCO A,SE0017486889,SE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Atlas_Copco
+829,ATMOS ENERGY CORPORATION,ATO,US0495601058,US,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Atmos_Energy
+830,AUCKLAND INTERNATIONAL AIRPORT LIMITED,AIA,NZAIAE0002S6,NZ,Industrials,unmapped,
+831,AUROBINDO PHARMA LTD,AUROPHARMA,INE406A01037,IN,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Aurobindo_Pharma
+832,"AUTODESK, INC.",ADSK,US0527691069,US,Information Technology,needs_review,
+833,AVIVA PLC,AV.,GB00BPQY8M80,GB,Financials,needs_review,
+834,BASF SE,BAS,DE000BASF111,DE,Materials,auto_mapped,http://ja.wikipedia.org/wiki/BASFジャパン
+835,Truist Financial Corporation,TFC,US89832Q1094,US,Financials,unmapped,
+836,BE Semiconductor Industries N.V.,BESI,NL0012866412,NL,Information Technology,unmapped,
+837,BHP GROUP LIMITED,BHP,AU000000BHP4,AU,Materials,auto_mapped,http://en.wikipedia.org/wiki/BHP
+838,"BOE Technology Group Co., Ltd.",725,CNE0000016L5,CN,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/BOE_Technology
+839,MBANK SPOLKA AKCYJNA,MBK,PLBRE0000012,PL,Financials,auto_mapped,http://en.wikipedia.org/wiki/MBank
+840,BRIDGESTONE CORPORATION,5108,JP3830800003,JP,Consumer Discretionary,needs_review,
+841,BYD COMPANY LIMITED,2594,CNE100001526,CN,Consumer Discretionary,needs_review,
+842,BAJAJ HOLDINGS & INVESTMENT LIMITED.,BAJAJHLDNG,INE118A01012,IN,Financials,unmapped,
+843,BANCA MONTE DEI PASCHI DI SIENA S.P.A.,BMPS,IT0005508921,IT,Financials,unmapped,
+844,"Banco Bilbao Vizcaya Argentaria, S.A.",BBVA,ES0113211835,ES,Financials,needs_review,
+845,Banco Bradesco S.A.,BBDC3,BRBBDCACNOR1,BR,Financials,auto_mapped,http://en.wikipedia.org/wiki/Banco_Bradesco
+846,"Banco Comercial Portugues, S.A.",BCP,PTBCP0AM0015,PT,Financials,unmapped,
+847,"Banco Santander, S.A.",SAN,ES0113900J37,ES,Financials,needs_review,
+848,Banco de Chile,CHILE,CLP0939W1081,CL,Financials,auto_mapped,http://en.wikipedia.org/wiki/Banco_de_Chile
+849,"Banco de Sabadell, S.A.",SAB,ES0113860A34,ES,Financials,unmapped,
+850,Banco do Brasil S.A,BBAS3,BRBBASACNOR3,BR,Financials,auto_mapped,http://en.wikipedia.org/wiki/Banco_do_Brasil
+851,BANK HAPOALIM B.M.,POLI,IL0006625771,IL,Financials,auto_mapped,http://en.wikipedia.org/wiki/Bank_Hapoalim
+852,BANK MILLENNIUM SPOLKA AKCYJNA,MIL,PLBIG0000016,PL,Financials,auto_mapped,http://en.wikipedia.org/wiki/Bank_Millennium
+853,PT Bank Negara Indonesia (Persero) Tbk,BBNI,ID1000096605,ID,Financials,unmapped,
+854,"BANK OF NANJING CO., LTD.",601009,CNE100000627,CN,Financials,unmapped,
+855,BANK OF THE PHILIPPINE ISLANDS,BPI,PHY0967S1694,PH,Financials,auto_mapped,http://en.wikipedia.org/wiki/Bank_of_the_Philippine_Islands
+856,BANK POLSKA KASA OPIEKI - SPOLKA AKCYJNA,PEO,PLPEKAO00016,PL,Financials,auto_mapped,http://en.wikipedia.org/wiki/Bank_Polska_Kasa_Opieki
+857,ERSTE BANK POLSKA SPOLKA AKCYJNA,EBP,PLBZ00000044,PL,Financials,unmapped,
+858,"Bank of Beijing Co., Ltd.",601169,CNE100000734,CN,Financials,auto_mapped,http://en.wikipedia.org/wiki/Bank_of_Beijing
+859,BANK OF MONTREAL,BMO,CA0636711016,CA,Financials,auto_mapped,http://en.wikipedia.org/wiki/Bank_of_Montreal
+860,The Bank of New York Mellon Corporation,BK,US0640581007,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/The_Bank_of_New_York_Mellon
+861,"Bank of Ningbo Co., Ltd.",2142,CNE1000005P7,CN,Financials,auto_mapped,http://en.wikipedia.org/wiki/Bank_of_Ningbo
+862,Banque Cantonale Vaudoise,BCVN,CH0531751755,CH,Financials,auto_mapped,http://en.wikipedia.org/wiki/Banque_cantonale_vaudoise
+863,"Baoshan Iron & Steel Co.,Ltd.",600019,CNE0000015R4,CN,Materials,auto_mapped,"http://en.wikipedia.org/wiki/Baoshan_Iron_&_Steel_Co.,_Ltd."
+864,PT Barito Pacific Tbk,BRPT,ID1000085707,ID,Materials,unmapped,
+865,Beijing New Building Materials Public Limited Company,786,CNE000000QS4,CN,Industrials,unmapped,
+866,"BEST BUY CO., INC.",BBY,US0865161014,US,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Best_Buy
+867,BHARAT ELECTRONICS LIMITED,BEL,INE263A01024,IN,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Bharat_Electronics_Limited
+868,BHARAT HEAVY ELECTRICALS LIMITED,BHEL,INE257A01026,IN,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Bharat_Heavy_Electricals_Limited
+869,BHARAT PETROLEUM CORPORATION LIMITED,BPCL,INE029A01011,IN,Energy,auto_mapped,http://en.wikipedia.org/wiki/Bharat_Petroleum
+870,BHARTI AIRTEL LIMITED,BHARTIARTL,IN9397D01014,IN,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Bharti_Airtel
+871,THE BIDVEST GROUP LIMITED,BVT,ZAE000117321,ZA,Industrials,needs_review,
+872,Swedish Orphan Biovitrum AB (publ),SOBI,SE0000872095,SE,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Swedish_Orphan_Biovitrum
+873,Boliden AB,BOL,SE0020050417,SE,Materials,auto_mapped,http://en.wikipedia.org/wiki/Boliden_AB
+874,BOMBARDIER INC.,BBD.B,CA0977518616,CA,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Bombardier_Inc.
+875,BOSCH LIMITED,BOSCHLTD,INE323A01026,IN,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Bosch_Rexroth
+876,BOUBYAN BANK K.S.C.P.,BOUBYAN,KW0EQ0102065,KW,Financials,auto_mapped,http://en.wikipedia.org/wiki/Boubyan_Bank
+877,BRISTOL-MYERS SQUIBB COMPANY,BMY,US1101221083,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Bristol-Myers_Squibb
+878,BRITISH AMERICAN TOBACCO P.L.C.,BATS,GB0002875804,GB,Consumer Staples,unmapped,
+879,"BROWN & BROWN, INC.",BRO,US1152361010,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Brown_&_Brown
+880,CIMB GROUP HOLDINGS BERHAD,CIMB,MYL1023OO000,MY,Financials,auto_mapped,http://en.wikipedia.org/wiki/CIMB
+881,CAE INC.,CAE,CA1247651088,CA,Industrials,auto_mapped,http://en.wikipedia.org/wiki/CAE_Inc.
+882,CANON INC.,7751,JP3242800005,JP,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Canon_Inc.
+883,"CAPCOM CO., LTD.",9697,JP3218900003,JP,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Capcom_Vancouver
+884,"CBRE GROUP, INC.",CBRE,US12504L1098,US,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/CBRE_Group
+885,CCL INDUSTRIES INC.,CCL.B,CA1249003098,CA,Materials,auto_mapped,http://en.wikipedia.org/wiki/CCL_Industries
+886,"Cemex, S.A.B. de C.V.",CEMEXCPO,MXP225611567,MX,Materials,unmapped,
+887,"C.H. ROBINSON WORLDWIDE, INC.",CHRW,US12541W2098,US,Industrials,unmapped,
+888,"CHUGAI PHARMACEUTICAL CO., LTD.",4519,JP3519400000,JP,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Chugai_Pharmaceutical_Co.
+889,ALIBABA HEALTH INFORMATION TECHNOLOGY LIMITED,241,BMG0171K1018,HK,Consumer Staples,unmapped,
+890,CITIC Limited,267,HK0267001375,CN,Industrials,auto_mapped,http://en.wikipedia.org/wiki/CITIC_Limited
+891,CLP HOLDINGS LIMITED,2,HK0002007356,HK,Utilities,needs_review,
+892,CMS ENERGY CORPORATION,CMS,US1258961002,US,Utilities,unmapped,
+893,KUNLUN ENERGY COMPANY LIMITED,135,BMG5320C1082,HK,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Kunlun_Energy
+894,China Resources Microelectronics Limited,688396,CNE100003S06,CN,Information Technology,unmapped,
+895,CVS HEALTH CORPORATION,CVS,US1266501006,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/CVS_Health
+896,ZYDUS LIFESCIENCES LIMITED,ZYDUSLIFE,INE010B01027,IN,Health Care,unmapped,
+897,CANADIAN IMPERIAL BANK OF COMMERCE,CM,CA1360691010,CA,Financials,auto_mapped,http://en.wikipedia.org/wiki/Canadian_Imperial_Bank_of_Commerce
+898,CANADIAN UTILITIES LIMITED,CU,CA1367178326,CA,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Canadian_Utilities
+899,CAPITEC LIMITED,CPI,ZAE000035861,ZA,Financials,auto_mapped,http://en.wikipedia.org/wiki/Capitec_Bank
+900,CARLSBERG A/S,CARL B,DK0010181759,DK,Consumer Staples,unmapped,
+901,CARPENTER TECHNOLOGY CORPORATION,CRS,US1442851036,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Carpenter_Technology_Corporation
+902,"CASEY'S GENERAL STORES, INC.",CASY,US1475281036,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Casey's_General_Stores
+903,CATERPILLAR INC.,CAT,US1491231015,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Caterpillar_Inc.
+904,CENTENE CORPORATION,CNC,US15135B1017,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Centene_Corporation
+905,"Hengyi Petrochemical Co., Ltd.",703,CNE0000001J1,CN,Materials,unmapped,
+906,AXIA Energia S.A.,AXIA3,BRAXIAACNOR0,BR,Utilities,unmapped,
+907,Central Japan Railway Company,9022,JP3566800003,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Central_Japan_Railway_Company
+908,Central Pattana Public Company Limited,CPN,TH0481B10Z00,TH,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Central_Pattana
+909,"CHANG HWA COMMERCIAL BANK, LTD.",2801,TW0002801008,TW,Financials,unmapped,
+910,Changjiang Securities Company Limited,783,CNE000000SH3,CN,Financials,auto_mapped,http://en.wikipedia.org/wiki/Changjiang_Securities
+911,"CHARTER COMMUNICATIONS, INC.",CHTR,US16119P1084,US,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Charter_Communications
+912,CHECK POINT SOFTWARE TECHNOLOGIES LTD.,CHKP,IL0010824113,IL,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Check_Point
+913,CHEVRON CORPORATION,CVX,US1667641005,US,Energy,auto_mapped,http://en.wikipedia.org/wiki/Chevron_Corporation
+914,"INNER MONGOLIA XINGYE SILVER&TIN MINING CO.,LTD",426,CNE000000D24,CN,Materials,unmapped,
+915,CHINA CONSTRUCTION BANK CORPORATION,601939,CNE100000742,CN,Financials,auto_mapped,http://en.wikipedia.org/wiki/China_Construction_Bank
+916,"CHINA GREATWALL TECHNOLOGY GROUP CO., LTD.",66,CNE000000RL7,CN,Information Technology,unmapped,
+917,China Life Insurance Company Limited,601628,CNE000001Q93,CN,Financials,needs_review,
+918,"China Merchants Bank Co., Ltd.",600036,CNE000001B33,CN,Financials,auto_mapped,http://en.wikipedia.org/wiki/China_Merchants_Bank
+919,CMOC Group Limited,603993,CNE100001NR0,CN,Materials,unmapped,
+920,CHINA NATIONAL SOFTWARE & SERVICE COMPANY LIMITED,600536,CNE000001BB0,CN,Information Technology,unmapped,
+921,China Overseas Land & Investment Limited,688,HK0688002218,HK,Real Estate,unmapped,
+922,China Petroleum and Chemical Corporation,600028,CNE0000018G1,CN,Energy,unmapped,
+923,"AECC AVIATION POWER CO,LTD",600893,CNE000000JW1,CN,Industrials,unmapped,
+924,China Resources Power Holdings Company Limited,836,HK0836012952,HK,Utilities,auto_mapped,http://en.wikipedia.org/wiki/China_Resources_Power
+925,"COSCO Shipping Energy Transportation Co., Ltd.",600026,CNE000001BD6,CN,Energy,needs_review,
+926,China Southern Airlines Company Limited,600029,CNE000001FG0,CN,Industrials,auto_mapped,http://en.wikipedia.org/wiki/China_Southern_Airlines
+927,China CSSC Holdings Limited,600150,CNE000000W05,CN,Industrials,unmapped,
+928,China Steel Corporation,2002,TW0002002003,TW,Materials,auto_mapped,http://en.wikipedia.org/wiki/China_Steel
+929,"China Tungsten and Hightech Materials Co., Ltd.",657,CNE0000006M4,CN,Materials,unmapped,
+930,"CTBC Financial Holding Co., Ltd.",2891,TW0002891009,TW,Financials,needs_review,
+931,Chocoladefabriken Lindt & Spruengli AG,LISN,CH0010570767,CH,Consumer Staples,unmapped,
+932,"Chubu Electric Power Company, Incorporated",9502,JP3526600006,JP,Utilities,unmapped,
+933,"Chunghwa Telecom Co., Ltd.",2412,TW0002412004,TW,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Chunghwa_Telecom
+934,CIENA CORPORATION,CIEN,US1717793095,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Ciena
+935,CIPLA LIMITED,CIPLA,INE059A01026,IN,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Cipla
+936,CITIGROUP INC.,C,US1729674242,US,Financials,needs_review,
+937,"CITIZENS FINANCIAL GROUP, INC.",CFG,US1746101054,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Citizens_Financial_Group
+938,"TAPESTRY, INC.",TPR,US8760301072,US,Consumer Discretionary,auto_mapped,"http://en.wikipedia.org/wiki/Tapestry,_Inc."
+939,COGNIZANT TECHNOLOGY SOLUTIONS CORPORATION,CTSH,US1924461023,US,Information Technology,needs_review,
+940,COLGATE-PALMOLIVE COMPANY,CL,US1941621039,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Colgate-Palmolive
+941,COMCAST CORPORATION,CMCSA,US20030N1019,US,Communication Services,needs_review,
+942,The Commercial Bank (P.S.Q.C.),CBQK,QA0007227752,QA,Financials,unmapped,
+943,Commercial International Bank - Egypt (CIB),COMI,EGS60121C018,EG,Financials,unmapped,
+944,COMMONWEALTH BANK OF AUSTRALIA,CBA,AU000000CBA7,AU,Financials,needs_review,
+945,COMPAGNIE FINANCIERE RICHEMONT SA,CFR,CH0210483332,CH,Consumer Discretionary,unmapped,
+946,Companhia Energetica de Minas Gerais - CEMIG,CMIG3,BRCMIGACNOR6,BR,Utilities,unmapped,
+947,Companhia Paranaense de Energia - Copel,CPLE3,BRCPLEACNOR8,BR,Utilities,unmapped,
+948,Companhia de Saneamento Basico do Estado de Sao Paulo - SABESP,SBSP3,BRSBSPACNOR5,BR,Utilities,unmapped,
+949,COMPASS GROUP PLC,CPG,GB00BD6K4575,GB,Consumer Discretionary,needs_review,
+950,CONOCOPHILLIPS,COP,US20825C1045,US,Energy,auto_mapped,http://en.wikipedia.org/wiki/ConocoPhillips
+951,"CONSOLIDATED EDISON, INC.",ED,US2091151041,US,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Consolidated_Edison
+952,"CONSTELLATION BRANDS, INC.",STZ,US21036P1084,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Constellation_Brands
+953,CONTACT ENERGY LIMITED,CEN,NZCENE0001S6,NZ,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Contact_Energy
+954,"COPART, INC.",CPRT,US2172041061,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Copart
+955,"CaixaBank, S.A.",CABK,ES0140609019,ES,Financials,auto_mapped,http://en.wikipedia.org/wiki/CaixaBank
+956,CG POWER AND INDUSTRIAL SOLUTIONS LIMITED,CGPOWER,INE067A01029,IN,Industrials,auto_mapped,http://en.wikipedia.org/wiki/CG_Power_and_Industrial_Solutions
+957,CURTISS-WRIGHT CORPORATION,CW,US2315611010,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Curtiss-Wright
+958,"D.R. HORTON, INC.",DHI,US23331A1097,US,Consumer Discretionary,unmapped,
+959,"DAIICHI SANKYO COMPANY, LIMITED",4568,JP3475350009,JP,Health Care,unmapped,
+960,"DAIKIN INDUSTRIES,LTD.",6367,JP3481800005,JP,Industrials,unmapped,
+961,"DAIWA HOUSE INDUSTRY CO., LTD.",1925,JP3505000004,JP,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Daiwa_House
+962,DENSO CORPORATION,6902,JP3551500006,JP,Consumer Discretionary,needs_review,
+963,DLF LIMITED,DLF,INE271C01023,IN,Real Estate,needs_review,
+964,DABUR INDIA LIMITED,DABUR,INE016A01026,IN,Consumer Staples,unmapped,
+965,"Dai Nippon Printing Co., Ltd.",7912,JP3493800001,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Dai_Nippon_Printing
+966,Mercedes-Benz Group AG,MBG,DE0007100000,DE,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Mercedes-Benz_India
+967,"SCREEN Holdings Co.,Ltd.",7735,JP3494600004,JP,Information Technology,unmapped,
+968,"YTO Express Group Co.,Ltd.",600233,CNE0000012J8,CN,Industrials,unmapped,
+969,"HENGLI PETROCHEMICAL CO., LTD.",600346,CNE0000018V0,CN,Materials,unmapped,
+970,DASSAULT SYSTEMES SE,DSY,FR0014003TT8,FR,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Dassault_Systèmes
+971,"Datang International Power Generation Co., Ltd.",601991,CNE000001Q02,CN,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Datang_International_Power_Generation_Company
+972,Kakao Corp.,35720,KR7035720002,KR,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Kakao
+973,"CITIC Special Steel Group Co., Ltd.",708,CNE0000008J6,CN,Materials,unmapped,
+974,"DELTA AIR LINES, INC.",DAL,US2473617023,US,Industrials,auto_mapped,"http://nl.wikipedia.org/wiki/Delta_Air_Lines,_Inc."
+975,Deutsche Boerse Aktiengesellschaft,DB1,DE0005810055,DE,Financials,unmapped,
+976,DHL AG,DHL,DE0005552004,DE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/DHL
+977,Deutsche Telekom AG,DTE,DE0005557508,DE,Communication Services,needs_review,
+978,DEVON ENERGY CORPORATION,DVN,US25179M1036,US,Energy,auto_mapped,http://en.wikipedia.org/wiki/Devon_Energy
+979,"DICK'S SPORTING GOODS, INC.",DKS,US2533931026,US,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Dick's_Sporting_Goods
+980,"DIGITAL REALTY TRUST, INC.",DLR,US2538681030,US,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Digital_Realty
+981,DISCOVERY LIMITED,DSY,ZAE000022331,ZA,Financials,auto_mapped,http://en.wikipedia.org/wiki/Discovery_Limited
+982,Divi's Laboratories Ltd,DIVISLAB,INE361B01024,IN,Health Care,unmapped,
+983,Pan Pacific International Holdings Corporation,7532,JP3639650005,JP,Consumer Discretionary,unmapped,
+984,"DOOSAN ENERBILITY CO., LTD.",34020,KR7034020008,KR,Industrials,unmapped,
+985,DOVER CORPORATION,DOV,US2600031080,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Dover_Corporation
+986,DR.REDDY'S LABORATORIES LTD,DRREDDY,INE089A01031,IN,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Dr._Reddy's_Laboratories
+987,Raia Drogasil S/A,RADL3,BRRADLACNOR0,BR,Consumer Staples,unmapped,
+988,Avolta AG,AVOL,CH0023405456,CH,Consumer Discretionary,unmapped,
+989,"E. SUN FINANCIAL HOLDING COMPANY, LTD.",2884,TW0002884004,TW,Financials,unmapped,
+990,EBARA CORPORATION,6361,JP3166000004,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Ebara_Corporation
+991,"ECOPRO CO.,LTD",86520,KR7086520004,KR,Industrials,unmapped,
+992,"EMCOR GROUP, INC.",EME,US29084Q1004,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Emcor
+993,ENI S.P.A.,ENI,IT0003132476,IT,Energy,unmapped,
+994,East Japan Railway Company,9020,JP3783600004,JP,Industrials,needs_review,
+995,Eastern Company SAE,EAST,EGS37091C013,EG,Consumer Staples,unmapped,
+996,ECHOSTAR CORPORATION,ECHO,US2787681061,US,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/EchoStar
+997,EDWARDS LIFESCIENCES CORPORATION,EW,US28176E1082,US,Health Care,unmapped,
+998,EICHER MOTORS LIMITED,EICHERMOT,INE066A01021,IN,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Eicher_Motors
+999,ELBIT SYSTEMS LTD,ESLT,IL0010811243,IL,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Elbit_Systems
+1000,ELI LILLY AND COMPANY,LLY,US5324571083,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Eli_Lilly_and_Company
+1001,ELIA GROUP SA,ELI,BE0003822393,BE,Utilities,unmapped,
+1002,Elisa Oyj,ELISA,FI0009007884,FI,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Elisa_(company)
+1003,"ELITE MATERIAL CO., LTD.",2383,TW0002383007,TW,Information Technology,unmapped,
+1004,Emaar Properties PJSC,EMAAR,AEE000301011,AE,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Emaar_Properties
+1005,EMERA INCORPORATED,EMA,CA2908761018,CA,Utilities,needs_review,
+1006,EMERSON ELECTRIC CO.,EMR,US2910111044,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Emerson_Electric
+1007,EMIRATES INTEGRATED TELECOMMUNICATIONS COMPANY PJSC,DU,AEE000701012,AE,Communication Services,unmapped,
+1008,EMPIRE COMPANY LIMITED,EMP.A,CA2918434077,CA,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Empire_Company
+1009,"Endesa, Sociedad Anonima",ELE,ES0130670112,ES,Utilities,unmapped,
+1010,"ENTEGRIS, INC.",ENTG,US29362U1043,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Entegris
+1011,ENTERGY CORPORATION,ETR,US29364G1031,US,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Entergy
+1012,EQUIFAX INC.,EFX,US2944291051,US,Industrials,needs_review,
+1013,"EQUINIX, INC.",EQIX,US29444U7000,US,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Equinix
+1014,EQT CORPORATION,EQT,US26884L1098,US,Energy,auto_mapped,http://en.wikipedia.org/wiki/EQT
+1015,"ESSEX PROPERTY TRUST, INC.",ESS,US2971781057,US,Real Estate,unmapped,
+1016,THE ESTEE LAUDER COMPANIES INC.,EL,US5184391044,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Estée_Lauder_Companies
+1017,EVA AIRWAYS CORPORATION,2618,TW0002618006,TW,Industrials,needs_review,
+1018,Everest Group Ltd,EG,BMG3223R1088,BM,Financials,needs_review,
+1019,EVERGREEN MARINE CORPORATION (TAIWAN) LTD.,2603,TW0002603008,TW,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Evergreen_Marine
+1020,"EXPEDITORS INTERNATIONAL OF WASHINGTON, INC.",EXPD,US3021301094,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Expeditors_International
+1021,EXPERIAN PLC,EXPN,GB00B19NLV48,IE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Experian
+1022,"XPO, INC.",XPO,US9837931008,US,Industrials,needs_review,
+1023,EXTRA SPACE STORAGE INC.,EXR,US30225T1025,US,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Extra_Space_Storage
+1024,FANUC CORPORATION,6954,JP3802400006,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/FANUC
+1025,"NEXTERA ENERGY, INC.",NEE,US65339F1012,US,Utilities,auto_mapped,http://en.wikipedia.org/wiki/NextEra_Energy
+1026,"FUJI ELECTRIC CO., LTD.",6504,JP3820000002,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Fuji_Electric
+1027,FAIRFAX FINANCIAL HOLDINGS LIMITED,FFH,CA3039011026,CA,Financials,auto_mapped,http://en.wikipedia.org/wiki/Fairfax_Financial
+1028,"Far EasTone Telecommunications Co., Ltd.",4904,TW0004904008,TW,Communication Services,unmapped,
+1029,"FAST RETAILING CO., LTD.",9983,JP3802300008,JP,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Fast_Retailing
+1030,FASTENAL COMPANY,FAST,US3119001044,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Fastenal
+1031,THE FEDERAL BANK LTD,FEDERALBNK,INE171A01029,IN,Financials,auto_mapped,http://en.wikipedia.org/wiki/Federal_Bank
+1032,FEDEX CORPORATION,FDX,US31428X1063,US,Industrials,needs_review,
+1033,"FIDELITY NATIONAL INFORMATION SERVICES, INC.",FIS,US31620M1062,US,Financials,unmapped,
+1034,FIFTH THIRD BANCORP,FITB,US3167731005,US,Financials,unmapped,
+1035,Financiere de Tubize SA,TUB,BE0003823409,BE,Health Care,unmapped,
+1036,LEONARDO - SOCIETA PER AZIONI,LDO,IT0003856405,IT,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Leonardo_S.p.A.
+1037,"FISERV, INC.",FISV,US3377381088,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Fiserv
+1038,FLEX LTD.,FLEX,SG9999000020,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Flex_(company)
+1039,"Fomento Economico Mexicano, S.A.B. de C.V.",FEMSAB,MXP320321211,MX,Consumer Staples,unmapped,
+1040,FORD MOTOR COMPANY,F,US3453708600,US,Consumer Discretionary,needs_review,
+1041,Formosa Plastics Corporation,1301,TW0001301000,TW,Materials,needs_review,
+1042,FORTIS HEALTHCARE LIMITED,FORTIS,INE061F01013,IN,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Fortis_Healthcare
+1043,AGEAS SA,AGS,BE0974264930,BE,Financials,auto_mapped,http://en.wikipedia.org/wiki/Ageas
+1044,"Founder Technology Group Co.,Ltd.",600601,CNE0000001S2,CN,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Founder_Technology
+1045,Fresenius SE & Co. KGaA,FRE,DE000FRE5EN2,DE,Health Care,unmapped,
+1046,"Fubon Financial Holding Co., Ltd.",2881,TW0002881000,TW,Financials,auto_mapped,http://en.wikipedia.org/wiki/Fubon_Financial_Holding_Co.
+1047,SUBARU CORPORATION,7270,JP3814800003,JP,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Subaru_Corporation
+1048,"Furukawa Electric Co., Ltd.",5801,JP3827200001,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Furukawa_Electric
+1049,"GD POWER DEVELOPMENT CO., LTD.",600795,CNE000000PC0,CN,Utilities,auto_mapped,http://en.wikipedia.org/wiki/GD_Power_Development
+1050,GOLD CIRCUIT ELECTRONICS LTD.,2368,TW0002368008,TW,Information Technology,unmapped,
+1051,"Galp Energia, SGPS, S.A.",GALP,PTGAL0AM0009,PT,Energy,auto_mapped,http://en.wikipedia.org/wiki/Galp_Energia
+1052,ENGIE SA,ENGI,FR0010208488,FR,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Engie
+1053,"GILEAD SCIENCES, INC.",GILD,US3755581036,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Gilead_Sciences
+1054,Givaudan SA,GIVN,CH0010645932,CH,Materials,auto_mapped,http://en.wikipedia.org/wiki/Givaudan
+1055,GSK PLC,GSK,GB00BN7SWP63,GB,Health Care,needs_review,
+1056,GLOBAL PAYMENTS INC.,GPN,US37940X1028,US,Financials,unmapped,
+1057,"THE GOLDMAN SACHS GROUP, INC.",GS,US38141G1040,US,Financials,needs_review,
+1058,GREAT-WEST LIFECO INC.,GWO,CA39138C1068,CA,Financials,auto_mapped,http://en.wikipedia.org/wiki/Great-West_Lifeco
+1059,"Gree Electric Appliances, Inc. of Zhuhai",651,CNE0000001D4,CN,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Gree_Electric
+1060,GROEP BRUSSEL LAMBERT NV,GBLB,BE0003797140,BE,Financials,unmapped,
+1061,DANONE SA,BN,FR0000120644,FR,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Danone
+1062,GETLINK S.E.,GET,FR0010533075,FR,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Getlink
+1063,"Grupo Aeroportuario del Centro Norte, S.A.B. de C.V.",OMAB,MX01OM000018,MX,Industrials,unmapped,
+1064,"Grupo Aeroportuario del Sureste, S.A.B. de C.V.",ASURB,MXP001661018,MX,Industrials,unmapped,
+1065,"Grupo Bimbo, S.A.B. de C.V.",BIMBOA,MXP495211262,MX,Consumer Staples,needs_review,
+1066,"GRUPO CARSO, S.A.B. DE C.V.",GCARSOA1,MXP461181085,MX,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Grupo_Carso
+1067,"Grupo Financiero Banorte, S.A.B. de C.V.",GFNORTEO,MXP370711014,MX,Financials,unmapped,
+1068,"Grupo Financiero Inbursa, S.A.B. de C.V.",GFINBURO,MXP370641013,MX,Financials,unmapped,
+1069,"Grupo Mexico, S.A.B. de C.V.",GMEXICOB,MXP370841019,MX,Materials,auto_mapped,http://en.wikipedia.org/wiki/Grupo_México
+1070,"Guangdong Fenghua Advanced Technology (Holding) Co., Ltd.",636,CNE000000GH8,CN,Information Technology,unmapped,
+1071,Chifeng Jilong Gold Mining Group Limited,600988,CNE000001H94,CN,Materials,unmapped,
+1072,"Focus Media Information Technology Co., Ltd.",2027,CNE000001KK2,CN,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Focus_Media
+1073,HEICO CORPORATION,HEI,US4228061093,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/HEICO
+1074,"HIKARI TSUSHIN, INC.",9435,JP3783420007,JP,Industrials,unmapped,
+1075,HSBC HOLDINGS PLC,HSBA,GB0005405286,GB,Financials,needs_review,
+1076,"HYUNDAI MOBIS CO.,LTD",12330,KR7012330007,KR,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Hyundai_Mobis
+1077,HALMA PUBLIC LIMITED COMPANY,HLMA,GB0004052071,GB,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Halma_plc
+1078,"Han's Laser Technology Industry Group Co., Ltd.",2008,CNE000001JQ1,CN,Industrials,unmapped,
+1079,Hundsun Technologies Inc.,600570,CNE000001GD5,CN,Information Technology,unmapped,
+1080,Hannover Rueck SE,HNR1,DE0008402215,DE,Financials,unmapped,
+1081,HARMONY GOLD MINING COMPANY LIMITED,HAR,ZAE000015228,ZA,Materials,auto_mapped,http://en.wikipedia.org/wiki/Harmony_Gold_(mining)
+1082,"THE HARTFORD INSURANCE GROUP, INC.",HIG,US4165151048,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/The_Hartford
+1083,HAVELLS INDIA LIMITED,HAVELLS,INE176B01034,IN,Industrials,unmapped,
+1084,Heineken Holding N.V.,HEIO,NL0000008977,NL,Consumer Staples,auto_mapped,http://ro.wikipedia.org/wiki/Heineken
+1085,HELLENIC TELECOMMUNICATIONS ORGANIZATION S.A.,HTO,GRS260333000,GR,Communication Services,unmapped,
+1086,Helvetia Baloise Holding AG,HBAN,CH0466642201,CH,Financials,unmapped,
+1087,"HENAN SHENHUO COAL & POWER CO.,LTD",933,CNE000001097,CN,Materials,unmapped,
+1088,"Henan Shuanghui Investment & Development Co., Ltd.",895,CNE000000XM3,CN,Consumer Staples,unmapped,
+1089,Hengan International Group Company Limited,1044,KYG4402L1510,CN,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Hengan_International
+1090,Henkel AG & Co. KGaA,HEN,DE0006048408,DE,Consumer Staples,unmapped,
+1091,THE HERSHEY COMPANY,HSY,US4278661081,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/The_Hershey_Company
+1092,HINDALCO INDUSTRIES LIMITED,HINDALCO,INE038A01020,IN,Materials,auto_mapped,http://en.wikipedia.org/wiki/Hindalco_Industries
+1093,HINDUSTAN UNILEVER LIMITED,HINDUNILVR,INE030A01027,IN,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Hindustan_Unilever
+1094,"Hitachi, Ltd.",6501,JP3788600009,JP,Industrials,needs_review,
+1095,"HON HAI PRECISION INDUSTRY CO., LTD.",2317,TW0002317005,TW,Information Technology,unmapped,
+1096,The Hong Kong & China Gas Co Ltd,3,HK0003000038,HK,Utilities,unmapped,
+1097,HONG LEONG BANK BERHAD,HLBANK,MYL5819OO007,MY,Financials,auto_mapped,http://en.wikipedia.org/wiki/Hong_Leong_Bank
+1098,"HOTAI MOTOR CO.,LTD.",2207,TW0002207008,TW,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Hotai_Motor
+1099,"Huadong Medicine Co., Ltd.",963,CNE0000011S1,CN,Health Care,unmapped,
+1100,HUMANA INC.,HUM,US4448591028,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Humana
+1101,HUNTINGTON BANCSHARES INCORPORATED,HBAN,US4461501045,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Huntington_Bancshares
+1102,SK hynix Inc.,660,KR7000660001,KR,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/SK_Hynix
+1103,"HYUNDAI ENGINEERING & CONSTRUCTION CO.,LTD",720,KR7000720003,KR,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Hyundai_Engineering_&_Construction
+1104,"HMM CO.,LTD",11200,KR7011200003,KR,Industrials,needs_review,
+1105,ICICI BANK LIMITED,ICICIBANK,INE090A01021,IN,Financials,auto_mapped,http://en.wikipedia.org/wiki/ICICI_Bank
+1106,ICL GROUP LTD,ICL,IL0002810146,IL,Materials,needs_review,
+1107,VODAFONE IDEA LIMITED,IDEA,INE669E01016,IN,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Vodafone_Idea
+1108,IHI Corporation,7013,JP3134800006,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/IHI_Corporation
+1109,INPEX CORPORATION,1605,JP3294460005,JP,Energy,auto_mapped,http://en.wikipedia.org/wiki/Inpex
+1110,IOI CORPORATION BERHAD,IOICORP,MYL1961OO001,MY,Consumer Staples,needs_review,
+1111,ITC LIMITED,ITC,INE154A01025,IN,Consumer Staples,needs_review,
+1112,IMPERIAL BRANDS PLC,IMB,GB0004544929,GB,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Imperial_Brands
+1113,Indian Bank,INDIANB,INE562A01011,IN,Financials,auto_mapped,http://en.wikipedia.org/wiki/Indian_Bank
+1114,THE INDIAN HOTELS COMPANY LIMITED,INDHOTEL,INE053A01029,IN,Consumer Discretionary,unmapped,
+1115,INDIAN OIL CORPORATION LIMITED,IOC,INE242A01010,IN,Energy,auto_mapped,http://en.wikipedia.org/wiki/Indian_Oil_Corporation
+1116,INDUSIND BANK LTD.,INDUSINDBK,INE095A01012,IN,Financials,auto_mapped,http://en.wikipedia.org/wiki/IndusInd_Bank
+1117,Industries Qatar Q.P.S.C,IQCD,QA000A0KD6K3,QA,Industrials,unmapped,
+1118,Aktiebolaget Industrivarden,INDU A,SE0000107203,SE,Financials,unmapped,
+1119,Indutrade Aktiebolag,INDT,SE0001515552,SE,Industrials,auto_mapped,http://sv.wikipedia.org/wiki/Indutrade
+1120,Infineon Technologies AG,IFX,DE0006231004,DE,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Infineon_Technologies
+1121,INFO EDGE (INDIA) LIMITED,NAUKRI,INE663F01032,IN,Communication Services,unmapped,
+1122,INFOSYS LIMITED,INFY,INE009A01021,IN,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Infosys
+1123,INFRATIL LIMITED,IFT,NZIFTE0003S3,NZ,Financials,auto_mapped,http://en.wikipedia.org/wiki/Infratil
+1124,TRANE TECHNOLOGIES PUBLIC LIMITED COMPANY,2IS,IE00BK9ZQ967,IE,Industrials,unmapped,
+1125,"Inner Mongolia Baotou Steel Union Co., Ltd",600010,CNE0000017H1,CN,Materials,unmapped,
+1126,"INNER MONGOLIA YITAI COAL CO.,LTD.",900948,CNE000000SK7,CN,Energy,unmapped,
+1127,INSMED INCORPORATED,INSM,US4576693075,US,Health Care,unmapped,
+1128,"IEIT SYSTEMS Co., Ltd,",977,CNE0000012M2,CN,Information Technology,unmapped,
+1129,"INTERACTIVE BROKERS GROUP, INC.",IBKR,US45841N1072,US,Financials,unmapped,
+1130,Interconexion Electrica S.A. E.S.P.,ISA,COE15PA00026,CO,Utilities,unmapped,
+1131,"INTERNATIONAL CONTAINER TERMINAL SERVICES, INC.",ICT,PHY411571011,PH,Industrials,auto_mapped,http://en.wikipedia.org/wiki/International_Container_Terminal_Services
+1132,INTERTEK GROUP PLC,ITRK,GB0031638363,GB,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Intertek
+1133,INTESA SANPAOLO SPA,ISP,IT0000072618,IT,Financials,auto_mapped,http://en.wikipedia.org/wiki/Intesa_Sanpaolo
+1134,INTUIT INC.,INTU,US4612021034,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Intuit
+1135,INVENTEC CORPORATION,2356,TW0002356003,TW,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Inventec
+1136,ISRAEL DISCOUNT BANK LIMITED,DSCT,IL0006912120,IL,Financials,auto_mapped,http://en.wikipedia.org/wiki/Israel_Discount_Bank
+1137,ITAUSA S.A.,ITSA3,BRITSAACNOR0,BR,Financials,auto_mapped,http://en.wikipedia.org/wiki/Itaúsa
+1138,JSW STEEL LIMITED,JSWSTEEL,INE019A01038,IN,Materials,auto_mapped,http://en.wikipedia.org/wiki/JSW_Steel_Ltd
+1139,JABIL INC.,JBL,US4663131039,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Jabil
+1140,"JCET Group Co., Ltd.",600584,CNE000001F05,CN,Information Technology,unmapped,
+1141,"Gotion High-tech Co.,Ltd.",2074,CNE000001NY7,CN,Industrials,unmapped,
+1142,"Hengtong Optic-Electric CO.,LTD",600487,CNE000001FQ9,CN,Information Technology,unmapped,
+1143,JIANGSU ETERN COMPANY LIMITED,600105,CNE000000T83,CN,Information Technology,unmapped,
+1144,Jiangxi Copper Company Limited,600362,CNE0000019P0,CN,Materials,auto_mapped,http://en.wikipedia.org/wiki/Jiangxi_Copper
+1145,CNPC Capital Company Limited,617,CNE000000MS3,CN,Financials,unmapped,
+1146,JINDAL STEEL LIMITED,JINDALSTEL,INE749A01030,IN,Materials,auto_mapped,http://en.wikipedia.org/wiki/Jindal_Steel_and_Power
+1147,JOHNSON & JOHNSON,JNJ,US4781601046,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Johnson_&_Johnson
+1148,JUMBO S.A.,BELA,GRS282183003,GR,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Jumbo_S.A.
+1149,KAJIMA CORPORATION,1812,JP3210200006,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Kajima
+1150,KBC GROEP NV,KBC,BE0003565737,BE,Financials,auto_mapped,http://nl.wikipedia.org/wiki/KBC_Groep
+1151,KGHM POLSKA MIEDZ SPOLKA AKCYJNA,KGH,PLKGHM000017,PL,Materials,auto_mapped,http://en.wikipedia.org/wiki/KGHM_Polska_Miedź
+1152,KIKKOMAN CORPORATION,2801,JP3240400006,JP,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Kikkoman
+1153,KLA CORPORATION,KLAC,US4824801009,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/KLA_Corporation
+1154,KT&G Corporation,33780,KR7033780008,KR,Consumer Staples,unmapped,
+1155,KUBOTA CORPORATION,6326,JP3266400005,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Kubota
+1156,KYOCERA CORPORATION,6971,JP3249600002,JP,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Kyocera
+1157,"Kyowa Kirin Co., Ltd.",4151,JP3256000005,JP,Health Care,needs_review,
+1158,"The Kansai Electric Power Company, Incorporated",9503,JP3228600007,JP,Utilities,unmapped,
+1159,KASIKORNBANK PUBLIC COMPANY LIMITED,KBANK,TH0016010009,TH,Financials,auto_mapped,http://en.wikipedia.org/wiki/Kasikornbank
+1160,"Kawasaki Heavy Industries, Ltd.",7012,JP3224200000,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Kawasaki_Heavy_Industries
+1161,Kesko Oyj,KESKOB,FI0009000202,FI,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Kesko
+1162,KEYCORP,KEY,US4932671088,US,Financials,unmapped,
+1163,KIA CORPORATION,270,KR7000270009,KR,Consumer Discretionary,needs_review,
+1164,"Kimberly-Clark de Mexico, S.A.B. de C.V.",KIMBERA,MXP606941179,MX,Consumer Staples,unmapped,
+1165,KINGBOARD HOLDINGS LIMITED,148,KYG525621408,HK,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Kingboard_Chemical
+1166,KINGBOARD LAMINATES HOLDINGS LIMITED,1888,KYG5257K1076,HK,Information Technology,unmapped,
+1167,"KINGFA SCI. & TECH. CO., LTD.",600143,CNE000001JP3,CN,Materials,unmapped,
+1168,KINGSPAN GROUP PUBLIC LIMITED COMPANY,KRX,IE0004927939,IE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Kingspan_Group
+1169,KLABIN S.A.,KLBAY,BRKLBNACNOR2,BR,Materials,auto_mapped,http://en.wikipedia.org/wiki/Klabin
+1170,KONE Oyj,KNEBV,FI0009013403,FI,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Kone
+1171,Koninklijke Ahold Delhaize N.V.,AD,NL0011794037,NL,Consumer Staples,unmapped,
+1172,Koninklijke KPN N.V.,KPN,NL0000009082,NL,Communication Services,unmapped,
+1173,KOREA ELECTRIC POWER CORPORATION,15760,KR7015760002,KR,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Korea_Electric_Power_Corporation
+1174,"Korea Investment Holdings Co., Ltd",71050,KR7071050009,KR,Financials,auto_mapped,http://en.wikipedia.org/wiki/Korea_Investment_Corporation
+1175,"KOREAN AIR LINES CO.,LTD",3490,KR7003490000,KR,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Korean_Air
+1176,KOTAK MAHINDRA BANK LIMITED,KOTAKBANK,INE237A01036,IN,Financials,auto_mapped,http://en.wikipedia.org/wiki/Kotak_Mahindra_Bank
+1177,"Mondelez International, Inc.",MDLZ,US6092071058,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Mondelez_International
+1178,THE KROGER CO.,KR,US5010441013,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Kroger
+1179,KUALA LUMPUR KEPONG BERHAD,KLK,MYL2445OO004,MY,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Kuala_Lumpur_Kepong_Berhad
+1180,Kuehne + Nagel International AG,KNIN,CH0025238863,CH,Industrials,unmapped,
+1181,KUWAIT FINANCE HOUSE K.S.C.P,KFH,KW0EQ0100085,KW,Financials,unmapped,
+1182,"Kweichow Moutai Co., Ltd.",600519,CNE0000018R8,CN,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Kweichow_Moutai
+1183,L'OREAL SA,OR,FR0000120321,FR,Consumer Staples,needs_review,
+1184,LARGAN Precision Co Ltd,3008,TW0003008009,TW,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Largan_Precision
+1185,LG Corp.,3550,KR7003550001,KR,Industrials,auto_mapped,http://en.wikipedia.org/wiki/LG_Corporation
+1186,LG Uplus Corp.,32640,KR7032640005,KR,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/LG_Uplus
+1187,LPP SPOLKA AKCYJNA,LPP,PLLPP0000011,PL,Consumer Discretionary,needs_review,
+1188,LVMH MOET HENNESSY LOUIS VUITTON SE,MC,FR0000121014,FR,Consumer Discretionary,auto_mapped,http://cs.wikipedia.org/wiki/LVMH_-_Moët_Hennessy_Louis_Vuitton
+1189,LAM RESEARCH CORPORATION,LRCX,US5128073062,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Lam_Research
+1190,LATAM Airlines Group S.A.,LTM,CL0000000423,CL,Industrials,auto_mapped,http://en.wikipedia.org/wiki/LATAM_Airlines_Group
+1191,LAND SECURITIES GROUP PLC,LAND,GB00BYW0PQ60,GB,Real Estate,unmapped,
+1192,LARSEN AND TOUBRO LIMITED,LT,INE018A01030,IN,Industrials,unmapped,
+1193,LAS VEGAS SANDS CORP.,LVS,US5178341070,US,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Las_Vegas_Sands
+1194,Lasertec Corporation,6920,JP3979200007,JP,Information Technology,unmapped,
+1195,LEGAL & GENERAL GROUP PLC,LGEN,GB0005603997,GB,Financials,auto_mapped,http://en.wikipedia.org/wiki/Legal_&_General
+1196,LEGRAND SA,LR,FR0010307819,FR,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Legrand_(company)
+1197,LENNAR CORPORATION,LEN,US5260571048,US,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Lennar_Corporation
+1198,Li Ning Co Ltd,2331,KYG5496K1242,CN,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Li-Ning
+1199,"LIVE NATION ENTERTAINMENT, INC.",LYV,US5380341090,US,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Live_Nation_Entertainment
+1200,LOBLAW COMPANIES LTD,L,CA5394811015,CA,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Loblaw_Companies
+1201,Localiza Rent a Car S.A.,RENT3,BRRENTACNOR4,BR,Industrials,unmapped,
+1202,Logitech international S.A.,LOGN,CH0025751329,CH,Information Technology,unmapped,
+1203,Lonza Group AG,LONN,CH0013841017,CH,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Lonza_Group
+1204,"LOTES CO., LTD.",3533,TW0003533006,TW,Information Technology,unmapped,
+1205,"LOWE'S COMPANIES, INC.",LOW,US5486611073,US,Consumer Discretionary,needs_review,
+1206,LUPIN LIMITED,LUPIN,INE326A01037,IN,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Lupin_Limited
+1207,"Luzhou Laojiao Co.,Ltd",568,CNE000000GF2,CN,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Luzhou_Laojiao
+1208,METRO INC.,MRU,CA59162N1096,CA,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Metro_Inc.
+1209,MinebeaMitsumi Inc.,6479,JP3906000009,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/MinebeaMitsumi
+1210,MISC BERHAD,MISC,MYL3816OO005,MY,Industrials,auto_mapped,http://en.wikipedia.org/wiki/MISC_Berhad
+1211,MPI CORPORATION,6223,TW0006223001,TW,Information Technology,needs_review,
+1212,MOL Magyar Olaj- es Gazipari Nyilvanosan Mukodo Reszvenytarsasag,MOL,HU0000153937,HU,Energy,unmapped,
+1213,Eneva S.A.,ENEV3,BRENEVACNOR8,BR,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Eneva
+1214,MRF LIMITED,MRF,INE883A01011,IN,Consumer Discretionary,needs_review,
+1215,MTN GROUP LIMITED,MTN,ZAE000042164,ZA,Communication Services,needs_review,
+1216,MACQUARIE GROUP LIMITED,MQG,AU000000MQG1,AU,Financials,needs_review,
+1217,Makita Corporation,6586,JP3862400003,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Makita
+1218,MALAYAN BANKING BERHAD,MAYBANK,MYL1155OO000,MY,Financials,unmapped,
+1219,Marfrig Global Foods S.A.,MBRF3,BRMBRFACNOR1,BR,Consumer Staples,unmapped,
+1220,MOWI ASA,MOWI,NO0003054108,NO,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Mowi
+1221,MARKS AND SPENCER GROUP P.L.C.,MKS,GB0031274896,GB,Consumer Staples,unmapped,
+1222,Marubeni Corporation,8002,JP3877600001,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Marubeni
+1223,MASCO CORPORATION,MAS,US5745991068,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Masco
+1224,MASTERCARD INCORPORATED,MA,US57636Q1040,US,Financials,unmapped,
+1225,"MCCORMICK & COMPANY, INCORPORATED",MKC,US5797802064,US,Consumer Staples,unmapped,
+1226,MERCK Kommanditgesellschaft auf Aktien,MRK,DE0006599905,DE,Health Care,unmapped,
+1227,"METLIFE, INC.",MET,US59156R1086,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/MetLife
+1228,"T-MOBILE US, INC.",TMUS,US8725901040,US,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/T-Mobile_US
+1229,METTLER-TOLEDO INTERNATIONAL INC.,MTD,US5926881054,US,Health Care,unmapped,
+1230,MICROCHIP TECHNOLOGY INCORPORATED,MCHP,US5950171042,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Microchip_Technology
+1231,"MICRON TECHNOLOGY, INC.",MU,US5951121038,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Micron_Technology
+1232,"Tokio Marine Holdings, Inc.",8766,JP3910660004,JP,Financials,auto_mapped,http://en.wikipedia.org/wiki/Tokio_Marine
+1233,MILLICOM INTERNATIONAL CELLULAR S.A.,M4M1,LU0038705702,LU,Communication Services,auto_mapped,"http://es.wikipedia.org/wiki/Millicom_International_Cellular,_S.A."
+1234,MMG Limited,1208,HK1208013172,AU,Materials,needs_review,
+1235,"Mitsubishi Estate Company, Limited",8802,JP3899600005,JP,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Mitsubishi_Estate
+1236,"Mitsubishi Heavy Industries, Ltd.",7011,JP3900000005,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Mitsubishi_Heavy_Industries
+1237,"Mitsubishi UFJ Financial Group, Inc.",8306,JP3902900004,JP,Financials,auto_mapped,http://en.wikipedia.org/wiki/Mitsubishi_UFJ_Financial_Group
+1238,"Mitsui O.S.K. Lines, Ltd.",9104,JP3362700001,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Mitsui_O.S.K._Lines
+1239,"Mizuho Financial Group, Inc.",8411,JP3885780001,JP,Financials,auto_mapped,http://en.wikipedia.org/wiki/Mizuho_Financial_Group
+1240,MOBILE TELECOMMUNICATIONS COMPANY K.S.C.P,ZAIN,KW0EQ0601058,KW,Communication Services,unmapped,
+1241,MOTOR OIL (HELLAS) CORINTH REFINERIES S.A.,MOH,GRS426003000,GR,Energy,unmapped,
+1242,"MOTOROLA SOLUTIONS, INC.",MSI,US6200763075,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Motorola_Solutions
+1243,Muenchener Rueckversicherungs-Gesellschaft Aktiengesellschaft in Muenchen,MUV2,DE0008430026,DE,Financials,unmapped,
+1244,ADANI PORTS AND SPECIAL ECONOMIC ZONE LIMITED,ADANIPORTS,INE742F01042,IN,Industrials,unmapped,
+1245,Bandai Namco Holdings Inc.,7832,JP3778630008,JP,Consumer Discretionary,needs_review,
+1246,NANYA TECHNOLOGY CORPORATION,2408,TW0002408002,TW,Information Technology,needs_review,
+1247,Renesas Electronics Corporation,6723,JP3164720009,JP,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Renesas_Electronics
+1248,NAVER Corporation,35420,KR7035420009,KR,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Naver_(corporation)
+1249,NIDEC CORPORATION,6594,JP3734800000,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Nidec
+1250,JX Advanced Metals Corporation,5016,JP3379550001,JP,Materials,unmapped,
+1251,"NIPPON PAINT HOLDINGS CO., LTD.",4612,JP3749400002,JP,Materials,auto_mapped,http://en.wikipedia.org/wiki/Nippon_Paint
+1252,NIPPON STEEL CORPORATION,5401,JP3381000003,JP,Materials,needs_review,
+1253,"NISSAN MOTOR CO., LTD.",7201,JP3672400003,JP,Consumer Discretionary,needs_review,
+1254,"NRG ENERGY, INC.",NRG,US6293775085,US,Utilities,auto_mapped,http://en.wikipedia.org/wiki/NRG_Energy
+1255,NTPC LIMITED,NTPC,INE733E01010,IN,Utilities,auto_mapped,http://en.wikipedia.org/wiki/NTPC_Limited
+1256,NVIDIA CORPORATION,NVDA,US67066G1040,US,Information Technology,needs_review,
+1257,NASPERS LIMITED,NPN,ZAE000351946,ZA,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Naspers
+1258,NATIONAL ALUMINIUM CO LTD,NATIONALUM,INE139A01034,IN,Materials,auto_mapped,http://en.wikipedia.org/wiki/National_Aluminium_Company
+1259,NATIONAL AUSTRALIA BANK LIMITED,NAB,AU000000NAB4,AU,Financials,auto_mapped,http://en.wikipedia.org/wiki/National_Australia_Bank
+1260,FIRST ABU DHABI BANK P.J.S.C.,FAB,AEN000101016,AE,Financials,unmapped,
+1261,Nedbank Group Limited,NED,ZAE000004875,ZA,Financials,auto_mapped,http://en.wikipedia.org/wiki/Nedbank
+1262,Neste Oyj,NESTE,FI0009013296,FI,Energy,auto_mapped,http://en.wikipedia.org/wiki/Neste
+1263,Nestle India Ltd,NESTLEIND,INE239A01024,IN,Consumer Staples,unmapped,
+1264,"NETFLIX, INC.",NFLX,US64110L1061,US,Communication Services,auto_mapped,"http://en.wikipedia.org/wiki/Netflix,_Inc."
+1265,"NEUROCRINE BIOSCIENCES, INC.",NBIX,US64125C1099,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Neurocrine_Biosciences
+1266,CLICKS GROUP LIMITED,CLS,ZAE000134854,ZA,Consumer Staples,needs_review,
+1267,NEWMONT CORPORATION,NEM,US6516391066,US,Materials,needs_review,
+1268,NEXT PLC,NXT,GB0032089863,GB,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Next_plc
+1269,"Nomura Research Institute, Ltd.",4307,JP3762800005,JP,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Nomura_Research_Institute
+1270,Nordea Bank Abp,NDA FI,FI4000297767,FI,Financials,unmapped,
+1271,NORFOLK SOUTHERN CORPORATION,NSC,US6558441084,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Norfolk_Southern_Railway
+1272,NORTHERN STAR RESOURCES LTD,NST,AU000000NST8,AU,Materials,unmapped,
+1273,NORTHERN TRUST CORPORATION,NTRS,US6658591044,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Northern_Trust
+1274,Northrop Grumman Corporation,NOC,US6668071029,US,Industrials,auto_mapped,http://pt.wikipedia.org/wiki/Northrop_Grumman_Corporation
+1275,NUCOR CORPORATION,NUE,US6703461052,US,Materials,auto_mapped,http://en.wikipedia.org/wiki/Nucor
+1276,"O'Reilly Automotive, Inc.",ORLY,US67103H1077,US,Consumer Discretionary,unmapped,
+1277,"OBIC Co.,Ltd.",4684,JP3173400007,JP,Information Technology,unmapped,
+1278,ON SEMICONDUCTOR CORPORATION,ON,US6821891057,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/ON_Semiconductor
+1279,"Celltrion, Inc.",68270,KR7068270008,KR,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Celltrion
+1280,"ORIENTAL LAND CO., LTD.",4661,JP3198900007,JP,Consumer Discretionary,needs_review,
+1281,ORIX CORPORATION,8591,JP3200450009,JP,Financials,needs_review,
+1282,OIL AND NATURAL GAS CORPORATION LIMITED,ONGC,INE213A01029,IN,Energy,auto_mapped,http://en.wikipedia.org/wiki/Oil_and_Natural_Gas_Corporation
+1283,"OLD DOMINION FREIGHT LINE, INC.",ODFL,US6795801009,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Old_Dominion_Freight_Line
+1284,CD PROJEKT RED S.A.,CDR,PLOPTTC00011,PL,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/CD_Projekt
+1285,ORIGIN ENERGY LIMITED,ORG,AU000000ORG5,AU,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Origin_Energy
+1286,Orion Oyj,ORNBV,FI0009014377,FI,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Orion_Oyj
+1287,OTP Bank Nyrt.,OTP,HU0000061726,HU,Financials,unmapped,
+1288,OVERSEA-CHINESE BANKING CORPORATION LIMITED,O39,SG1S04926220,SG,Financials,unmapped,
+1289,PETRONAS GAS BERHAD,PETGAS,MYL6033OO004,MY,Utilities,unmapped,
+1290,PICC Property and Casualty Company Limited,2328,CNE100000593,CN,Financials,unmapped,
+1291,POSCO Holdings Inc.,5490,KR7005490008,KR,Materials,auto_mapped,http://en.wikipedia.org/wiki/POSCO
+1292,PTT EXPLORATION AND PRODUCTION PUBLIC COMPANY LIMITED,PTTEP,TH0355A10Z04,TH,Energy,auto_mapped,http://en.wikipedia.org/wiki/PTT_Exploration_and_Production
+1293,PACKAGING CORPORATION OF AMERICA,PKG,US6951561090,US,Materials,auto_mapped,http://en.wikipedia.org/wiki/Packaging_Corporation_of_America
+1294,FLUTTER ENTERTAINMENT PUBLIC LIMITED COMPANY,FLUT,IE00BWT6H894,US,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Flutter_Entertainment
+1295,PTC INC.,PTC,US69370C1009,US,Information Technology,needs_review,
+1296,PARKER-HANNIFIN CORPORATION,PH,US7010941042,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Parker_Hannifin
+1297,"PEPSICO, INC.",PEP,US7134481081,US,Consumer Staples,auto_mapped,http://bg.wikipedia.org/wiki/PepsiCo
+1298,PetroChina Company Limited,601857,CNE1000007Q1,CN,Energy,auto_mapped,http://en.wikipedia.org/wiki/PetroChina
+1299,Vibra Energia S.A.,VBBR3,BRVBBRACNOR1,BR,Consumer Discretionary,unmapped,
+1300,Petroleo Brasileiro S.A. (Petrobras),PETR3,BRPETRACNOR9,BR,Energy,unmapped,
+1301,PETRONET LNG LIMITED,PETRONET,INE347G01014,IN,Energy,auto_mapped,http://en.wikipedia.org/wiki/Petronet_LNG
+1302,PFIZER INC.,PFE,US7170811035,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Pfizer_UK
+1303,PLDT Inc.,TEL,PHY7072Q1032,PH,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/PLDT
+1304,Phison Electronics Corporation,8299,TW0008299009,TW,Information Technology,unmapped,
+1305,THE PHOENIX MILLS LIMITED,PHOENIXLTD,INE211B01039,IN,Real Estate,unmapped,
+1306,PIDILITE INDUSTRIES LIMITED,PIDILITIND,INE318A01026,IN,Materials,auto_mapped,http://en.wikipedia.org/wiki/Pidilite_Industries
+1307,"Ping An Insurance (Group) Company of China, Ltd.",601318,CNE000001R84,CN,Financials,unmapped,
+1308,ORLEN SPOLKA AKCYJNA,PKN,PLPKN0000018,PL,Energy,needs_review,
+1309,POWER GRID CORPORATION OF INDIA LIMITED,POWERGRID,INE752E01010,IN,Utilities,needs_review,
+1310,PRESIDENT CHAIN STORE CORPORATION,2912,TW0002912003,TW,Consumer Staples,unmapped,
+1311,Pro Medicus Limited,PME,AU000000PME8,AU,Health Care,unmapped,
+1312,THE PROCTER & GAMBLE COMPANY,PG,US7427181091,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Procter_&_Gamble
+1313,"Promotora y Operadora de Infraestructura, S.A.B. de C.V.",PINFRA*,MX01PI000005,MX,Industrials,unmapped,
+1314,"PRUDENTIAL FINANCIAL, INC.",PRU,US7443201022,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Prudential_Financial
+1315,PRUDENTIAL PUBLIC LIMITED COMPANY,PRU,GB0007099541,HK,Financials,needs_review,
+1316,PUBLIC BANK BHD,PBBANK,MYL1295OO004,MY,Financials,needs_review,
+1317,PUBLIC POWER CORPORATION S.A.,PPC,GRS434003000,GR,Utilities,unmapped,
+1318,PUBLICIS GROUPE S.A.,PUB,FR0000130577,FR,Communication Services,needs_review,
+1319,"PULTEGROUP, INC.",PHM,US7458671010,US,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/PulteGroup
+1320,PUNJAB NATIONAL BANK,PNB,INE160A01022,IN,Financials,auto_mapped,http://en.wikipedia.org/wiki/Punjab_National_Bank
+1321,QANTAS AIRWAYS LIMITED,QAN,AU000000QAN2,AU,Industrials,needs_review,
+1322,Nebras Energy,QEWS,QA0006929812,QA,Utilities,unmapped,
+1323,QATAR GAS TRANSPORT COMPANY LIMITED (NAKILAT) (QPSC),QGTS,QA000A0KD6L1,QA,Energy,unmapped,
+1324,Qiagen N.V.,QGEN,NL0015002SN0,NL,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Qiagen
+1325,"QINGHAI YANHU INDUSTRY CO., LTD",792,CNE000000SW2,CN,Materials,unmapped,
+1326,QUANTA COMPUTER INC.,2382,TW0002382009,TW,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Quanta_Computer
+1327,"QUANTA SERVICES, INC.",PWR,US74762E1029,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Quanta_Services
+1328,RWE Aktiengesellschaft,RWE,DE0007037129,DE,Utilities,auto_mapped,http://en.wikipedia.org/wiki/RWE
+1329,"RYOHIN KEIKAKU CO., LTD.",7453,JP3976300008,JP,Consumer Discretionary,unmapped,
+1330,RATIONAL Aktiengesellschaft,RAA,DE0007010803,DE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Rational_AG
+1331,"RAYMOND JAMES FINANCIAL, INC.",RJF,US7547301090,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Raymond_James_Financial
+1332,REA GROUP LTD,REA,AU000000REA9,AU,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/REA_Group
+1333,REALTY INCOME CORPORATION,O,US7561091049,US,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Realty_Income_Corporation
+1334,"REGENERON PHARMACEUTICALS, INC.",REGN,US75886F1075,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Regeneron_Pharmaceuticals
+1335,"RELIANCE, INC.",RS,US7595091023,US,Materials,needs_review,
+1336,REMGRO LIMITED,REM,ZAE000026480,ZA,Financials,unmapped,
+1337,RENTOKIL INITIAL PLC,RTO,GB00B082RF11,GB,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Rentokil_Initial
+1338,"Repsol, S.A.",REP,ES0173516115,ES,Energy,needs_review,
+1339,"REPUBLIC SERVICES, INC.",RSG,US7607591002,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Republic_Services
+1340,RESMED INC.,RMD,US7611521078,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/ResMed
+1341,REXEL SA,RXL,FR0010451203,FR,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Rexel
+1342,Rheinmetall Aktiengesellschaft,RHM,DE0007030009,DE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Rheinmetall
+1343,RIO TINTO PLC,RIO,GB0007188757,GB,Materials,needs_review,
+1344,Riyad Bank SJSC,1010,SA0007879048,SA,Financials,auto_mapped,http://en.wikipedia.org/wiki/Riyad_Bank
+1345,Roche Holding AG,RHHBY,CH1499059983,CH,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Roche
+1346,"ROCKWELL AUTOMATION, INC.",ROK,US7739031091,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Rockwell_Automation
+1347,"ROLLINS, INC.",ROL,US7757111049,US,Industrials,needs_review,
+1348,ROLLS-ROYCE HOLDINGS PLC,RR.,GB00B63H8491,GB,Industrials,needs_review,
+1349,"ROPER TECHNOLOGIES, INC.",ROP,US7766961061,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Roper_Technologies
+1350,"ROSS STORES, INC.",ROST,US7782961038,US,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Ross_Stores
+1351,NATWEST GROUP PLC,NWG,GB00BM8PJY71,GB,Financials,auto_mapped,http://en.wikipedia.org/wiki/NatWest
+1352,S-Oil Corporation,10950,KR7010950004,KR,Energy,auto_mapped,http://en.wikipedia.org/wiki/S-Oil
+1353,FALABELLA S.A.,FALABELLA,CLP3880F1085,CL,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Falabella_(retail_store)
+1354,"SBI Holdings, Inc.",8473,JP3436120004,JP,Financials,needs_review,
+1355,"SECOM CO., LTD.",9735,JP3421800008,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Secom
+1356,SEGRO PUBLIC LIMITED COMPANY,SGRO,GB00B5ZN1N88,GB,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Segro
+1357,SHIMIZU CORPORATION,1803,JP3358800005,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Shimizu_Corporation
+1358,"SM PRIME HOLDINGS, INC.",SMPH,PHY8076N1120,PH,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/SM_Prime
+1359,SMC CORPORATION,6273,JP3162600005,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/SMC_Corporation
+1360,SoftBank Group Corp.,9984,JP3436100006,JP,Communication Services,needs_review,
+1361,SRF LIMITED,SRF,INE647A01010,IN,Materials,auto_mapped,http://en.wikipedia.org/wiki/SRF_Limited
+1362,STMicroelectronics N.V.,STMPA,NL0000226223,CH,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/STMicroelectronics
+1363,SUMITOMO CORPORATION,8053,JP3404600003,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Sumitomo_Corporation
+1364,SUZUKI MOTOR CORPORATION,7269,JP3397200001,JP,Consumer Discretionary,needs_review,
+1365,Swiss Life Holding AG,SLHN,CH0014852781,CH,Financials,auto_mapped,http://en.wikipedia.org/wiki/Swiss_Life
+1366,SAAB Aktiebolag,SAAB B,SE0021921269,SE,Industrials,needs_review,
+1367,THE SAGE GROUP PLC.,SGE,GB00B8C3BL03,GB,Information Technology,needs_review,
+1368,"LEIDOS HOLDINGS, INC.",LDOS,US5253271028,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Leidos
+1369,"SAMSUNG SDI CO., LTD.",6400,KR7006400006,KR,Information Technology,needs_review,
+1370,"HANWHA AEROSPACE CO., LTD.",12450,KR7012450003,KR,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Hanwha_Aerospace
+1371,Sandvik Aktiebolag,SAND,SE0000667891,SE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Sandvik
+1372,"China Resources Sanjiu Medical & Pharmaceutical Co., Ltd.",999,CNE0000011K8,CN,Health Care,unmapped,
+1373,Sartorius Aktiengesellschaft,SRT,DE0007165607,DE,Health Care,needs_review,
+1374,SARTORIUS STEDIM BIOTECH SA,DIM,FR0013154002,FR,Health Care,auto_mapped,http://fr.wikipedia.org/wiki/Sartorius_Stedim_Biotech
+1375,Saudi Basic Industries Corporation SJSC,2010,SA0007879121,SA,Materials,unmapped,
+1376,Saudi Awwal Bank SJSC,1060,SA0007879089,SA,Financials,unmapped,
+1377,Schindler Holding AG,SCHN,CH0024638196,CH,Industrials,needs_review,
+1378,SLB N.V.,SLB,AN8068571086,US,Energy,unmapped,
+1379,SCHNEIDER ELECTRIC SE,SU,FR0000121972,FR,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Schneider_Electric
+1380,"Shanjin International Gold Co.,Ltd.",975,CNE0000012L4,CN,Materials,unmapped,
+1381,SEMPRA,SRE,US8168511090,US,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Sempra_Energy
+1382,"Seven & i Holdings Co., Ltd.",3382,JP3422950000,JP,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Seven_&_I_Holdings_Co.
+1383,"SHANDONG SUN PAPER CO., LTD.",2078,CNE000001P52,CN,Materials,unmapped,
+1384,"Shandong Gold Mining Co., Ltd.",600547,CNE000001FR7,CN,Materials,unmapped,
+1385,"Shandong Nanshan Aluminium Co., Ltd.",600219,CNE000001139,CN,Materials,unmapped,
+1386,"Shanghai Fosun Pharmaceutical (Group) Co., Ltd.",600196,CNE000000X38,CN,Health Care,unmapped,
+1387,"Shanghai Stonehill Technology Co., Ltd.",2195,CNE1000008K2,CN,Information Technology,unmapped,
+1388,"CHINA RARE EARTH RESOURCES AND TECHNOLOGY CO., LTD.",831,CNE000000WS2,CN,Materials,unmapped,
+1389,"Shanxi Lu'an Environmental Energy Dev. Co., Ltd",601699,CNE000001NT7,CN,Energy,unmapped,
+1390,"Shenzhen Kaifa Technology Co., Ltd.",21,CNE000000FK4,CN,Information Technology,unmapped,
+1391,SHENZHOU INTERNATIONAL GROUP HOLDINGS LIMITED,2313,KYG8087W1015,CN,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Shenzhou_International
+1392,THE SHERWIN-WILLIAMS COMPANY,SHW,US8243481061,US,Materials,auto_mapped,http://en.wikipedia.org/wiki/Sherwin-Williams
+1393,"Shinhan Financial Group Co., Ltd.",55550,KR7055550008,KR,Financials,auto_mapped,http://de.wikipedia.org/wiki/Shinhan_Financial_Group
+1394,"Shiseido Company, Limited",4911,JP3351600006,JP,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Shiseido
+1395,"SICHUAN CHUANTOU ENERGY CO., LTD.",600674,CNE000000BQ0,CN,Utilities,unmapped,
+1396,"Haohua Chemical Science & Technology Corp., Ltd.",600378,CNE0000016V4,CN,Materials,unmapped,
+1397,Siemens Aktiengesellschaft,SIE,DE0007236101,DE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Siemens
+1398,SIEMENS LIMITED,SIEMENS,INE003A01024,IN,Industrials,needs_review,
+1399,Sika AG,SIKA,CH0418792922,CH,Materials,auto_mapped,http://en.wikipedia.org/wiki/Sika_AG
+1400,SINO BIOPHARMACEUTICAL LIMITED,1177,KYG8167W1380,HK,Health Care,unmapped,
+1401,Sino Land Company Limited,83,HK0083000502,HK,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Sino_Land
+1402,"Sinoma Science & Technology Co., Ltd",2080,CNE000001P78,CN,Materials,unmapped,
+1403,Skanska AB,SKA B,SE0000113250,SE,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Skanska
+1404,SMITH & NEPHEW PLC,SN.,GB0009223206,GB,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Smith_&_Nephew
+1405,SNAM S.P.A.,SRG,IT0003153415,IT,Utilities,unmapped,
+1406,SODEXO SA,SW,FR0000121220,FR,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Sodexo
+1407,Sonova Holding AG,SOON,CH0012549785,CH,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Sonova
+1408,SPIRAX GROUP PLC,SPX,GB00BWFGQN14,GB,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Spirax-Sarco_Engineering
+1409,STANDARD BANK GROUP LIMITED,SBK,ZAE000109815,ZA,Financials,auto_mapped,http://en.wikipedia.org/wiki/Standard_Bank
+1410,Stantec Inc.,STN,CA85472N1096,CA,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Stantec
+1411,STARBUCKS CORPORATION,SBUX,US8552441094,US,Consumer Discretionary,auto_mapped,http://mk.wikipedia.org/wiki/Starbucks
+1412,STATE STREET CORPORATION,STT,US8574771031,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/State_Street_Corporation
+1413,EQUINOR ASA,EQNR,NO0010096985,NO,Energy,auto_mapped,http://en.wikipedia.org/wiki/Equinor
+1414,Straumann Holding AG,STMN,CH1175448666,CH,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Straumann
+1415,"Sumitomo Electric Industries, Ltd.",5802,JP3407400005,JP,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Sumitomo_Electric_Industries
+1416,"Sumitomo Metal Mining Co., Ltd.",5713,JP3402600005,JP,Materials,needs_review,
+1417,"Sumitomo Mitsui Financial Group, Inc.",8316,JP3890350006,JP,Financials,auto_mapped,http://en.wikipedia.org/wiki/Sumitomo_Mitsui_Financial_Group
+1418,"SUN COMMUNITIES, INC.",SUI,US8666741041,US,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Sun_Communities
+1419,SUN HUNG KAI PROPERTIES LIMITED,16,HK0016000132,HK,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Sun_Hung_Kai_Properties
+1420,SUN LIFE FINANCIAL INC,SLF,CA8667961053,CA,Financials,auto_mapped,http://en.wikipedia.org/wiki/Sun_Life_Financial
+1421,SUN PHARMACEUTICAL INDUSTRIES LIMITED,SUNPHARMA,INE044A01036,IN,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Sun_Pharmaceutical
+1422,THE SUPREME INDUSTRIES LIMITED,SUPREMEIND,INE195A01028,IN,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Supreme_Industries
+1423,SUZANO S.A.,SUZB3,BRSUZBACNOR0,BR,Materials,auto_mapped,http://en.wikipedia.org/wiki/Suzano_Papel_e_Celulose
+1424,SUZLON ENERGY LIMITED,SUZLON,IN9040H01011,IN,Industrials,unmapped,
+1425,Svenska Handelsbanken AB,SHB A,SE0007100599,SE,Financials,unmapped,
+1426,The Swatch Group AG,UHR,CH0012255151,CH,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/The_Swatch_Group
+1427,SWIRE PACIFIC LIMITED,19,HK0019000162,HK,Industrials,unmapped,
+1428,Swiss Prime Site AG,SPSN,CH0008038389,CH,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Swiss_Prime_Site
+1429,Swisscom AG,SCMN,CH0008742519,CH,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Swisscom
+1430,GEN DIGITAL INC.,GEN,US6687711084,US,Information Technology,unmapped,
+1431,"T&D Holdings, Inc.",8795,JP3539220008,JP,Financials,auto_mapped,http://ja.wikipedia.org/wiki/T&Dフィナンシャル生命保険
+1432,"TBEA CO., LTD.",600089,CNE000000RB8,CN,Industrials,auto_mapped,http://en.wikipedia.org/wiki/TBEA
+1433,TERNA - RETE ELETTRICA NAZIONALE SOCIETA PER AZIONI,TRN,IT0003242622,IT,Utilities,needs_review,
+1434,TERUMO CORPORATION,4543,JP3546800008,JP,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Terumo
+1435,"THE TJX COMPANIES, INC.",TJX,US8725401090,US,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/TJX_Companies
+1436,TMBTHANACHART BANK PUBLIC COMPANY LIMITED,TTB,TH0068010Z07,TH,Financials,unmapped,
+1437,TOPPAN Holdings Inc.,7911,JP3629000005,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Toppan
+1438,"TORAY INDUSTRIES, INC.",3402,JP3621000003,JP,Materials,auto_mapped,http://en.wikipedia.org/wiki/Toray_Industries
+1439,TOYOTA MOTOR CORPORATION,7203,JP3633400001,JP,Consumer Discretionary,auto_mapped,http://ca.wikipedia.org/wiki/Toyota_Motor_Corporation
+1440,TOYOTA TSUSHO CORPORATION,8015,JP3635000007,JP,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Toyota_Tsusho
+1441,"WINTIME ENERGY GROUP CO.,LTD.",600157,CNE000000WD4,CN,Utilities,unmapped,
+1442,"TS Financial Holding Co., Ltd.",2887,TW0002887007,TW,Financials,unmapped,
+1443,"TAIWAN MOBILE CO., LTD.",3045,TW0003045001,TW,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Taiwan_Mobile
+1444,Taiwan Semiconductor Manufacturing Company Limited,2330,TW0002330008,TW,Information Technology,needs_review,
+1445,Takeda Pharmaceutical Company Limited,4502,JP3463000004,JP,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Takeda_Pharmaceutical_Company
+1446,"Unigroup Guoxin Microelectronics Co., Ltd.",2049,CNE000001M14,CN,Information Technology,unmapped,
+1447,TARGET CORPORATION,TGT,US87612E1064,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Target_Corporation
+1448,TATA COMMUNICATIONS LIMITED,TATACOMM,INE151A01013,IN,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Tata_Communications
+1449,TECK RESOURCES LTD,TECK.B,CA8787422044,CA,Materials,auto_mapped,http://en.wikipedia.org/wiki/Teck_Resources
+1450,Tele2 AB,TEL2 B,SE0005190238,SE,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Tele2
+1451,"Telefonica Brasil, S.A",VIVT3,BRVIVTACNOR0,BR,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Telefônica_Brasil
+1452,Telefonaktiebolaget LM Ericsson,ERIC B,SE0000108656,SE,Information Technology,unmapped,
+1453,"Telefonica, S.A.",TEF,ES0178430E18,ES,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Telefónica
+1454,TELEKOM MALAYSIA BERHAD,TM,MYL4863OO006,MY,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Telekom_Malaysia
+1455,PT Telkom Indonesia (Persero) Tbk,TLKM,ID1000129000,ID,Communication Services,unmapped,
+1456,Telia Company AB,TELIA,SE0000667925,SE,Communication Services,needs_review,
+1457,"TERADYNE, INC.",TER,US8807701029,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Teradyne
+1458,TEVA PHARMACEUTICAL INDUSTRIES LIMITED...,TEVA,IL0006290147,IL,Health Care,needs_review,
+1459,TEXAS INSTRUMENTS INCORPORATED,TXN,US8825081040,US,Information Technology,needs_review,
+1460,TEXTRON INC.,TXT,US8832031012,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Textron
+1461,THOMSON REUTERS CORPORATION,TRI,CA8849038812,CA,Industrials,needs_review,
+1462,"TCL Zhonghuan Renewable Energy Technology Co.,Ltd.",2129,CNE1000000B8,CN,Information Technology,unmapped,
+1463,"Tianshui Huatian Technology Co., Ltd.",2185,CNE100000825,CN,Information Technology,unmapped,
+1464,Tokyo Electron Limited,8035,JP3571400005,JP,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Tokyo_Electron
+1465,"Tongling Nonferrous Metals Group Co., Ltd.",630,CNE000000529,CN,Materials,auto_mapped,http://en.wikipedia.org/wiki/Tongling_Nonferrous_Metals
+1466,"TONGWEI CO.,LTD",600438,CNE000001GS3,CN,Information Technology,unmapped,
+1467,TOROMONT INDUSTRIES LTD,TIH,CA8911021050,CA,Industrials,unmapped,
+1468,TORRENT POWER LIMITED,TORNTPOWER,INE813H01021,IN,Utilities,auto_mapped,http://en.wikipedia.org/wiki/Torrent_Power
+1469,TOWER SEMICONDUCTOR LTD,TSEM,IL0010823792,IL,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Tower_Semiconductor
+1470,TRANSDIGM GROUP INCORPORATED,TDG,US8936411003,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/TransDigm_Group
+1471,TRENT LIMITED,TRENT,INE849A01020,IN,Consumer Discretionary,needs_review,
+1472,Unisplendour Corporation Limited,938,CNE0000010T1,CN,Information Technology,unmapped,
+1473,Tsingtao Brewery Company Limited,600600,CNE0000009Y3,CN,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Tsingtao_Brewery
+1474,TURKIYE PETROL RAFINERILERI ANONIM SIRKETI,TUPRS.E,TRATUPRS91E8,TR,Energy,unmapped,
+1475,TURK HAVA YOLLARI ANONIM ORTAKLIGI,THYAO.E,TRATHYAO91M5,TR,Industrials,unmapped,
+1476,TURKIYE IS BANKASI ANONIM SIRKETI,ISCTR.E,TRAISCTR91N2,TR,Financials,unmapped,
+1477,"TYSON FOODS, INCORPORATED",TSN,US9024941034,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Tyson_Foods
+1478,"UNITED AIRLINES HOLDINGS, INC.",UAL,US9100471096,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/United_Airlines
+1479,UCB SA,UCB,BE0003739530,BE,Health Care,needs_review,
+1480,"YONYOU NETWORK TECHNOLOGY CO.,LTD.",600588,CNE0000017Y6,CN,Information Technology,unmapped,
+1481,UPM-Kymmene Oyj,UPM,FI0009005987,FI,Materials,needs_review,
+1482,U.S. BANCORP,USB,US9029733048,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/U.S._Bancorp
+1483,Ultrapar Participacoes S.A.,UGPA3,BRUGPAACNOR8,BR,Consumer Discretionary,unmapped,
+1484,ULTRATECH CEMENT LIMITED,ULTRACEMCO,INE481G01011,IN,Materials,auto_mapped,http://en.wikipedia.org/wiki/UltraTech_Cement
+1485,UNI-PRESIDENT ENTERPRISES CORP.,1216,TW0001216000,TW,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Uni-President_Enterprises_Corporation
+1486,UNIBAIL-RODAMCO-WESTFIELD SE,URMCY,FR0013326246,FR,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Unibail-Rodamco-Westfield
+1487,UNIMICRON TECHNOLOGY CORP.,3037,TW0003037008,TW,Information Technology,unmapped,
+1488,UNITED OVERSEAS BANK LIMITED,U11,SG1M31001969,SG,Financials,auto_mapped,http://en.wikipedia.org/wiki/United_Overseas_Bank
+1489,"UNITED PARCEL SERVICE, INC.",UPS,US9113121068,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/United_Parcel_Service
+1490,UPL LIMITED,UPL,IN9628A01026,IN,Materials,needs_review,
+1491,"UNITED RENTALS, INC.",URI,US9113631090,US,Industrials,auto_mapped,http://en.wikipedia.org/wiki/United_Rentals
+1492,UNITED SPIRITS LIMITED,UNITDSPR,INE854D01024,IN,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/United_Spirits
+1493,RTX CORPORATION,RTX,US75513E1010,US,Industrials,unmapped,
+1494,PT United Tractors Tbk,UNTR,ID1000058407,ID,Energy,unmapped,
+1495,VALERO ENERGY CORPORATION,VLO,US91913Y1001,US,Energy,auto_mapped,http://en.wikipedia.org/wiki/Valero_Energy
+1496,"VENTAS, INC.",VTR,US92276F1003,US,Real Estate,auto_mapped,http://en.wikipedia.org/wiki/Ventas_(company)
+1497,VEOLIA ENVIRONNEMENT SA,VIE,FR0000124141,FR,Utilities,needs_review,
+1498,"VERISIGN, INC.",VRSN,US92343E1029,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Verisign
+1499,VERIZON COMMUNICATIONS INC.,VZ,US92343V1044,US,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Verizon_Communications
+1500,VERTEX PHARMACEUTICALS INCORPORATED,VRTX,US92532F1003,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Vertex_Pharmaceuticals
+1501,VESTAS WIND SYSTEMS A/S,VWS,DK0061539921,DK,Industrials,unmapped,
+1502,VINCI SA,DG,FR0000125486,FR,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Vinci_SA
+1503,VODAFONE GROUP PUBLIC LIMITED COMPANY,VOD,GB00BH4HKS39,GB,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/Vodafone
+1504,W. R. BERKLEY CORPORATION,WRB,US0844231029,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/W._R._Berkley_Corporation
+1505,WAN HAI LINES LTD.,2615,TW0002615002,TW,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Wan_Hai_Lines
+1506,Wartsila Oyj Abp,WRT1V,FI0009003727,FI,Industrials,unmapped,
+1507,"Weichai Power Co., Ltd.",338,CNE1000000D4,CN,Industrials,unmapped,
+1508,"WEST PHARMACEUTICAL SERVICES, INC.",WST,US9553061055,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/West_Pharmaceutical_Services
+1509,WESTERN DIGITAL CORPORATION,WDC,US9581021055,US,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Western_Digital
+1510,EVOLUTION MINING LIMITED,EVN,AU000000EVN4,AU,Materials,unmapped,
+1511,"THE WILLIAMS COMPANIES, INC.",WMB,US9694571004,US,Energy,auto_mapped,http://en.wikipedia.org/wiki/Williams_Companies
+1512,WILMAR INTERNATIONAL LIMITED,F34,SG1T56930848,SG,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Wilmar_International
+1513,WIPRO LIMITED,WIPRO,INE075A01022,IN,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Wipro
+1514,"Wolong Electric Group Co., Ltd.",600580,CNE000001BJ3,CN,Industrials,unmapped,
+1515,WOODSIDE ENERGY GROUP LTD,WDS,AU0000224040,AU,Energy,unmapped,
+1516,WOOLWORTHS GROUP LIMITED,WOW,AU000000WOW2,AU,Consumer Staples,needs_review,
+1517,"NH INVESTMENT & SECURITIES CO., LTD.",5940,KR7005940002,KR,Financials,unmapped,
+1518,"Jiangsu Eastern Shenghong Co., Ltd.",301,CNE0000012K6,CN,Materials,unmapped,
+1519,"Wuliangye Yibin Co., Ltd.",858,CNE000000VQ8,CN,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Wuliangye_Yibin
+1520,"Xiamen Tungsten Co., Ltd.",600549,CNE000001D15,CN,Materials,unmapped,
+1521,ENN ENERGY HOLDINGS LIMITED,2688,KYG3066L1014,CN,Utilities,unmapped,
+1522,"GOLDWIND SCIENCE&TECHNOLOGY CO., LTD.",2202,CNE1000008S5,CN,Industrials,unmapped,
+1523,"XCMG Construction Machinery Co., Ltd.",425,CNE000000FH0,CN,Industrials,unmapped,
+1524,"YUM! Brands, Inc.",YUM,US9884981013,US,Consumer Discretionary,auto_mapped,http://sv.wikipedia.org/wiki/Yum!_Brands
+1525,"Yamaha Motor Co., Ltd.",7272,JP3942800008,JP,Consumer Discretionary,needs_review,
+1526,"GF Securities Co., Ltd.",776,CNE0000008L2,CN,Financials,unmapped,
+1527,YANGZIJIANG SHIPBUILDING (HOLDINGS) LTD.,BS6,SG1U76934819,CN,Industrials,unmapped,
+1528,Yankuang Energy Group Company Limited,600188,CNE000000WV6,CN,Energy,unmapped,
+1529,YAPI VE KREDI BANKASI ANONIM SIRKETI,YKBNK.E,TRAYKBNK91N6,TR,Financials,unmapped,
+1530,YUHAN CORPORATION,100,KR7000100008,KR,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Yuhan
+1531,"YUNNAN BAIYAO GROUP CO., LTD",538,CNE0000008X7,CN,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Yunnan_Baiyao_Group
+1532,ZANGGE MINING COMPANY LIMITED,408,CNE000000L08,CN,Materials,unmapped,
+1533,ZTE Corporation,63,CNE000000TK5,CN,Information Technology,needs_review,
+1534,"ZHANGZHOU PIENTZEHUANG PHARMACEUTICAL CO., LTD.",600436,CNE000001F21,CN,Health Care,unmapped,
+1535,"Huafon Chemical Co., Ltd.",2064,CNE000001NK6,CN,Materials,unmapped,
+1536,"ZHEJIANG SANHUA INTELLIGENT CONTROLS CO.,LTD.",2050,CNE000001M22,CN,Industrials,unmapped,
+1537,"ZHONGJIN GOLD CORP., LTD",600489,CNE000001FM8,CN,Materials,auto_mapped,http://en.wikipedia.org/wiki/Zhongjin_Gold
+1538,"Zhuzhou CRRC Times Electric Co., Ltd.",688187,CNE100004QK2,CN,Industrials,auto_mapped,http://en.wikipedia.org/wiki/Zhuzhou_CRRC_Times_Electric
+1539,Zijin Mining Group Company Limited,601899,CNE100000B24,CN,Materials,auto_mapped,http://en.wikipedia.org/wiki/Zijin_Mining
+1540,"ZIMMER BIOMET HOLDINGS, INC.",ZBH,US98956P1021,US,Health Care,auto_mapped,http://en.wikipedia.org/wiki/Zimmer_Biomet
+1541,EBAY INC.,EBAY,US2786421030,US,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/EBay
+1542,"BAIDU, INC.",9888,KYG070341048,CN,Communication Services,needs_review,
+1543,Jinduicheng Molybdenum Co Ltd,601958,CNE1000009Y1,CN,Materials,auto_mapped,http://en.wikipedia.org/wiki/Jinduicheng_Molybdenum
+1544,"MS&AD Insurance Group Holdings, Inc.",8725,JP3890310000,JP,Financials,auto_mapped,http://en.wikipedia.org/wiki/MS&AD_Insurance_Group
+1545,VISA INC.,V,US92826C8394,US,Financials,auto_mapped,http://en.wikipedia.org/wiki/Visa_Inc.
+1546,WANT WANT CHINA HOLDINGS LIMITED,151,KYG9431R1039,SG,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Want_Want_China
+1547,"iFLYTEK CO.,LTD",2230,CNE100000B81,CN,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/IFlytek
+1548,"AMERICAN WATER WORKS COMPANY, INC.",AWK,US0304201033,US,Utilities,auto_mapped,http://en.wikipedia.org/wiki/American_Water_Works
+1549,VULCAN MATERIALS COMPANY,VMC,US9291601097,US,Materials,auto_mapped,http://en.wikipedia.org/wiki/Vulcan_Materials_Company
+1550,3SBio Inc.,1530,KYG8875G1029,CN,Health Care,unmapped,
+1551,BLACKSTONE INC.,BX,US09260D1072,US,Financials,needs_review,
+1552,TRIP.COM GROUP LIMITED,9961,KYG9066F1019,SG,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/Trip.com
+1553,KEURIG DR PEPPER INC.,KDP,US49271V1008,US,Consumer Staples,auto_mapped,http://en.wikipedia.org/wiki/Keurig_Dr_Pepper
+1554,Goertek Inc.,2241,CNE100000BP1,CN,Information Technology,auto_mapped,http://en.wikipedia.org/wiki/Goertek
+1555,KEYERA CORP.,KEY,CA4932711001,CA,Energy,auto_mapped,http://en.wikipedia.org/wiki/Keyera
+1556,Link Real Estate Investment Trust,823,HK0823032773,HK,Real Estate,unmapped,
+1557,"NETEASE, INC.",9999,KYG6427A1022,CN,Communication Services,auto_mapped,http://en.wikipedia.org/wiki/NetEase
+1558,NEW ORIENTAL EDUCATION & TECHNOLOGY GROUP INC.,9901,KYG6470A1168,CN,Consumer Discretionary,auto_mapped,http://en.wikipedia.org/wiki/New_Oriental
+1559,Nippon Building Fund Inc.,8951,JP3027670003,JP,Real Estate,unmapped,
+1560,Sociedad Quimica y Minera de Chile S.A.,S2CH34,US8336351056,CL,Materials,unmapped,
+1561,TFI International Inc.,TFII,CA87241L1094,CA,Industrials,auto_mapped,http://en.wikipedia.org/wiki/TFI_International
