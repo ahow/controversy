@@ -1,1 +1,154 @@
-__CONTENT_0__
+# Living Taxonomy v0 — issue categories that typically attract significant
+# attention and/or share-price impact. Seeded from established normative
+# frameworks (UNGC, OECD MNE Guidelines, ILO) and commercial controversy
+# taxonomies; weights are PRIORS to be calibrated by evidence (see docs/TAXONOMY.md).
+#
+# Per-issue fields:
+#   keywords_en      — English keyword cues (concepts are cross-lingual downstream)
+#   hard_trigger     — true if incidents here can enter the Confirmed layer
+#   prior_severity   — 1-4 prior severity weight (S1-S4 anchor); calibrated over time
+#   prior_attention  — 1-4 prior attention propensity (headline risk); calibrated
+#   status           — seed | calibrating | calibrated (see docs/TAXONOMY.md lifecycle)
+version: "0.1.0"
+
+# Server-side sweep filter (v0.2): single words ONLY — the API counts every word
+# and every concept toward an 80-term query limit. 40 words + 30 concepts = 70.
+# Sweep layer is for recall; precision happens client-side via issue classification.
+sweep_keywords: [fraud, bribery, corruption, embezzlement, indictment, fatalities,
+  explosion, collapse, spill, contamination, deforestation, slavery, trafficking,
+  recall, defective, carcinogen, breach, cyberattack, ransomware, antitrust, cartel,
+  collusion, greenwashing, strike, harassment, discrimination, misconduct, ousted,
+  evasion, sanctions, embargo, opioid, addiction, deepfake, lawsuit, litigation,
+  probe, fined, scandal, boycott]
+
+issues:
+  - id: FRAUD_CORRUPTION
+    label: Fraud, bribery & corruption
+    keywords_en: [fraud, bribery, corruption, embezzlement, money laundering, kickback, accounting scandal, indictment]
+    hard_trigger: true
+    prior_severity: 4
+    prior_attention: 4
+    status: seed
+
+  - id: SAFETY_FATALITIES
+    label: Fatal accidents & systemic safety failure
+    keywords_en: [fatal accident, deaths, explosion, collapse, derailment, safety failure, recall deaths]
+    hard_trigger: true
+    prior_severity: 4
+    prior_attention: 4
+    status: seed
+
+  - id: ENV_DISASTER
+    label: Major environmental damage
+    keywords_en: [oil spill, tailings, toxic leak, contamination, pollution fine, environmental disaster, deforestation]
+    hard_trigger: true
+    prior_severity: 4
+    prior_attention: 3
+    status: seed
+
+  - id: HUMAN_RIGHTS
+    label: Human rights & forced labour
+    keywords_en: [forced labour, child labor, child labour, human rights abuse, modern slavery, supply chain abuse, uyghur]
+    hard_trigger: true
+    prior_severity: 4
+    prior_attention: 4
+    status: seed
+
+  - id: PRODUCT_SAFETY
+    label: Product safety & recall
+    keywords_en: [product recall, safety recall, defective, contamination recall, carcinogen, banned product]
+    hard_trigger: true
+    prior_severity: 3
+    prior_attention: 3
+    status: seed
+
+  - id: DATA_PRIVACY
+    label: Data breach & privacy violation
+    keywords_en: [data breach, hack, cyberattack, privacy violation, ransomware, leaked data]
+    hard_trigger: true
+    prior_severity: 3
+    prior_attention: 3
+    status: seed
+
+  - id: ANTITRUST
+    label: Antitrust & market abuse
+    keywords_en: [antitrust, cartel, price fixing, monopoly fine, competition probe, market manipulation, insider trading]
+    hard_trigger: true
+    prior_severity: 3
+    prior_attention: 3
+    status: seed
+
+  - id: GREENWASHING
+    label: Greenwashing & misleading claims
+    keywords_en: [greenwashing, misleading claims, false advertising, deceptive marketing, ESG misstatement]
+    hard_trigger: true
+    prior_severity: 3
+    prior_attention: 3
+    status: seed
+
+  - id: LABOUR_DISPUTE
+    label: Labour disputes & working conditions
+    keywords_en: [strike, union dispute, wage theft, unsafe working conditions, harassment, discrimination lawsuit, layoffs]
+    hard_trigger: false
+    prior_severity: 2
+    prior_attention: 3
+    status: seed
+
+  - id: EXEC_CONDUCT
+    label: Executive misconduct & governance failure
+    keywords_en: [CEO resigns, executive misconduct, board scandal, governance failure, harassment allegation, ousted]
+    hard_trigger: false
+    prior_severity: 3
+    prior_attention: 4
+    status: seed
+
+  - id: TAX_CONDUCT
+    label: Tax avoidance & evasion
+    keywords_en: [tax evasion, tax avoidance, tax haven, tax fraud, IRS investigation, HMRC probe]
+    hard_trigger: true
+    prior_severity: 2
+    prior_attention: 2
+    status: seed
+
+  - id: SANCTIONS_GEOPOLITICAL
+    label: Sanctions & geopolitical exposure
+    keywords_en: [sanctions, export controls, OFAC, embargo, geopolitical backlash, national security review]
+    hard_trigger: true
+    prior_severity: 3
+    prior_attention: 3
+    status: seed
+
+  - id: ANIMAL_WELFARE
+    label: Animal welfare
+    keywords_en: [animal cruelty, animal welfare, factory farming abuse, animal testing scandal]
+    hard_trigger: false
+    prior_severity: 2
+    prior_attention: 2
+    status: seed
+
+  - id: PUBLIC_HEALTH_HARM
+    label: Products causing public-health harm
+    keywords_en: [opioid, addiction lawsuit, public health crisis, harmful product, vaping illness, ultra-processed]
+    hard_trigger: true
+    prior_severity: 4
+    prior_attention: 3
+    status: seed
+
+  - id: COMMUNITY_CONFLICT
+    label: Community & indigenous conflict
+    keywords_en: [indigenous rights, community protest, land dispute, displacement, sacred site, blockade]
+    hard_trigger: false
+    prior_severity: 3
+    prior_attention: 2
+    status: seed
+
+  - id: AI_HARM
+    label: AI-related harm
+    keywords_en: [AI bias, algorithmic discrimination, deepfake, AI safety, autonomous vehicle crash, surveillance backlash]
+    hard_trigger: false
+    prior_severity: 3
+    prior_attention: 3
+    status: seed
+
+# Lifecycle: new categories are proposed when orphan incident clusters
+# (matching no category) exceed 20 incidents/quarter — see docs/TAXONOMY.md.
