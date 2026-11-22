@@ -1,8 +1,8 @@
 # Parameter Register v0 — machine-readable source of truth.
 # Every value here must have a rationale and provenance entry in docs/PARAMETER_REGISTER.md.
 # Changes require: version bump, backtest re-run, changelog entry.
-version: "0.4.0"
-as_of: "2026-11-20"
+version: "0.4.1"
+as_of: "2026-11-22"
 
 universe:
   path: data/universe.csv
@@ -82,6 +82,11 @@ budgets:
   daily_sweep_token_target: 100     # newsapi.ai tokens/day; alert if 7-day avg exceeds 150
   max_concurrent_requests: 5        # API hard limit; we run sequentially
   watchlist_event_lookback_days: 7
+  # Archive replay (scripts/replay_themes.py) — historical backfill for
+  # calibration of scorecard weights and controversy level/direction params.
+  replay_page_cost: 5               # ER archive search: tokens per call (per searched year); recent window is 1
+  replay_batch_size: 39             # 39 concepts + 40 single-word keywords = 79 <= 80-term query cap; cuts batches 40 -> 31 (-22% token burn vs 30)
+  replay_run_token_budget: 25000    # per-run cap; driver checkpoints at batch granularity and resumes on the next run
 
 themes:                             # Channel B — emergent themes from the orphan feed (src/themes.py)
   top_k_concepts: 8                 # signature size per event cluster (max-score weighted ER concepts)

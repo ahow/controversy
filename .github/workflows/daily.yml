@@ -7,6 +7,11 @@ on:
 permissions:
   contents: write          # lets the bot commit the rebuilt dashboard
 
+# The daily sweep and a replay must never write the cached DB concurrently.
+concurrency:
+  group: controversy-db
+  cancel-in-progress: false
+
 jobs:
   sweep:
     runs-on: ubuntu-latest

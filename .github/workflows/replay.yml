@@ -1,0 +1,90 @@
+name: replay-history
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "First archive day (YYYY-MM-DD, processed oldest-first)"
+        required: true
+      end_date:
+        description: "Last archive day (default: yesterday)"
+        required: false
+        default: ""
+      token_budget:
+        description: "Token cap for THIS run (archive = 5/call)"
+        required: false
+        default: "25000"
+      reset:
+        description: "Wipe all derived tables first (required for the first replay)"
+        type: boolean
+        required: false
+        default: false
+      probe:
+        description: "Single 5-token archive-access probe for start_date, then stop"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+
+# The daily sweep and a replay must never write the cached DB concurrently.
+concurrency:
+  group: controversy-db
+  cancel-in-progress: false
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests pyyaml
+
+      - name: Restore controversy.db cache
+        uses: actions/cache/restore@v4
+        with:
+          path: data/controversy.db
+          key: controversy-db-replay-${{ github.run_id }}
+          restore-keys: controversy-db-
+
+      - name: Seed universe (no-op once seeded)
+        run: python scripts/seed_universe.py
+
+      - name: Archive probe (5 tokens)
+        if: ${{ inputs.probe }}
+        env:
+          NEWSAPI_AI_KEY: ${{ secrets.NEWSAPI_AI_KEY }}
+        run: python scripts/replay_themes.py --start "${{ inputs.start_date }}" --probe
+
+      - name: Replay archive range
+        if: ${{ !inputs.probe }}
+        env:
+          NEWSAPI_AI_KEY: ${{ secrets.NEWSAPI_AI_KEY }}
+        run: |
+          ARGS="--start ${{ inputs.start_date }} --token-budget ${{ inputs.token_budget }} --max-minutes 100"
+          [ -n "${{ inputs.end_date }}" ] && ARGS="$ARGS --end ${{ inputs.end_date }}"
+          [ "${{ inputs.reset }}" = "true" ] && ARGS="$ARGS --reset"
+          python scripts/replay_themes.py $ARGS
+
+      - name: Rebuild dashboard
+        if: ${{ !inputs.probe }}
+        run: python scripts/build_dashboard.py
+
+      - name: Commit dashboard
+        if: ${{ !inputs.probe }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "dashboard: replay rebuild ${{ github.run_id }}"
+          file_pattern: docs/index.html docs/.nojekyll
+
+      - name: Save controversy.db cache
+        uses: actions/cache/save@v4
+        with:
+          path: data/controversy.db
+          key: controversy-db-${{ github.run_id }}

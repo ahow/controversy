@@ -48,6 +48,9 @@ is precisely what the system exists to see through.
 |---|---|---|
 | daily sweep target | 100 tokens/day | ~50 batched queries + margin |
 | alert | 7-day avg > 150 | Investigate pagination blowups (mega-caps) |
+| replay_page_cost | 5 tokens/call | ER archive pricing (per searched year); recent window is 1 |
+| replay_batch_size | 39 | 39 concepts + 40 keywords = 79 ≤ 80-term cap; 31 vs 40 batches/day (−22% burn) |
+| replay_run_token_budget | 25,000/run | Per-dispatch cap; batch-granular checkpointing in `replay_days` (DB, cache-persisted) |
 
 ## Channel B: emergent themes (`themes:` block)
 | Param | Value | Rationale |
@@ -143,6 +146,14 @@ tier falls back to S2 for ungraded shadow-mode incidents) →
 | min_concept_score | 4 | Minimum Event Registry concept salience for a company-article link to enter the precision layer (incidents, daily counts, impact scores). Title mention overrides. Evidence (2026-11-18 corpus, 6,004 links): score<=2 without title mention is ~100% bystander noise; confirmed incidents whose best link scores 3 are ~98% noise; every verified true-subject incident scores 5 (Deutsche Bank submarine leak: 42/42 articles). Raw links are never deleted — the recall layer stays complete and the threshold can be flexed without re-fetching. Known recall risk: real stories whose best link scores 3 with no title mention are dropped (one observed: CN derailment); the LLM subject/bystander pass is the proper fix for the residual (person-name collisions like 'Pat Cummins' cricket vs Cummins Inc.). |
 
 ## Changelog
+- v0.4.1 (2026-11-22): archive-replay tooling — no scoring-logic change.
+  `run_sweep` gains `page_cost` (archive = 5/call) and skips roll-ups on
+  BudgetExceeded (never roll up a partial day); roll-ups extracted to
+  `rollup_day`. Replay driver rewritten: checkpoints in DB table
+  `replay_days` (survives CI cache), batch-granular resume with zero token
+  double-spend, wall-clock self-limit, `--reset` (derived tables only),
+  `--probe` (5-token archive-access check). New `replay.yml` dispatch
+  workflow; `controversy-db` concurrency group on both workflows.
 - v0.4.0 (2026-11-20): subject-salience gate (`attach:` block) between the
   recall layer (all company-article links, kept raw with score/title_match
   evidence) and the precision layer (incidents, daily counts, impact scores).
