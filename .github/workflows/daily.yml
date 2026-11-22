@@ -1,0 +1,52 @@
+name: daily-sweep
+on:
+  schedule:
+    - cron: "0 6 * * *"   # 06:00 UTC daily
+  workflow_dispatch:       # manual "Run workflow" button
+
+permissions:
+  contents: write          # lets the bot commit the rebuilt dashboard
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests pyyaml
+
+      - name: Restore controversy.db cache
+        uses: actions/cache/restore@v4
+        with:
+          path: data/controversy.db
+          key: controversy-db-${{ github.run_id }}
+          restore-keys: controversy-db-
+
+      - name: Seed universe (no-op once seeded)
+        run: python scripts/seed_universe.py
+
+      - name: Daily sweep (newsapi.ai)
+        env:
+          NEWSAPI_AI_KEY: ${{ secrets.NEWSAPI_AI_KEY }}
+        run: python scripts/daily_sweep.py
+
+      - name: Rebuild dashboard
+        run: python scripts/build_dashboard.py
+
+      - name: Commit dashboard
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "dashboard: daily rebuild ${{ github.run_id }}"
+          file_pattern: docs/index.html docs/.nojekyll
+
+      - name: Save controversy.db cache
+        uses: actions/cache/save@v4
+        with:
+          path: data/controversy.db
+          key: controversy-db-${{ github.run_id }}
