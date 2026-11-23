@@ -146,6 +146,14 @@ tier falls back to S2 for ungraded shadow-mode incidents) →
 | min_concept_score | 4 | Minimum Event Registry concept salience for a company-article link to enter the precision layer (incidents, daily counts, impact scores). Title mention overrides. Evidence (2026-11-18 corpus, 6,004 links): score<=2 without title mention is ~100% bystander noise; confirmed incidents whose best link scores 3 are ~98% noise; every verified true-subject incident scores 5 (Deutsche Bank submarine leak: 42/42 articles). Raw links are never deleted — the recall layer stays complete and the threshold can be flexed without re-fetching. Known recall risk: real stories whose best link scores 3 with no title mention are dropped (one observed: CN derailment); the LLM subject/bystander pass is the proper fix for the residual (person-name collisions like 'Pat Cummins' cricket vs Cummins Inc.). |
 
 ## Changelog
+- ops (2026-11-22, no parameter change): quota-stop resilience. ER rejects
+  with HTTP 403 when the monthly token allowance is exhausted; replay now
+  treats 401/402/403 as a graceful stop (checkpoint, no partial-day roll-up,
+  exit 0 so the cache saves) via `is_quota_error` +
+  `run_sweep(graceful_quota=True)`. The daily sweep keeps `graceful_quota=
+  False` — a blind monitor must fail loudly. Cache-save steps in both
+  workflows are now `if: always()`. Trigger: 2026-11-22 replay run lost
+  ~21 replayed days when a 403 crashed the run before cache save.
 - v0.4.1 (2026-11-22): archive-replay tooling — no scoring-logic change.
   `run_sweep` gains `page_cost` (archive = 5/call) and skips roll-ups on
   BudgetExceeded (never roll up a partial day); roll-ups extracted to

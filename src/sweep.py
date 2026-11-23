@@ -26,14 +26,19 @@ def run_sweep(client, conn, sweep_keywords, taxonomy_issues, batch_size: int = 3
               batch_start: int = 0, batch_end: int | None = None,
               max_pages: int = 3, target_date: str | None = None,
               min_history: int = 30, baseline_window: int = 90,
-              page_cost: int = 1) -> dict:
+              page_cost: int = 1, graceful_quota: bool = False) -> dict:
     """page_cost: tokens charged per search call (1 = recent window, 5 =
     archive per searched year). On BudgetExceeded the sweep stops mid-day,
     SKIPS the roll-ups (a partial day must not be rolled up) and returns with
     stats['budget_exceeded']=True so the caller can checkpoint and resume at
-    stats['batches_done']."""
+    stats['batches_done'].
+    graceful_quota: replay drivers set True so a server-side quota stop
+    (401/402/403) is treated exactly like BudgetExceeded (checkpoint, no
+    roll-up). The daily sweep leaves it False — a blind monitor must fail
+    loudly, not quietly."""
     import json
-    from .er_client import BudgetExceeded, company_concept_query
+    import requests
+    from .er_client import BudgetExceeded, company_concept_query, is_quota_error
     from .incidents import company_core_names
     from .scoring import assign_issue, detect_confirmed_triggers
 
@@ -92,6 +97,14 @@ def run_sweep(client, conn, sweep_keywords, taxonomy_issues, batch_size: int = 3
             budget_hit = True
             conn.commit()
             break
+        except requests.HTTPError as e:
+            if graceful_quota and is_quota_error(e):
+                print(f"quota stop ({e.response.status_code}) mid-day "
+                      f"{day} at batch {bi} — checkpointing", flush=True)
+                budget_hit = True
+                conn.commit()
+                break
+            raise
         stats["batches_done"] += 1
         print(f"batch {bi}: articles={stats['articles']} tokens={client.spent}", flush=True)
 

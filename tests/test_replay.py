@@ -149,3 +149,61 @@ def test_reset_scope():
     assert conn.execute("SELECT COUNT(*) FROM companies").fetchone()[0] == 1
     assert conn.execute("SELECT state FROM states WHERE company_id=1"
                         ).fetchone()["state"] == "WATCH"
+
+
+class QuotaER(FakeER):
+    """Raises a 403 HTTPError after `avail` calls, mimicking monthly quota
+    exhaustion (observed ER behaviour 2026-11-22)."""
+    def __init__(self, avail):
+        super().__init__()
+        self._avail = avail
+
+    def search_articles(self, query, **kw):
+        if self._avail <= 0:
+            import requests
+            resp = requests.models.Response()
+            resp.status_code = 403
+            resp.url = "https://newsapi.ai/api/v1/article/getArticles"
+            raise requests.HTTPError("403 Client Error: Forbidden",
+                                     response=resp)
+        self._avail -= 1
+        self.spent += kw.get("cost", 1)
+        self.calls.append(kw)
+        n = len(self.calls)
+        return {"articles": {"results": [{
+            "uri": f"q-{n}", "date": DAY, "lang": "eng",
+            "title": f"Acme fraud probe {n}", "url": f"http://x/q{n}",
+            "source": {"title": "reuters.com"}, "sentiment": -0.5,
+            "eventUri": f"qevt-{n}",
+            "concepts": [{"uri": "uri:acme", "score": 5, "type": "org"}],
+        }], "totalResults": 1}}
+
+
+def test_quota_403_graceful_in_replay_mode(tmp_path):
+    conn = _mk(tmp_path)
+    client = QuotaER(avail=1)   # batch 0 completes, batch 1 hits the wall
+    stats = run_sweep(client, conn, KW, ISSUES, batch_size=2, max_pages=1,
+                      target_date=DAY, page_cost=5, graceful_quota=True)
+    assert stats["budget_exceeded"] is True       # same contract as BudgetExceeded
+    assert stats["batches_done"] == 1             # partial progress visible
+    assert "incidents_built" not in stats         # no roll-up of a partial day
+    assert conn.execute("SELECT COUNT(*) FROM articles").fetchone()[0] == 1
+
+
+def test_quota_403_raises_in_daily_mode(tmp_path):
+    import pytest, requests
+    conn = _mk(tmp_path)
+    client = QuotaER(avail=0)
+    with pytest.raises(requests.HTTPError):       # daily sweep fails loudly
+        run_sweep(client, conn, KW, ISSUES, batch_size=2, max_pages=1,
+                  target_date=DAY, graceful_quota=False)
+
+
+def test_is_quota_error_classification():
+    import requests
+    from src.er_client import is_quota_error
+    def err(code):
+        r = requests.models.Response(); r.status_code = code
+        return requests.HTTPError(str(code), response=r)
+    assert is_quota_error(err(403)) and is_quota_error(err(401))
+    assert not is_quota_error(err(500)) and not is_quota_error(err(429))

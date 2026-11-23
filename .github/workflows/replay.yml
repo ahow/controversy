@@ -84,6 +84,7 @@ jobs:
           file_pattern: docs/index.html docs/.nojekyll
 
       - name: Save controversy.db cache
+        if: ${{ always() }}   # partial progress must survive a failed step
         uses: actions/cache/save@v4
         with:
           path: data/controversy.db

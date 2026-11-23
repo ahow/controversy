@@ -51,6 +51,7 @@ jobs:
           file_pattern: docs/index.html docs/.nojekyll
 
       - name: Save controversy.db cache
+        if: ${{ always() }}   # never lose a restored-and-updated DB
         uses: actions/cache/save@v4
         with:
           path: data/controversy.db

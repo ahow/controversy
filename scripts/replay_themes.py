@@ -36,11 +36,13 @@ import time
 from datetime import date, timedelta
 from pathlib import Path
 
+import requests
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.config import load_env, params, taxonomy, ROOT
 import yaml
-from src.er_client import ERClient, BudgetExceeded
+from src.er_client import ERClient, BudgetExceeded, is_quota_error
 from src.store import connect
 from src.sweep import run_sweep
 
@@ -168,12 +170,22 @@ def main():
             stats = run_sweep(client, conn, sweep_kw, tax["issues"],
                               batch_size=batch_size, batch_start=batch_start,
                               max_pages=args.max_pages, target_date=day,
-                              page_cost=page_cost)
+                              page_cost=page_cost, graceful_quota=True)
         except BudgetExceeded as e:
             # Budget died before the first batch of this day — nothing to
             # checkpoint beyond what prior calls saved.
             print(f"budget exhausted before {day}: {e} — rerun to resume")
             break
+        except requests.HTTPError as e:
+            # Defensive backstop: run_sweep(graceful_quota=True) already
+            # converts quota stops into budget_exceeded returns; this only
+            # fires for a quota error raised outside the batch loop.
+            if is_quota_error(e):
+                print(f"QUOTA STOP at {day}: HTTP {e.response.status_code} "
+                      f"— monthly allowance exhausted. Completed days are "
+                      f"checkpointed; rerun after renewal/upgrade.")
+                break
+            raise
         batches_done = batch_start + stats["batches_done"]
         if stats["budget_exceeded"]:
             conn.execute(
@@ -184,8 +196,9 @@ def main():
                 " articles=articles+excluded.articles, ts=datetime('now')",
                 (day, batches_done, stats["articles"]))
             conn.commit()
-            print(f"budget exhausted mid-{day} at batch {batches_done}/"
-                  f"{n_batches} — rerun to resume", flush=True)
+            print(f"stopped mid-{day} at batch {batches_done}/"
+                  f"{n_batches} (budget cap or monthly quota) — rerun to "
+                  f"resume", flush=True)
             break
         # Completed day: run_sweep already ran the roll-ups (they run at the
         # end of every call that finishes without BudgetExceeded, including

@@ -18,6 +18,15 @@ class BudgetExceeded(RuntimeError):
     pass
 
 
+def is_quota_error(exc: requests.HTTPError) -> bool:
+    """ER rejects calls with 401/402/403 once the monthly token allowance is
+    exhausted (403 observed 2026-11-22). Signals 'stop gracefully, keep
+    checkpoints' — NOT a code failure. Other HTTP errors fail loudly."""
+    return (isinstance(exc, requests.HTTPError)
+            and exc.response is not None
+            and exc.response.status_code in (401, 402, 403))
+
+
 class ERClient:
     def __init__(self, api_key: str, token_budget: int = 150, session: requests.Session | None = None):
         self.api_key = api_key
