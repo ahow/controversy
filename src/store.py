@@ -102,6 +102,16 @@ CREATE TABLE IF NOT EXISTS theme_daily (
     new_events INTEGER DEFAULT 0,
     PRIMARY KEY (theme_id, date)
 );
+CREATE TABLE IF NOT EXISTS company_issue_daily (  -- v0.5.0 controversy level/direction
+    company_id INTEGER NOT NULL,
+    issue_id TEXT NOT NULL,
+    date TEXT NOT NULL,
+    influx REAL,               -- attention entering that day
+    level REAL,                -- EMA stock of controversy intensity
+    direction REAL,            -- EMA of daily level deltas (net flow)
+    components_json TEXT,      -- full audit: counts, factors, terms, lambdas
+    PRIMARY KEY (company_id, issue_id, date)
+);
 """
 
 # Columns added after the v0.1 schema, for in-place upgrade of older DBs.

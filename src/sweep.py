@@ -144,6 +144,10 @@ def rollup_day(conn, day: str, taxonomy_issues, min_history: int = 30,
     out["impact"] = rebuild_company_scores(
         conn, day, _p["impact"], taxonomy_issues, _p["themes"],
         min_score=_min_score)
+    from .controversy import rebuild_controversy
+    out["controversy"] = rebuild_controversy(conn, day, _p,
+                                             min_score=_min_score)
     print(f"roll-up: {out['incidents_built']} daily={out['daily']} "
-          f"themes={out['themes']} impact={out['impact']}", flush=True)
+          f"themes={out['themes']} impact={out['impact']} "
+          f"controversy={out['controversy']}", flush=True)
     return out

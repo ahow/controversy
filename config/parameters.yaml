@@ -1,7 +1,7 @@
 # Parameter Register v0 — machine-readable source of truth.
 # Every value here must have a rationale and provenance entry in docs/PARAMETER_REGISTER.md.
 # Changes require: version bump, backtest re-run, changelog entry.
-version: "0.4.1"
+version: "0.5.0"
 as_of: "2026-11-22"
 
 universe:
@@ -210,3 +210,39 @@ governance:
   alert_review_sla_hours: 48
   reversal_outcome_tracking: true   # re-offense within 12m of re-entry; tune windows annually
   annual_recalibration: [taxonomy.weights, thresholds]
+
+controversy:                        # v0.5.0 — per (company, issue) level & direction (src/controversy.py)
+  # Per-issue decay half-lives in days — PRIORS pending archive fit
+  # (scripts/fit_controversy_params.py; proposal -> human merge, like the scorecard).
+  # Severity-4 issues presumed slower-fading. The EMA level form keeps the
+  # scale half-life-independent: h controls memory, not magnitude.
+  half_life_days:
+    SAFETY_FATALITIES: 60           # PRIOR
+    HUMAN_RIGHTS: 60                # PRIOR
+    ENV_DISASTER: 60                # PRIOR
+    PUBLIC_HEALTH_HARM: 60          # PRIOR
+    FRAUD_CORRUPTION: 45            # PRIOR
+    EXEC_CONDUCT: 45                # PRIOR
+    GREENWASHING: 45                # PRIOR
+    DATA_PRIVACY: 30                # PRIOR
+    PRODUCT_SAFETY: 30              # PRIOR
+    AI_HARM: 30                     # PRIOR
+    SANCTIONS_GEOPOLITICAL: 30      # PRIOR
+    ANTITRUST: 30                   # PRIOR
+    TAX_CONDUCT: 30                 # PRIOR
+    LABOUR_DISPUTE: 21              # PRIOR
+    COMMUNITY_CONFLICT: 21          # PRIOR
+    ANIMAL_WELFARE: 21              # PRIOR
+    _UNCLASSIFIED: 14               # PRIOR — orphan feed decays fastest
+    _default: 21                    # fallback for new/promoted issues
+  layer_weight:                     # evidence-layer discount on incident volume
+    confirmed: 1.0
+    indicative: 0.5                 # PRIOR
+  tier_factor:                      # severity-tier multiplier on incident volume
+    S1: 0.6                         # PRIOR
+    S2: 0.8                         # PRIOR
+    S3: 1.0                         # PRIOR
+    S4: 1.25                        # PRIOR
+    _default: 1.0                   # tier not yet assigned
+  theme_boost_weight: 1.0           # diffusion AMPLIFY mode (1 + w x theme_boost); 0 = neutral. Fork to be decided by archive evidence — PRIOR
+  min_level: 0.01                   # stop writing decay-continuation rows below this

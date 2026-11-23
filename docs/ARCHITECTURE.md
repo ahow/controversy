@@ -116,6 +116,19 @@ is never treated as cleanliness (small-cap/EM coverage bias).
   documented override). Re-offense-within-12m tracked as the tuning statistic.
 - Market price recovery is NOT a reversal input.
 
+## Controversy level/direction (v0.5.0)
+Each (company, issue) pair carries a daily LEVEL — an EMA stock of outrage
+attention with a per-issue half-life — and DIRECTION, its exact daily change.
+Never summed across issues. INFLUX reuses the `impact.outrage` machinery by
+reference (layer weights, tier factors, caps, moral charge) so there is one
+source of attention weights; theme diffusion amplifies influx via
+`theme_boost_weight`. Built in `src/controversy.py` as `rollup_day` step 5 —
+zero API tokens. Surfaced on the dashboard company page (`#co/<id>`):
+per-issue level timeseries with incident step-up markers, direction arrows,
+and a CONTROV column on the main table for cross-company ranking.
+All half-lives are PRIORS until the archive replay provides multi-month
+series for empirical fitting (`scripts/fit_controversy_params.py`).
+
 ## Data layer
 - newsapi.ai (Event Registry): primary feed. Sequential requests; 1 token/article
   search, 5/event search; budget enforced in `src/er_client.py`.

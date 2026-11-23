@@ -1,4 +1,4 @@
-# Parameter Register v0.3.0 (2026-11-20)
+# Parameter Register v0.5.0 (2026-11-24)
 
 Machine-readable source: `config/parameters.yaml`. This document carries the
 rationale; the YAML carries the values. They must never diverge.
@@ -145,7 +145,48 @@ tier falls back to S2 for ungraded shadow-mode incidents) →
 |---|---|---|
 | min_concept_score | 4 | Minimum Event Registry concept salience for a company-article link to enter the precision layer (incidents, daily counts, impact scores). Title mention overrides. Evidence (2026-11-18 corpus, 6,004 links): score<=2 without title mention is ~100% bystander noise; confirmed incidents whose best link scores 3 are ~98% noise; every verified true-subject incident scores 5 (Deutsche Bank submarine leak: 42/42 articles). Raw links are never deleted — the recall layer stays complete and the threshold can be flexed without re-fetching. Known recall risk: real stories whose best link scores 3 with no title mention are dropped (one observed: CN derailment); the LLM subject/bystander pass is the proper fix for the residual (person-name collisions like 'Pat Cummins' cricket vs Cummins Inc.). |
 
+## Controversy level/direction (`controversy:` block) — v0.5.0
+Per (company, issue, day) rows in `company_issue_daily` — NEVER summed across
+issues (a company facing two controversies shows two rows, not one big number).
+
+Definitions:
+- INFLUX(d) = flow of new outrage attention on day d. Reuses the `impact.outrage`
+  weights/caps/charges by reference (single source — never duplicated):
+  per incident `volume_w = Σ_articles layer_w × tier_f`, then
+  `attention = w_a·log1p(volume_w)/log1p(cap_a) + w_s·src/cap_s + w_t1·tier1/cap_t1 + w_l·langs/cap_l`,
+  then `influx = attention × (1 + theme_boost_weight × theme_boost) × charge(issue)`.
+  Breadth terms (sources/tier1/langs) are computed over the union of the issue's
+  subject-gated articles, never layer-weighted.
+- LEVEL(d) = `λ·level(d−1) + (1−λ)·influx(d)` with `λ = 2^(−1/h)`.
+  The EMA form is deliberate: level stays comparable across issues with
+  different half-lives because h controls MEMORY, not SCALE. Un-normalised
+  accumulation (`level = λ·prev + influx`) was rejected — its steady-state
+  height scales with h, so a slow-fading issue would always outrank a
+  fast-fading one at equal coverage, which is misleading.
+- DIRECTION(d) = `level(d) − level(d−1)` ≡ `(1−λ)·(influx − level(d−1))` —
+  net accumulation. NO smoothing on direction: an EMA of daily deltas is a
+  lagging indicator (caught by test: it reported "building" for days while
+  the level was already fading after a one-day spike).
+- Continuation rows are written while level ≥ min_level so the decay tail is
+  visible on the company page; rebuild is full per-day DELETE-first (stale
+  tails are removed when gates tighten).
+
+| Param | Value | Rationale |
+|---|---|---|
+| half_life_days | SAFETY_FATALITIES/HUMAN_RIGHTS/ENV_DISASTER/PUBLIC_HEALTH_HARM 60; FRAUD_CORRUPTION/EXEC_CONDUCT/GREENWASHING 45; DATA_PRIVACY/PRODUCT_SAFETY/AI_HARM/SANCTIONS_GEOPOLITICAL/ANTITRUST/TAX_CONDUCT 30; LABOUR_DISPUTE/COMMUNITY_CONFLICT/ANIMAL_WELFARE 21; _UNCLASSIFIED 14; _default 21 | **PRIOR** — harm persistence ordering (physical-harm issues linger longest, operational disputes fade fastest). All values pending empirical fit from the archive replay (`scripts/fit_controversy_params.py`: post-incident attention-decay regression per issue). |
+| layer_weight | confirmed 1.0 / indicative 0.5 | Mirrors the two-layer rule: indicative coverage moves the level at half weight. Reuses the `impact` layering, stored per-incident. |
+| tier_factor | S1 0.6 / S2 0.8 / S3 1.0 / S4 1.25 / _default 1.0 | Severity-tier amplifier on incident volume (higher-severity incidents draw disproportionate attention). **PRIOR** pending replay evidence. |
+| theme_boost_weight | 1.0 | Diffusion amplifier: influx × (1 + w·theme_boost) where theme_boost = max live non-dead theme escalation_score/100 attached to the issue's incidents. Amplify-vs-dilute is a replay-evidence fork (Channel B may AMPLIFY an incident's pull or DILUTE it across many companies); w=0 disables if dilute wins. **PRIOR**. |
+| min_level | 0.01 | Decay-tail cutoff for continuation rows; storage hygiene only, never a display threshold. |
+
 ## Changelog
+- v0.5.0 (2026-11-24): controversy level/direction (`controversy:` block,
+  table `company_issue_daily`, dashboard company page at `#co/<id>` with
+  per-issue level timeseries, incident step-up markers and direction
+  readouts; CONTROV column on the main table links in). New engine
+  `src/controversy.py` wired into `rollup_day` as step 5 — zero API tokens
+  (reads existing tables). All half-lives and tier_factor/theme_boost_weight
+  are PRIORS pending archive-replay calibration.
 - ops (2026-11-22, no parameter change): quota-stop resilience. ER rejects
   with HTTP 403 when the monthly token allowance is exhausted; replay now
   treats 401/402/403 as a graceful stop (checkpoint, no partial-day roll-up,

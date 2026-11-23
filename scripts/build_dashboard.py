@@ -130,6 +130,7 @@ def collect(db_path: Path) -> dict:
             })
 
     companies = []
+    cov_series: dict[str, dict] = {}
     latest = meta["data_date"]
     has_scores = conn.execute(
         "SELECT 1 FROM sqlite_master WHERE type='table' "
@@ -213,6 +214,34 @@ def collect(db_path: Path) -> dict:
                     "triggers": sj.get("triggers") or [],
                     "issues": sj.get("issues") or [],
                 }
+        # --- controversy level/direction (v0.5.0): top issue per company for
+        # the table; full per-issue series for the company page (#co/<id>) ---
+        if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' "
+                        "AND name='company_issue_daily'").fetchone():
+            ci_latest = q1("SELECT MAX(date) FROM company_issue_daily")
+            top: dict[int, dict] = {}
+            if ci_latest:
+                for r in conn.execute(
+                        "SELECT company_id, issue_id, level, direction "
+                        "FROM company_issue_daily WHERE date=?",
+                        (ci_latest,)).fetchall():
+                    cur = top.get(r["company_id"])
+                    if cur is None or r["level"] > cur["level"]:
+                        top[r["company_id"]] = {
+                            "issue": r["issue_id"], "level": r["level"],
+                            "dir": r["direction"]}
+            for co in companies:
+                t = top.get(co["id"])
+                co["cov"] = t
+                co["cov_lvl"] = t["level"] if t else None
+            for r in conn.execute(
+                    "SELECT company_id, issue_id, date, level, direction "
+                    "FROM company_issue_daily ORDER BY date").fetchall():
+                cov_series.setdefault(str(r["company_id"]), {}).setdefault(
+                    r["issue_id"], []).append(
+                    [r["date"], round(r["level"], 4),
+                     round(r["direction"], 4)])
+
         for co in companies:
             co["inc"] = inc_by_co.get(co["id"], [])
             co["dec"] = decomp.get(co["id"])
@@ -235,7 +264,7 @@ def collect(db_path: Path) -> dict:
     return {"meta": meta, "incidents": incidents, "orphans": orphans,
             "themes": themes,
             "companies": companies, "trend": trend, "issues": issues,
-            "ticker": ticker}
+            "ticker": ticker, "cov_series": cov_series}
 
 
 TEMPLATE = """<!doctype html>
@@ -409,6 +438,23 @@ footer b{color:var(--txt);letter-spacing:.14em}
   .ticker-track,.brand .dot,.badge::before{animation:none}
   *{transition:none!important}
 }
+/* --- v0.5.0 controversy level/direction + company page --- */
+.co-link{color:inherit;text-decoration:none;border-bottom:1px dotted #666}
+.co-link:hover{border-bottom-color:#fff}
+.cov-iss{font-size:10px;color:#999;letter-spacing:.04em}
+.dir-up{color:#e5484d}
+.dir-dn{color:#46a758}
+.dir-flat{color:#777}
+#coview .cov-back{display:inline-block;margin:4px 0 14px;color:#9cc3ff;
+  text-decoration:none;font-size:12px;letter-spacing:.08em}
+#coview h2{margin:0 0 4px;font-size:20px}
+#coview .cov-sub{color:#999;font-size:12px;margin-bottom:16px}
+.cov-legend{display:flex;flex-wrap:wrap;gap:10px 18px;margin:8px 0 16px;
+  font-size:12px}
+.cov-legend .sw{display:inline-block;width:10px;height:10px;border-radius:2px;
+  margin-right:6px}
+.cov-note{font-size:11px;color:#888;margin-top:6px;max-width:70em}
+#cov-chart svg{width:100%;height:auto;display:block}
 </style>
 </head>
 <body>
@@ -442,7 +488,9 @@ __TICKER__
         <th data-k="country">CTRY</th><th data-k="n_articles" class="num sorted">ARTICLES</th>
         <th data-k="n_sources" class="num">SOURCES</th><th data-k="n_incidents" class="num">INCIDENTS</th>
         <th data-k="z" class="num">Z</th><th data-k="sev" class="num">SEV</th>
-        <th data-k="out" class="num">OUTRAGE</th><th data-k="mat" class="num">MAT bps</th><th data-k="state">STATE</th>
+        <th data-k="out" class="num">OUTRAGE</th>
+        <th data-k="cov_lvl" class="num" title="Highest per-issue controversy level (EMA stock; never summed across issues) + direction">CONTROV</th>
+        <th data-k="mat" class="num">MAT bps</th><th data-k="state">STATE</th>
       </tr></thead>
       <tbody></tbody>
     </table>
@@ -510,6 +558,16 @@ __TICKER__
     Sweep: newsapi.ai batched concept queries, 40-keyword server-side recall filter.
   </footer>
 </main>
+<section id="coview" class="panel" style="display:none;margin:18px"
+         aria-label="Company controversy view">
+  <a href="#" class="cov-back">&larr; ALL COMPANIES</a>
+  <h2 id="cov-name"></h2>
+  <div class="cov-sub" id="cov-sub"></div>
+  <div id="cov-chart"></div>
+  <div class="cov-legend" id="cov-legend"></div>
+  <div class="cov-note" id="cov-note"></div>
+  <div id="cov-detail" style="margin-top:18px"></div>
+</section>
 <script id="cm-data" type="application/json">__JSON__</script>
 <script>
 const D = JSON.parse(document.getElementById('cm-data').textContent);
@@ -681,16 +739,17 @@ function renderTable(){
   document.getElementById('co-count').textContent = rows.length + ' COMPANIES';
   document.querySelector('#co-table tbody').innerHTML = rows.map(c => `
     <tr class="co-row" tabindex="0" aria-expanded="false">
-      <td>${esc(c.name)}</td><td>${esc(c.sector || '')}</td><td>${esc(c.country || '')}</td>
+      <td><a class="co-link" href="#co/${c.id}" title="controversy timeseries">${esc(c.name)}</a></td><td>${esc(c.sector || '')}</td><td>${esc(c.country || '')}</td>
       <td class="num">${c.n_articles}</td><td class="num">${c.n_sources}</td>
       <td class="num">${c.n_incidents}</td>
       <td class="num">${c.thin ? '<span class="thin">THIN</span>' : (c.z == null ? '—' : c.z.toFixed(2))}</td>
       <td class="num">${c.sev == null ? '—' : `<span class="${c.sev >= 60 ? 'score-high' : c.sev >= 40 ? 'score-mid' : ''}">${c.sev.toFixed(0)}</span>${c.score_thin ? '<span class="thin">*</span>' : ''}`}</td>
       <td class="num">${c.out == null ? '—' : `<span class="${c.out >= 60 ? 'score-high' : c.out >= 40 ? 'score-mid' : ''}">${c.out.toFixed(0)}</span>`}</td>
+      <td class="num">${c.cov == null ? '—' : `<a class="co-link" href="#co/${c.id}">${c.cov.level.toFixed(2)}</a> <span class="cov-iss">${esc(c.cov.issue)}</span> <span class="${c.cov.dir > 0.0005 ? 'dir-up' : c.cov.dir < -0.0005 ? 'dir-dn' : 'dir-flat'}" title="direction (net accumulation) ${c.cov.dir >= 0 ? '+' : ''}${c.cov.dir.toFixed(4)}/day">${c.cov.dir > 0.0005 ? '▲' : c.cov.dir < -0.0005 ? '▼' : '◆'}</span>`}</td>
       <td class="num" title="${c.mat == null ? 'uncalibrated — no event-study CAR table yet' : 'expected CAR bps'}">${c.mat == null ? '<span class="thin">UNCAL</span>' : c.mat.toFixed(0)}</td>
       <td><span class="state state-${esc(c.state)}">${esc(c.state)}</span></td>
     </tr>
-    <tr class="co-detail" style="display:none"><td colspan="11">${coDetail(c)}</td></tr>`).join('');
+    <tr class="co-detail" style="display:none"><td colspan="12">${coDetail(c)}</td></tr>`).join('');
   document.querySelectorAll('#co-table th').forEach(th =>
     th.classList.toggle('sorted', th.dataset.k === sortK));
 }
@@ -715,6 +774,66 @@ document.querySelectorAll('#co-table th').forEach(th => th.addEventListener('cli
   if (sortK === k) sortDir *= -1; else { sortK = k; sortDir = -1; }
   renderTable();
 }));
+
+/* --- company controversy page (#co/<id>) --- */
+const COV_COLORS = ['#e5484d','#f76b15','#f5d90a','#46a758','#3e9bf0','#8e4ec6'];
+function niceCeil(v){ if(v<=0) return 1; const p=Math.pow(10,Math.floor(Math.log10(v))); const n=v/p; return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*p; }
+function renderCoView(cid){
+  const c = D.companies.find(x => x.id === cid);
+  const series = (D.cov_series || {})[String(cid)] || {};
+  const issNames = Object.keys(series);
+  document.getElementById('cov-name').textContent = c ? c.name : ('Company #' + cid);
+  document.getElementById('cov-sub').textContent = c ? [c.sector, c.country, c.state].filter(Boolean).join(' · ') : '';
+  const dates = [...new Set(issNames.flatMap(i => series[i].map(p => p[0])))].sort();
+  const ranked = issNames.map(i => ({i, last: series[i][series[i].length-1]}))
+    .sort((a, b) => b.last[1] - a.last[1]);
+  const top = ranked.slice(0, 6);
+  const maxY = niceCeil(Math.max(0.05, ...top.flatMap(t => series[t.i].map(p => p[1]))));
+  const W = 920, H = 300, L = 46, R = 14, T = 14, B = 42;
+  const x = d => dates.length <= 1 ? (L + W - R) / 2 : L + (W - L - R) * dates.indexOf(d) / (dates.length - 1);
+  const y = v => T + (H - T - B) * (1 - v / maxY);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="controversy level timeseries">`;
+  for (let g = 0; g <= 4; g++){
+    const v = maxY * g / 4, yy = y(v);
+    svg += `<line x1="${L}" y1="${yy}" x2="${W - R}" y2="${yy}" stroke="#2a2a2a"/>` +
+      `<text x="${L - 6}" y="${yy + 4}" fill="#888" font-size="10" text-anchor="end">${v.toFixed(v < 1 ? 2 : 1)}</text>`;
+  }
+  const step = Math.max(1, Math.ceil(dates.length / 6));
+  dates.forEach((d, k) => { if (k % step === 0)
+    svg += `<text x="${x(d)}" y="${H - B + 16}" fill="#888" font-size="10" text-anchor="middle">${d.slice(2)}</text>`; });
+  if (c) (c.inc || []).forEach(inc => {
+    if (!dates.includes(inc.first_seen)) return;
+    const xx = x(inc.first_seen), col = inc.issue && inc.layer === 'confirmed' ? '#e5484d' : '#888';
+    svg += `<path d="M ${xx - 4} ${H - B + 26} L ${xx + 4} ${H - B + 26} L ${xx} ${H - B + 18} Z" fill="${col}"><title>${esc(inc.issue || 'UNCLASSIFIED')} — ${esc(inc.first_seen)} (${inc.n_articles} articles)</title></path>`;
+  });
+  top.forEach((t, k) => {
+    const pts = series[t.i].map(p => `${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(' ');
+    svg += `<polyline points="${pts}" fill="none" stroke="${COV_COLORS[k]}" stroke-width="1.8"/>`;
+  });
+  svg += '</svg>';
+  document.getElementById('cov-chart').innerHTML = dates.length ? svg :
+    '<div class="thin">No controversy history on record for this company.</div>';
+  document.getElementById('cov-legend').innerHTML = top.map((t, k) => {
+    const [d, lvl, dir] = t.last;
+    const arrow = dir > 0.0005 ? '<span class="dir-up">▲</span>' : dir < -0.0005 ? '<span class="dir-dn">▼</span>' : '<span class="dir-flat">◆</span>';
+    return `<span><span class="sw" style="background:${COV_COLORS[k]}"></span>${esc(t.i)} <b>${lvl.toFixed(2)}</b> ${arrow}</span>`;
+  }).join('');
+  document.getElementById('cov-note').textContent = 'Level = EMA stock of outrage attention per issue (per-issue half-life; never summed across issues). Direction = daily change in level — positive means building faster than it fades. Triangles on the axis mark incident first-seen dates (red = confirmed). Parameters v' + D.meta.param_version + ': half-lives are PRIORS until archive calibration.';
+  document.getElementById('cov-detail').innerHTML = c ? coDetail(c) : '';
+}
+function route(){
+  const m = location.hash.match(/^#co\\/([0-9]+)/);
+  const main = document.querySelector('main'), view = document.getElementById('coview');
+  if (m){
+    main.style.display = 'none'; view.style.display = '';
+    renderCoView(+m[1]);
+    window.scrollTo(0, 0);
+  } else {
+    main.style.display = ''; view.style.display = 'none';
+  }
+}
+window.addEventListener('hashchange', route);
+route();
 
 renderQueue(); renderTable();
 </script>
